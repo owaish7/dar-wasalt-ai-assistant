@@ -2,7 +2,7 @@
 
 ## Completed local checks
 
-- Backend unit/integration tests: 25 passed. Coverage includes real request validation, bounded body handling, CORS, rate limiting, SSE completion/interruption, missing credentials, citations, metadata privacy, bilingual lexical retrieval/follow-ups, free-only primary/backup model gating, corpus integrity, permission gating, robots denial/precedence/wildcards/crawl delay and redirect restrictions.
+- Backend unit/integration tests: 27 passed. Coverage includes real request validation, bounded body handling, CORS, rate limiting, SSE completion/interruption, missing credentials, citations and bounded repair, metadata privacy, bilingual lexical retrieval/follow-ups, free-only primary/backup model gating, corpus integrity, permission gating, robots denial/precedence/wildcards/crawl delay and redirect restrictions.
 - Frontend protocol tests: 7 passed. Coverage includes UTF-8/Arabic chunks, incomplete streams, quota errors, readiness retry, wake deadline and cancellation.
 - TypeScript checking and production frontend build passed.
 - Frontend dependency audit after patching the build/test toolchain: zero reported vulnerabilities.
@@ -15,6 +15,7 @@
 ## Checks that require external access or approved content
 
 - The API key was configured directly by the owner in Render. An initial eight-case real-inference trial through `openrouter/free` produced four completed responses and four token-limit failures before answer text. Completed answers included a correct Arabic follow-up, English/Arabic live-price abstention and resistance to invented-price/citation instructions. A subsequent Gemma free-model trial returned quota/capacity errors on all requests. The defaults were changed to models that completed the initial trial, with reasoning disabled and an automatic free-only backup. The evaluation runner now stops after a quota/capacity error to preserve remaining requests. Follow-up verification is recorded below once complete.
+- A Poolside-first/free-Cohere-backup trial completed all eight streams (median first text about 1.0 s, median total about 2.6 s). Three supported questions were correctly withheld by validation because the model omitted citations. That observed failure motivated a Cohere-first default, an explicit fixture-citation instruction and one bounded citation-repair rewrite. A completed SSE stream alone is not counted as a factually successful answer.
 - Docker checks run in GitHub Actions because Docker is not installed on the local machine. Query-time profiling on the free host remains necessary.
 - The hosted UI/API are reachable. Real idle-sleep/wake timing, real inference and sustained query-time memory profiling remain pending. Automated frontend tests cover wake polling/deadlines/cancellation but do not replace a naturally idle hosted test.
 - A 40-case real-content assessment and the 90% answer-quality acceptance target require approved content from both websites and human review. No accuracy result is claimed yet.

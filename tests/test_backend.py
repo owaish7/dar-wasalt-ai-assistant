@@ -74,6 +74,29 @@ class BackendTests(unittest.TestCase):
             self.assertEqual(events[-1][0], "error")
             self.assertEqual(events[-1][1]["code"], "not_configured")
 
+    def test_missing_citation_gets_one_model_repair_not_fabricated_sources(self):
+        class RepairProvider(FakeProvider):
+            async def stream(self, messages):
+                self.calls += 1
+                yield {"model": "test/fixture-model"}
+                yield {"delta": "Fictional Cedar Bay is in Noor." + (" [1]" if self.calls == 2 else "")}
+        provider = RepairProvider()
+        with self.client(provider) as client:
+            events = parsed_events(client.post("/api/chat", json={"message": "Cedar Bay"}))
+            final = events[-1][1]
+            self.assertTrue(final["citation_repaired"])
+            self.assertFalse(final["abstained"])
+            self.assertEqual(provider.calls, 2)
+            self.assertEqual(final["sources"][0]["id"], 1)
+
+    def test_citation_repair_is_bounded_and_fails_closed(self):
+        provider = FakeProvider(text="An answer without references.")
+        with self.client(provider) as client:
+            final = parsed_events(client.post("/api/chat", json={"message": "Cedar Bay"}))[-1][1]
+            self.assertTrue(final["abstained"])
+            self.assertEqual(final["sources"], [])
+            self.assertEqual(provider.calls, 2)
+
     def test_unknown_lexical_question_abstains_without_provider_call(self):
         provider = FakeProvider()
         with self.client(provider) as client:

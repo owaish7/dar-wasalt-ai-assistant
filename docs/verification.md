@@ -14,7 +14,7 @@
 
 ## Checks that require external access or approved content
 
-- Real OpenRouter inference and observed first-token/full-answer latency require a configured API key.
+- The API key was configured directly by the owner in Render. An initial eight-case real-inference trial through `openrouter/free` produced four completed responses and four token-limit failures before answer text. Completed answers included a correct Arabic follow-up, English/Arabic live-price abstention and resistance to invented-price/citation instructions. The default was changed to a pinned free non-reasoning model; its follow-up verification is recorded separately below once complete.
 - Docker checks run in GitHub Actions because Docker is not installed on the local machine. Query-time profiling on the free host remains necessary.
 - The hosted UI/API are reachable. Real idle-sleep/wake timing, real inference and sustained query-time memory profiling remain pending. Automated frontend tests cover wake polling/deadlines/cancellation but do not replace a naturally idle hosted test.
 - A 40-case real-content assessment and the 90% answer-quality acceptance target require approved content from both websites and human review. No accuracy result is claimed yet.

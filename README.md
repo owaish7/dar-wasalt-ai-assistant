@@ -61,7 +61,7 @@ React UI (English / Arabic, RTL)
 
 For a small corpus, NumPy vectors and in-process BM25 avoid an external database. Reciprocal-rank fusion combines semantic and lexical results, and results are limited to two passages per source page. Multilingual embeddings support asking in Arabic about English documents and vice versa. The application does not fine-tune a model or crawl during user requests.
 
-`openrouter/free` is the default. It chooses among free models, so model identity and latency can vary. The actual returned model is recorded in final responses and metadata-only logs. Specific overrides must have a `:free` ID and zero catalog prompt/completion pricing. There is no paid fallback and no provider-side paid plugin configuration.
+The default is `google/gemma-4-26b-a4b-it:free`, with reasoning disabled for short evidence-based answers. An initial `openrouter/free` trial produced four truncated responses in eight fixture tests because some routed reasoning models consumed the output budget before answering. A pinned non-reasoning default avoids that variability. The actual returned model is recorded in final responses and metadata-only logs. Overrides must have a `:free` ID and zero catalog prompt/completion/request pricing; `openrouter/free` remains an explicit optional configuration. There is no paid or automatic router fallback and no provider-side paid plugin configuration.
 
 Citation validation checks that references map to retrieved passages and forbids model-generated external URLs. It does **not** prove every sentence is entailed by the passages. Human factual evaluation remains necessary, especially for Arabic, source conflicts, and prompt injection.
 

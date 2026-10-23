@@ -42,7 +42,8 @@ class OpenRouter:
             async with self.client.stream("POST", "https://openrouter.ai/api/v1/chat/completions",
                     headers={"Authorization": "Bearer " + self.api_key},
                     json={"model": self.model, "messages": messages, "stream": True,
-                          "max_tokens": 650, "temperature": 0.1}) as response:
+                          "max_tokens": 900, "temperature": 0.1,
+                          "reasoning": {"effort": "none"}}) as response:
                 if response.status_code in {429, 502, 503} and attempt == 0:
                     retry_after = response.headers.get("Retry-After", "1")
                     try:

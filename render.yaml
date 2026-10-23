@@ -10,7 +10,7 @@ services:
       - key: OPENROUTER_API_KEY
         sync: false
       - key: OPENROUTER_MODEL
-        value: openrouter/free
+        value: google/gemma-4-26b-a4b-it:free
       - key: ALLOWED_ORIGINS
         sync: false
       - key: RETRIEVAL_MODE

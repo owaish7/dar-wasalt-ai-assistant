@@ -11,7 +11,7 @@ load_dotenv()
 @dataclass(frozen=True)
 class Settings:
     api_key: str = field(default_factory=lambda: os.getenv("OPENROUTER_API_KEY", ""))
-    model: str = field(default_factory=lambda: os.getenv("OPENROUTER_MODEL", "openrouter/free"))
+    model: str = field(default_factory=lambda: os.getenv("OPENROUTER_MODEL", "google/gemma-4-26b-a4b-it:free"))
     corpus_path: Path = field(default_factory=lambda: Path(os.getenv("CORPUS_PATH", "data/fixtures/corpus.jsonl")))
     index_path: Path = field(default_factory=lambda: Path(os.getenv("INDEX_PATH", "data/fixtures/index.npz")))
     retrieval_mode: str = field(default_factory=lambda: os.getenv("RETRIEVAL_MODE", "lexical"))

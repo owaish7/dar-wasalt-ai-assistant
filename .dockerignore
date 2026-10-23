@@ -1,0 +1,13 @@
+.git
+.venv*
+.env*
+frontend
+tests
+docs
+artifacts
+.cache
+data/private
+**/__pycache__
+**/*.pyc
+**/*.docx
+**/*.pdf

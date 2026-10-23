@@ -1,0 +1,5 @@
+{
+  "notice": "Template only. Do not set permissions to true without actual authorization. Save the completed record under data/private/.",
+  "dar": {"approved": false, "reference": "", "reviewed_terms_url": "", "allow_openrouter_processing": false, "allow_public_answers": false, "allowed_prefixes": ["https://darglobal.co.uk/"], "expires_at": "2026-12-31"},
+  "wasalt": {"approved": false, "reference": "", "reviewed_terms_url": "https://wasalt.sa/en/s/terms-of-use", "allow_openrouter_processing": false, "allow_public_answers": false, "allowed_prefixes": ["https://wasalt.sa/"], "expires_at": "2026-12-31"}
+}

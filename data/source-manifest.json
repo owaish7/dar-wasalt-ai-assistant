@@ -1,0 +1,12 @@
+{
+  "status": "awaiting_permission_and_robots_verification",
+  "purpose": "Seed URLs only; listing a URL is not permission to collect it.",
+  "seeds": [
+    {"url": "https://darglobal.co.uk/", "company": "dar"},
+    {"url": "https://darglobal.co.uk/ar", "company": "dar"},
+    {"url": "https://darglobal.co.uk/projects", "company": "dar"},
+    {"url": "https://wasalt.sa/en", "company": "wasalt"},
+    {"url": "https://wasalt.sa/ar", "company": "wasalt"}
+  ],
+  "restrictions": ["Wasalt published terms restrict extraction and reuse; obtain assessment permission or an approved dataset.", "Check terms and robots.txt for both sites before collecting.", "Do not bypass authentication, CAPTCHA, access denials or anti-bot controls."]
+}

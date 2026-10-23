@@ -665,18 +665,39 @@ h1 em {
 }
 .answer-sources {
   margin: 22px 0 0;
+}
+.source-cards {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-block-start: 10px;
 }
 .source-heading {
   display: flex;
-  width: 100%;
+  width: fit-content;
   align-items: center;
   gap: 6px;
   font-size: 10px;
   color: #8d9a80;
-  margin-block-end: 3px;
+  cursor: pointer;
+  list-style: none;
+  border-radius: 3px;
+}
+.source-heading::-webkit-details-marker {
+  display: none;
+}
+.source-heading:focus-visible {
+  outline: 2px solid #536a46;
+  outline-offset: 4px;
+}
+.source-chevron {
+  transform: rotate(-90deg);
+}
+[dir="rtl"] .source-chevron {
+  transform: rotate(90deg);
+}
+.answer-sources[open] .source-chevron {
+  transform: rotate(0deg);
 }
 .source-link {
   border: 1px solid #e2e7d8;

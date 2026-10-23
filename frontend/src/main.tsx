@@ -482,11 +482,13 @@ function App() {
                       )}
                     </div>
                     {!!m.sources?.length && (
-                      <div className="answer-sources">
-                        <div className="source-heading">
+                      <details className="answer-sources">
+                        <summary className="source-heading">
                           <BookOpen size={13} />
                           {t.sources}
-                        </div>
+                          <ChevronDown size={13} className="source-chevron" />
+                        </summary>
+                        <div className="source-cards">
                         {m.sources.map((s) => (
                           <a
                             key={s.id}
@@ -507,7 +509,8 @@ function App() {
                             <ExternalLink size={13} />
                           </a>
                         ))}
-                      </div>
+                        </div>
+                      </details>
                     )}
                     {m.model && (
                       <div className="answer-meta">

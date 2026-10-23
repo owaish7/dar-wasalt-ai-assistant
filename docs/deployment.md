@@ -2,7 +2,7 @@
 
 The deployment uses a free static site for React and a free Docker web service for FastAPI. [Render's free-tier documentation](https://render.com/docs/free) explains sleep, quota, filesystem and availability limits. No paid instance, database, persistent disk or custom domain is required.
 
-Current engineering preview: [frontend](https://atlas-property-chat-owaish7.onrender.com/) and [backend readiness](https://atlas-property-api-owaish7.onrender.com/healthz). Both run on free services. The content is synthetic; the server-side OpenRouter key has been configured by the owner. Services were connected through the public repository URL without granting Render GitHub account access; after a Git push, use **Manual Deploy → Deploy latest commit** unless you later configure a Blueprint/Git integration.
+Current engineering preview: [frontend](https://atlas-property-chat-owaish7.onrender.com/) and [backend readiness](https://atlas-property-api-owaish7.onrender.com/healthz). Both run on free services. The live corpus now contains 27 real Dar pages (23 English/four Arabic); Wasalt is pending. The server-side OpenRouter key was configured directly by the owner. Services were connected through the public repository URL without granting Render GitHub account access; after a Git push, use **Manual Deploy → Deploy latest commit** unless you later configure a Blueprint/Git integration.
 
 ## Initial fixture deployment
 

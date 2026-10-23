@@ -2,13 +2,13 @@
 
 This note maps the original Word assignment to the implementation and records what is complete, what was tested, and what remains. It is a technical handover for the candidate and reviewer. The Word attachment and recruitment correspondence are not included in the public repository.
 
-The system is built and deployed. A Dar-only corpus is prepared with 27 distinct pages and 124 searchable passages. Wasalt content and the complete two-company evaluation remain pending. This is partial assignment progress, not a claim that all source requirements have been fulfilled.
+The system is built and deployed. The live Dar-only corpus has 27 distinct pages and 124 searchable passages. Wasalt content and the complete two-company evaluation remain pending. This is partial assignment progress, not a claim that all source requirements have been fulfilled.
 
 ## Original requirements and current status
 
 | Assignment requirement | Implementation and evidence | Status |
 |---|---|---|
-| Collect public information from both websites while respecting restrictions | Bounded collector, robots checks, validated redirects, private provenance records; Dar collected for the company-issued assessment on the user-confirmed authorization basis | Dar prepared; Wasalt pending |
+| Collect public information from both websites while respecting restrictions | Bounded collector, robots checks, validated redirects, private provenance records; Dar collected for the company-issued assessment on the user-confirmed authorization basis | Dar live; Wasalt pending |
 | Build a chatbot grounded in collected content | FastAPI retrieves relevant passages before free-model generation; numbered references are checked against retrieved metadata | Implemented; real Dar checks recorded in verification notes |
 | Use a suitable free model through OpenRouter | Cohere North Mini Code free primary, Poolside Laguna free backup; catalog pricing checked and actual model recorded | Implemented and real inference verified |
 | Containerise the application with Docker | Multi-stage Dockerfile packages the backend, runtime dependencies and multilingual model, runs as a non-root user | CI build/startup/query/restart checks passed under 512 MiB |
@@ -60,9 +60,9 @@ Render was chosen for the agreed Docker deployment and a single hosting dashboar
 
 AI assisted with application scaffolding, UI, collector, retrieval, model integration, tests and documentation. Review focused on secret handling, host validation, scope/permission gates, free-only inference, streaming completion, citation handling and corpus fingerprints. The candidate should understand these decisions and personally review the final evaluation before submission; AI-generated code is not evidence of correctness by itself.
 
-Local backend checks now pass 31 tests, including the single-company permission scope, partial coverage metadata and a real-content issue where Unicode paragraph separators broke JSONL loading. The frontend production build passes; existing protocol tests and Docker checks run in CI. Prior fixture inference tests exposed output truncation, omitted citations and grouped-citation handling, which were recorded and corrected. See [verification evidence](verification.md) for measured results and remaining checks.
+Local backend checks now pass 32 tests, including the single-company permission scope, partial coverage metadata and a real-content issue where Unicode paragraph separators broke JSONL loading. The frontend production build passes; existing protocol tests and Docker checks run in CI. Prior fixture inference tests exposed output truncation, omitted citations and grouped-citation handling, which were recorded and corrected. See [verification evidence](verification.md) for measured results and remaining checks.
 
-The 40-case two-company evaluation is not complete. Dar-only retrieval and real inference need checking against the retained excerpts; Wasalt comparisons must remain unavailable until Wasalt content is supplied. The 90% answer-quality target is a future acceptance check, not an achieved score. Mobile visual QA, naturally idle hosted wake timing and sustained hosted memory profiling must also be reported honestly.
+The 40-case two-company evaluation is not complete. An eight-case Dar trial returned supported core facts in all six answerable cases, with one repeated answer and some overly broad references. It refused invented pricing but initially hallucinated Wasalt services with Dar citations; an explicit backend company-coverage guard now rejects recognized unavailable-company questions before retrieval or generation. This is not a complete factual-quality score; Wasalt comparisons must remain unavailable until Wasalt content is supplied. The 90% answer-quality target is a future acceptance check, not an achieved score. Mobile visual QA, naturally idle hosted wake timing and sustained hosted memory profiling must also be reported honestly.
 
 ## Delivery links and next steps
 
@@ -71,4 +71,4 @@ The 40-case two-company evaluation is not complete. Dar-only retrieval and real 
 - [Source repository](https://github.com/owaish7/dar-wasalt-ai-assistant)
 - [Setup](../README.md), [deployment](deployment.md), [evaluation protocol](evaluation.md), [submission draft](submission.md)
 
-Finish by verifying the Dar deployment bundle, obtaining Wasalt content within the confirmed scope, building a combined corpus, reviewing all 40 expected answers against source snapshots, and recording actual quality/latency results. Send the live URL, repository URL and concise implementation notes only once the submission accurately reflects both companies' coverage.
+Finish by obtaining Wasalt content within the confirmed scope, building a combined corpus, reviewing all 40 expected answers against source snapshots, and recording actual quality/latency results. Send the live URL, repository URL and concise implementation notes only once the submission accurately reflects both companies' coverage.

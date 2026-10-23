@@ -65,6 +65,27 @@ class BackendTests(unittest.TestCase):
             self.assertEqual(health["companies"], ["dar"])
             self.assertEqual(health["languages"], ["ar", "en"])
 
+    def test_uncovered_company_refuses_before_retrieval_or_inference(self):
+        retriever = Retriever([p for p in self.passages if p.company == "dar"], Path("unused"), "lexical", "unused")
+        provider = FakeProvider()
+        cases = [
+            {"message": "What services does Wassalt offer?", "language": "en"},
+            {"message": "كيف أنشر إعلاناً على وصلت؟", "language": "ar"},
+            {"message": "Compare Dar Global and Wasalt", "language": "en"},
+            {"message": "What about its fees?", "history": [{"role": "user", "content": "Tell me about Wasalt"}]},
+        ]
+        with TestClient(create_app(self.settings, retriever, provider)) as client:
+            with patch.object(retriever, "search", side_effect=AssertionError("must not retrieve unrelated Dar content")):
+                for body in cases:
+                    final = parsed_events(client.post("/api/chat", json=body))[-1][1]
+                    self.assertTrue(final["abstained"])
+                    self.assertEqual(final["missing_companies"], ["wasalt"])
+                    self.assertEqual(final["sources"], [])
+                    self.assertIsNone(final["model"])
+            final = parsed_events(client.post("/api/chat", json={"message": "Tell me about Dar Global's Cedar Bay", "history": [{"role":"user", "content":"What is Wasalt?"}]}))[-1][1]
+            self.assertFalse(final["abstained"])
+        self.assertEqual(provider.calls, 1)
+
     def test_jsonl_unicode_paragraph_separator_is_not_a_record_boundary(self):
         row = json.loads(Path("data/fixtures/corpus.jsonl").read_text(encoding="utf-8").split("\n")[0])
         row["text"] = "Project facts\u2028More facts\u2029Final facts"

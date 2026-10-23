@@ -2,7 +2,7 @@
 
 ## Completed local checks
 
-- Backend unit/integration tests: 31 passed. Coverage includes real request validation, bounded body handling, CORS, rate limiting, SSE completion/interruption, missing credentials, citations and bounded repair, metadata privacy, bilingual lexical retrieval/follow-ups, free-only primary/backup model gating, corpus integrity, permission gating, robots denial/precedence/wildcards/crawl delay and redirect restrictions.
+- Backend unit/integration tests: 32 passed. Coverage includes real request validation, bounded body handling, CORS, rate limiting, SSE completion/interruption, missing credentials, citations and bounded repair, metadata privacy, bilingual lexical retrieval/follow-ups, free-only primary/backup model gating, corpus integrity, permission gating, robots denial/precedence/wildcards/crawl delay and redirect restrictions.
 - Frontend protocol tests: 7 passed. Coverage includes UTF-8/Arabic chunks, incomplete streams, quota errors, readiness retry, wake deadline and cancellation.
 - TypeScript checking and production frontend build passed.
 - Frontend dependency audit after patching the build/test toolchain: zero reported vulnerabilities.
@@ -33,5 +33,15 @@ AI assistance contributed application scaffolding, UI components/styles, retriev
 - Collected 30 Dar pages within the user-confirmed assessment scope; removed three duplicate product-category routes. The private corpus has 27 URLs, 23 English/four Arabic documents and 124 passages. Wasalt was excluded from requests and output.
 - Reviewed title/language metadata, sampled project/FAQ text, normalized whitespace and scanned retained text for email/phone patterns (none matched). This is agent review, not a human accuracy certification.
 - Built the real Dar hybrid index and private deployment bundle. All eight Dar smoke questions were checked locally: the first result matched the intended Dar project in each of the six answerable cases. Missing-Wasalt and injection questions still require generation/abstention review; a retrieval hit alone is not evidence that they are answerable.
-- Fixed JSONL loading to split on LF rather than every Unicode paragraph separator, after real source text exposed that bug. Added regression coverage, partial-company metadata and company-scoped authorization checks. Backend now passes 31 tests; TypeScript/production build passes.
+- Fixed JSONL loading to split on LF rather than every Unicode paragraph separator, after real source text exposed that bug. Added regression coverage, partial-company metadata and company-scoped authorization checks. Backend now passes 32 tests; TypeScript/production build passes.
 - Deployment and free-model checks for this real snapshot are recorded below after verification. Prior fixture trial results above remain fixture-only evidence.
+
+## Hosted Dar trial and discovered failure
+
+The backend loaded the private bundle successfully: readiness returned HTTP 200, `synthetic=false`, `companies=["dar"]`, `languages=["ar","en"]`, and configured inference; source metadata listed 27 URLs. The frontend and source library show Dar-only coverage and Wasalt pending. CI passed backend/frontend checks and Docker build/start/restart for commit `6410878`.
+
+Eight real hosted requests completed using the free Cohere model. Agent review found supported core project facts in the six answerable cases (Astera location/designer in both languages, Tierra Viva, Les Vagues, AIDA and an Arabic amenities follow-up). The AIDA answer repeated itself, Les Vagues described the designer association broadly, and some citations were broader than needed; this trial is not a blanket accuracy certification. The invented-price/citation injection was refused. The Wasalt question failed: the model invented services and cited unrelated Dar passages despite the prompt boundary. This is concrete evidence that valid reference numbers do not establish factual support.
+
+A backend coverage guard was added after that failure. Recognized unavailable-company names, comparisons and generic follow-ups to the last named user company are now refused before retrieval or provider calls. Explicitly switching back to Dar remains allowed. The regression test verifies English, Arabic, the Wassalt spelling, comparison, follow-up and topic-switch cases; all 32 backend tests pass. This guard does not establish that every possible alias or every unsupported fact is detected. The deployed retest is recorded below once observed.
+
+The initial eight-case client median first text was 683 ms and median total latency was 1,776.5 ms (range 989–4,651 ms), including the failed Wasalt answer. Retrieval ranged 11–53 ms. Local Windows profiling of 124 passages with 24 Dar questions measured 8.23 ms median retrieval, 9.83 ms maximum, 1.663 s model/index loading and about 242.3 MB process RSS. Local RSS is not a hosted memory measurement. No 40-case/90% acceptance result is claimed.

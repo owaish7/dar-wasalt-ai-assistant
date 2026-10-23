@@ -33,6 +33,21 @@ def source_cards(passages):
              "collected_at": p.collected_at, "synthetic": p.synthetic} for i, p in enumerate(passages, 1)]
 
 
+def uncovered_companies(body, passages):
+    def mentions(text):
+        found = set()
+        if re.search(r"\bwas{1,2}alt\b|وصلت|وسالت", text, re.I):
+            found.add("wasalt")
+        if re.search(r"\bdar(?:\s*global)?\b|\bdarglobal\b|دار\s*(?:جلوبال|غلوبال)", text, re.I):
+            found.add("dar")
+        return found
+    requested = mentions(body.message)
+    if not requested:
+        previous = next((m.content for m in reversed(body.history) if m.role == "user"), "")
+        requested = mentions(previous)
+    return requested - {p.company for p in passages}
+
+
 def citation_numbers(answer):
     groups = re.findall(r"\[(\d+(?:\s*[,،]\s*\d+)*)\]", answer)
     return {int(n) for group in groups for n in re.split(r"\s*[,،]\s*", group)}
@@ -169,6 +184,19 @@ def create_app(settings=None, retriever=None, provider=None):
             first_token_ms, retrieval_ms, actual_model, outcome = None, None, None, "error"
             try:
                 async with asyncio.timeout(55):
+                    missing = uncovered_companies(body, app.state.retriever.passages)
+                    if missing:
+                        labels = {"dar": "دار جلوبال" if body.language == "ar" else "Dar Global",
+                                  "wasalt": "وصلت" if body.language == "ar" else "Wasalt"}
+                        names = ", ".join(labels[c] for c in sorted(missing))
+                        answer = (f"لا توجد مصادر مجمعة عن {names} حالياً، لذلك لا أستطيع تقديم إجابة موثقة عنه."
+                                  if body.language == "ar" else
+                                  f"I don’t have collected sources for {names} yet, so I can’t provide a grounded answer about it.")
+                        outcome = "abstained"
+                        yield event("meta", {"request_id": request_id, "synthetic": any(p.synthetic for p in app.state.retriever.passages), "retrieval_ms": 0})
+                        yield event("done", {"answer": answer, "sources": [], "abstained": True, "model": None,
+                                             "missing_companies": sorted(missing), "total_ms": round((time.perf_counter() - start) * 1000)})
+                        return
                     passages = await asyncio.to_thread(app.state.retriever.search, body.message,
                         [m.content for m in body.history if m.role == "user"])
                     retrieval_ms = round((time.perf_counter() - start) * 1000)

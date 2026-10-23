@@ -55,6 +55,7 @@ class BackendTests(unittest.TestCase):
         with self.client() as client:
             self.assertTrue(client.get("/healthz").json()["synthetic"])
             self.assertFalse(client.get("/healthz").json()["inference_configured"])
+            self.assertRegex(client.get("/healthz").json()["corpus_revision"], r"^[0-9a-f]{12}$")
             sources = client.get("/api/sources").json()
             self.assertEqual(len(sources["sources"]), 4)
             self.assertNotIn('"text"', json.dumps(sources))
@@ -290,6 +291,18 @@ class ProviderTests(unittest.IsolatedAsyncioTestCase):
 
 
 class CollectionTests(unittest.TestCase):
+    def test_related_project_cards_do_not_contaminate_main_project_facts(self):
+        text = 'Marriott is in AIDA Oman. ' * 8 + 'Other Projects Marea in Finca Cortesin Spain View All Projects Frequently Asked Questions Marriott apartments have one to three bedrooms.'
+        kept, report = curate([{'url':'https://darglobal.co.uk/marriott-residences-aida-oman','language':'en','text':text}])
+        self.assertNotIn('Finca Cortesin', kept[0]['text'])
+        self.assertIn('Frequently Asked Questions', kept[0]['text'])
+        self.assertIn('one to three bedrooms', kept[0]['text'])
+        self.assertEqual(report['related_project_blocks_removed'], 1)
+        arabic = 'صن رايز هافن في عايدة مسقط. ' * 10 + 'مشاريع أخرى فلل ترامب للجولف عرض الكل سجل اهتمامك'
+        kept, report = curate([{'url':'https://darglobal.co.uk/ar/Sunrise-Haven-Luxury-Villas','language':'ar','text':arabic}])
+        self.assertNotIn('فلل ترامب', kept[0]['text'])
+        self.assertEqual(report['related_project_blocks_removed'], 1)
+
     def test_repeated_access_challenges_stop_crawl_and_preserve_report(self):
         approval = json.loads(Path('data/permission.example.json').read_text())
         approval['dar'].update(approved=True, reference='unit-test-only', reviewed_terms_url='https://darglobal.co.uk/terms-conditions',

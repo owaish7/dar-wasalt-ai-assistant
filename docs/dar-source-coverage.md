@@ -1,6 +1,6 @@
 # Dar Global source coverage
 
-Snapshot expanded on 24 October 2026. The corpus now contains **36 distinct pages: 27 English and nine Arabic**, indexed into **154 passages**. Nine distinct URLs were added to the previous 27-page snapshot. Wasalt was not collected.
+Snapshot expanded on 24 October 2026. The corpus now contains **36 distinct pages: 27 English and nine Arabic**, indexed into **151 passages**. Nine distinct URLs were added to the previous 27-page snapshot. Wasalt was not collected.
 
 The authorization basis remains the company-issued FDE assessment and the user-confirmed instruction to collect Dar information for that assessment. The private corpus, raw HTML, provenance and deployment bundle remain excluded from public GitHub.
 
@@ -10,7 +10,8 @@ The authorization basis remains the company-issued FDE assessment and the user-c
 - The public expansion manifest contains 176 company, project, Arabic counterpart, partner, news and blog candidates. Candidate URLs are a plan, not a claim of collected content.
 - The audited continuation visited 71 selected URLs: 12 readable pages and 59 access challenges. Three of the readable pages refreshed existing URLs; nine were additions. The earlier mapping pass was interrupted before checkpoint logging existed, so it has no complete page-level attempt count.
 - Widespread Incapsula challenges blocked the broader company, FAQ landing, news and blog expansion. No security challenge, login, CAPTCHA, proxy, user-agent substitution or search-engine-text fallback was used to get around it. Accessible project pages include their own descriptions, amenities and FAQs.
-- The previous 27 sources were preserved. Older retained source dates remain visible; fresh fetches have their own UTC timestamps. This is a mixed-date snapshot, not a claim that every old page was refreshed.
+- Fifteen English/Arabic related-project recommendation blocks were removed before indexing after one test answer mixed a related property's location into the main project. Main descriptions and following FAQs were preserved.
+- The previous 27 sources were preserved. Older retained source dates remain visible; fresh fetches have their own UTC timestamps. This is a mixed-time snapshot, not a claim that every old page was refreshed.
 - All nine added pages were sampled for their core facts. Cleanup normalized whitespace, excluded navigation/forms, checked actual Arabic content, removed exact content duplicates and scanned for email/international-phone patterns. No contact matches required redaction in this merged batch. This is agent review, not a human accuracy certification.
 - The scraper now records checkpoints, keeps original cache fetch timestamps, and stops after five consecutive access challenges. Those behaviors are covered by tests.
 - Brochures/PDFs, authenticated pages, lead/payment forms, all historical blog posts and blocked pages are outside this snapshot. **This is not all publicly available Dar information.**

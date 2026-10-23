@@ -2,7 +2,7 @@
 
 ## Completed local checks
 
-- Backend unit/integration tests: 37 passed. Coverage includes real request validation, bounded body handling, CORS, rate limiting, SSE completion/interruption, missing credentials, citations and bounded repair, metadata privacy, bilingual lexical retrieval/follow-ups, free-only primary/backup model gating, corpus integrity, permission gating, robots denial/precedence/wildcards/crawl delay and redirect restrictions.
+- Backend unit/integration tests: 38 passed. Coverage includes real request validation, bounded body handling, CORS, rate limiting, SSE completion/interruption, missing credentials, citations and bounded repair, metadata privacy, bilingual lexical retrieval/follow-ups, free-only primary/backup model gating, corpus integrity, permission gating, robots denial/precedence/wildcards/crawl delay and redirect restrictions.
 - Frontend protocol tests: 7 passed. Coverage includes UTF-8/Arabic chunks, incomplete streams, quota errors, readiness retry, wake deadline and cancellation.
 - TypeScript checking and production frontend build passed.
 - Frontend dependency audit after patching the build/test toolchain: zero reported vulnerabilities.
@@ -53,3 +53,9 @@ The initial eight-case client median first text was 683 ms and median total late
 - All six answerable expanded smoke questions retrieved the intended project as the first local result. This is retrieval evidence, not generated-answer accuracy.
 - Backend/collector tests now pass 37 checks. New tests cover challenge detection, safe discovery, repeated-challenge stop/report preservation, cache timestamps, and curation/hash/privacy behavior. The repeated-challenge integration test initially had an already-open mock-client error; its setup was corrected and the full suite passed.
 - Actual deployment and real-inference checks for this expansion are recorded below after verification. Existing trial results remain specific to their earlier corpus versions. The company/news/blog access gaps and 40-case acceptance assessment remain unresolved.
+
+### Expanded inference review and related project cleanup
+
+The first eight real requests against the expanded corpus completed with valid references. Five of six answerable cases had supported core facts. The Marriott answer mixed in Finca Cortesin from the page's unrelated Marea recommendation card. This was an extraction/attribution failure, not a correctly grounded answer. Wasalt was refused without inference; the Arabic current-price question correctly said the sources did not contain current price or inventory, although the API `abstained` flag remained false because it had a valid citation. That flag is not a semantic accuracy classifier.
+
+Curation was corrected to remove bounded English and Arabic Other/Related Projects navigation blocks while preserving main content and following FAQs. Fifteen such blocks were removed. The reviewed corpus still has 36 pages (27 English/nine Arabic), now split into 151 passages. English/Arabic regression tests verify that related-property facts do not survive cleanup. Backend tests now pass 38 checks. A short `corpus_revision` fingerprint was added to readiness to verify that the exact reviewed corpus, not merely the same source count, is live. Targeted deployed retests are recorded below once observed.

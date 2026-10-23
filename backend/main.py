@@ -14,7 +14,7 @@ from fastapi.responses import JSONResponse, StreamingResponse
 
 from backend.config import Settings
 from backend.provider import OpenRouter, ProviderFailure
-from backend.retrieval import Retriever, load_corpus
+from backend.retrieval import Retriever, fingerprint, load_corpus
 from backend.schemas import ChatRequest
 
 logger = logging.getLogger("uvicorn.error")
@@ -148,6 +148,7 @@ def create_app(settings=None, retriever=None, provider=None):
                 "synthetic": any(p.synthetic for p in passages),
                 "companies": sorted({p.company for p in passages}),
                 "languages": sorted({p.language for p in passages}),
+                "corpus_revision": fingerprint(passages)[:12],
                 "inference_configured": bool(settings.api_key) or provider is not None}
 
     @app.get("/api/sources")

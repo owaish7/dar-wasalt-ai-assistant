@@ -67,7 +67,7 @@ Citation validation checks that references map to retrieved passages and forbids
 
 ## API
 
-- `GET /healthz`: readiness, retrieval mode, synthetic-data flag, inference configuration status. It does not call the inference provider.
+- `GET /healthz`: readiness, retrieval mode, coverage, short corpus revision, synthetic-data flag and inference configuration status. It does not call the inference provider.
 - `GET /api/sources`: source titles, URLs, languages, timestamps and synthetic flags; never the corpus text.
 - `POST /api/chat`: `{ "message": "…", "history": [{"role":"user","content":"…"}], "language": "en" }`; `language` is `en` or `ar`.
 - Chat SSE events: `meta` (request ID, retrieval duration, fixture flag), `delta` (unverified draft text), `done` (authoritative answer, validated sources, model, timings), or `error` (safe error code/message). A connection without `done` is incomplete. Clients must discard partial text after errors.
@@ -75,7 +75,7 @@ Citation validation checks that references map to retrieved passages and forbids
 
 ## Data collection
 
-Read [collection and permissions](docs/collection.md) before any real collection. The public seed manifest is a list of candidate URLs, not evidence of permission. In particular, [Wasalt's terms](https://wasalt.sa/en/s/terms-of-use) restrict extraction/reuse. Dar-only collection was performed on 23 October 2026; [Dar terms](https://darglobal.co.uk/terms-conditions) also reserve reuse rights, so the assessment authorization basis and its limits are documented explicitly.
+Read [collection and permissions](docs/collection.md) before any real collection. The public seed manifest is a list of candidate URLs, not evidence of permission. In particular, [Wasalt's terms](https://wasalt.sa/en/s/terms-of-use) restrict extraction/reuse. Initial Dar-only collection was performed on 23 October 2026 and expanded on 24 October 2026; [Dar terms](https://darglobal.co.uk/terms-conditions) also reserve reuse rights, so the assessment authorization basis and its limits are documented explicitly.
 
 For a snapshot within the recorded authorization scope:
 

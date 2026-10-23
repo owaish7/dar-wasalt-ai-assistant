@@ -9,15 +9,23 @@ from pathlib import Path
 from backend.retrieval import load_corpus
 
 CONTACT = re.compile(r"[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|\+\d[\d ()-]{7,}\d")
+RELATED = re.compile(r"\b(?:Other|Related)\s+projects\b.*?\bView\s+all\s+projects\b", re.I)
+RELATED_AR = re.compile(r"(?:مشاريع\s+[أا]خرى|المشاريع\s+الأخرى).*?(?:عرض\s+(?:كل|جميع)\s+المشاريع|عرض\s+الكل)")
 
 
 def curate(rows):
     kept, removed, seen = [], [], set()
     redactions = 0
     relabelled = []
+    related_blocks = 0
     for original in rows:
         row = dict(original)
         text = " ".join(row["text"].split()).replace("Your browser does not support the video tag. ", "")
+        text, removed_blocks = RELATED.subn(" ", text)
+        related_blocks += removed_blocks
+        text, removed_blocks = RELATED_AR.subn(" ", text)
+        related_blocks += removed_blocks
+        text = " ".join(text.split())
         text, count = CONTACT.subn("[contact omitted]", text)
         if row["language"] == "ar" and len(re.findall(r"[\u0621-\u064a]", text)) < 30:
             row["language"] = "en"
@@ -35,6 +43,7 @@ def curate(rows):
     return kept, {"input_pages": len(rows), "retained_pages": len(kept), "removed": removed,
                   "contact_redactions": redactions, "languages": dict(Counter(r["language"] for r in kept)),
                   "arabic_routes_with_english_body": relabelled,
+                  "related_project_blocks_removed": related_blocks,
                   "note": "Automated cleanup plus agent review; not human certification or independent verification of publisher claims."}
 
 

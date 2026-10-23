@@ -45,7 +45,13 @@ def main():
             results.append({"case": case, "events": events, "first_token_ms": first_delta,
                 "total_ms": round((time.perf_counter() - start) * 1000),
                 "human_review": {"correct": None, "supported": None, "appropriate_abstention": None, "notes": ""}})
-            print(f"Recorded {case['id']}; manual review pending")
+            final = next((e for e in reversed(events) if e["event"] in {"done", "error"}), None)
+            outcome = final["event"] if final else "interrupted"
+            code = final["data"].get("code", "") if final else ""
+            print(f"Recorded {case['id']}: {outcome} {code}; review pending", flush=True)
+            if code == "quota":
+                print("Stopped after a quota/capacity error to avoid wasting remaining free requests.", flush=True)
+                break
             time.sleep(8)  # Stay below the default per-client app limit; provider limits may be lower.
     Path("artifacts").mkdir(exist_ok=True)
     Path("artifacts/evaluation-results.json").write_text(json.dumps({"health": health.json(), "results": results}, ensure_ascii=False, indent=2), encoding="utf-8")

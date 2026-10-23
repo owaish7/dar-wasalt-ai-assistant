@@ -11,3 +11,5 @@
 7. Record actual returned models, first-token/full-answer durations and the corpus snapshot version. Do not transfer a fixture benchmark or mocked-provider result to the real-content evaluation.
 
 For development-only fixture inference, add `--allow-fixtures`. The output remains explicitly synthetic and cannot satisfy final assignment acceptance.
+
+Reproduce the eight focused fixture smoke scenarios with `python -m scripts.evaluate --cases evaluation/fixture-smoke-cases.json --limit 8 --allow-fixtures --allow-inference --url https://atlas-property-api-owaish7.onrender.com`. The runner stops on a quota/capacity error and preserves the results collected so far.

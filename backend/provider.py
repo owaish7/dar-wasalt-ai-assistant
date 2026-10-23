@@ -1,6 +1,7 @@
 """Free-only OpenRouter adapter. Never log provider bodies or credentials."""
 import asyncio
 import json
+import logging
 import time
 from collections.abc import AsyncIterator
 
@@ -15,22 +16,36 @@ class ProviderFailure(Exception):
 
 
 class OpenRouter:
-    def __init__(self, api_key: str, model: str, client: httpx.AsyncClient):
+    def __init__(self, api_key: str, model: str, client: httpx.AsyncClient, fallback_models: tuple[str, ...] = ()):
         self.api_key, self.model, self.client = api_key, model, client
+        self.candidates = tuple(dict.fromkeys((model, *fallback_models)))
+        self.available_models = self.candidates
         self.checked_at: float | None = None
 
     async def check_model(self):
-        if self.model == "openrouter/free":
+        if self.candidates == ("openrouter/free",):
             return
-        if not self.model.endswith(":free"):
+        if any(m != "openrouter/free" and not m.endswith(":free") for m in self.candidates):
             raise ProviderFailure("model_not_free", "Only free models are permitted.")
         if self.checked_at is not None and time.monotonic() - self.checked_at < 600:
             return
         response = await self.client.get("https://openrouter.ai/api/v1/models")
         response.raise_for_status()
-        entry = next((m for m in response.json()["data"] if m["id"] == self.model), None)
-        if entry is None or any(float(entry["pricing"].get(k, "1")) != 0 for k in ("prompt", "completion")) or float(entry["pricing"].get("request", "0")) != 0:
-            raise ProviderFailure("model_not_free", "Configured model is not an available free model.")
+        catalog = {m["id"]: m for m in response.json()["data"]}
+        available = []
+        for model in self.candidates:
+            if model == "openrouter/free":
+                available.append(model)
+                continue
+            entry = catalog.get(model)
+            if entry is None:
+                continue
+            if any(float(entry["pricing"].get(k, "1")) != 0 for k in ("prompt", "completion")) or float(entry["pricing"].get("request", "0")) != 0:
+                raise ProviderFailure("model_not_free", "A configured model has non-zero pricing.")
+            available.append(model)
+        if not available:
+            raise ProviderFailure("model_not_free", "No configured free models are currently available.")
+        self.available_models = tuple(available)
         self.checked_at = time.monotonic()
 
     async def stream(self, messages: list[dict]) -> AsyncIterator[dict]:
@@ -41,7 +56,7 @@ class OpenRouter:
         for attempt in range(2):
             async with self.client.stream("POST", "https://openrouter.ai/api/v1/chat/completions",
                     headers={"Authorization": "Bearer " + self.api_key},
-                    json={"model": self.model, "messages": messages, "stream": True,
+                    json={"models": list(self.available_models), "messages": messages, "stream": True,
                           "max_tokens": 900, "temperature": 0.1,
                           "reasoning": {"effort": "none"}}) as response:
                 if response.status_code in {429, 502, 503} and attempt == 0:
@@ -55,6 +70,7 @@ class OpenRouter:
                         await asyncio.sleep(delay)
                         continue
                 if response.status_code != 200:
+                    logging.getLogger("uvicorn.error").warning("openrouter_unavailable status=%s model=%s", response.status_code, self.model)
                     code = "quota" if response.status_code in {402, 429} else "provider_unavailable"
                     if response.status_code in {401, 403}:
                         code = "provider_auth"

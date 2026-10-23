@@ -98,7 +98,7 @@ def create_app(settings=None, retriever=None, provider=None):
             Retriever, load_corpus(settings.corpus_path), settings.index_path,
             settings.retrieval_mode, settings.embedding_cache)
         async with httpx.AsyncClient(timeout=httpx.Timeout(25, connect=8)) as client:
-            app.state.provider = provider or OpenRouter(settings.api_key, settings.model, client)
+            app.state.provider = provider or OpenRouter(settings.api_key, settings.model, client, settings.fallback_models)
             app.state.slots = asyncio.Semaphore(settings.max_concurrency)
             app.state.requests = defaultdict(deque)
             yield

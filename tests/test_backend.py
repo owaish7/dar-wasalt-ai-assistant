@@ -167,6 +167,25 @@ class BackendTests(unittest.TestCase):
 
 
 class ProviderTests(unittest.IsolatedAsyncioTestCase):
+    async def test_paid_fallback_never_reaches_api(self):
+        called = []
+        async with httpx.AsyncClient(transport=httpx.MockTransport(lambda request: called.append(request))) as client:
+            with self.assertRaises(ProviderFailure):
+                await OpenRouter("key", "openrouter/free", client, ("paid/model",)).check_model()
+        self.assertEqual(called, [])
+
+    async def test_nonzero_price_fallback_is_rejected_before_generation(self):
+        response = {"data": [{"id": "test/primary:free", "pricing": {"prompt": "0", "completion": "0"}},
+                             {"id": "test/backup:free", "pricing": {"prompt": "0", "completion": "0", "request": "1"}}]}
+        seen = []
+        def handler(request):
+            seen.append(request.url.path)
+            return httpx.Response(200, json=response)
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            with self.assertRaises(ProviderFailure):
+                await OpenRouter("key", "test/primary:free", client, ("test/backup:free",)).check_model()
+        self.assertEqual(seen, ["/api/v1/models"])
+
     async def test_paid_model_never_reaches_api(self):
         called = []
         async with httpx.AsyncClient(transport=httpx.MockTransport(lambda request: called.append(request))) as client:

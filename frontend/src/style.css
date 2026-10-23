@@ -1066,3 +1066,42 @@ h1 em {
   .page-footer { padding-block: 12px; }
   [dir="rtl"] h1 { font-size: 35px; line-height: 1.4; }
 }
+
+.welcome.simple-welcome {
+  max-width: 620px;
+  text-align: center;
+}
+.welcome.simple-welcome h1 {
+  font-family: inherit;
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 500;
+  letter-spacing: -0.6px;
+  line-height: 1.4;
+  margin: 0 0 10px;
+}
+.simple-welcome .intro {
+  font-size: 13px;
+  line-height: 1.6;
+}
+.simple-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+.simple-suggestions button {
+  border: 1px solid #dce2d1;
+  border-radius: 18px;
+  background: transparent;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: #65705b;
+}
+.simple-suggestions button:hover {
+  background: #e8eddf;
+}
+.simple-suggestions button:focus-visible {
+  outline: 2px solid #536a46;
+  outline-offset: 3px;
+}

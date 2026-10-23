@@ -12,7 +12,6 @@ import {
   LoaderCircle,
   MessageSquarePlus,
   PanelLeftClose,
-  ShieldCheck,
   Sparkles,
   Square,
   X,
@@ -369,67 +368,17 @@ function App() {
           className={messages.length ? "conversation-main" : "welcome-main"}
         >
           {!messages.length ? (
-            <section className="welcome">
-              <div className="eyebrow">
-                <span className="tiny-star">✧</span>
-                {t.welcome}
-              </div>
-              <h1>
-                {t.title.split("\n").map((line, i) => (
-                  <React.Fragment key={line}>
-                    {i > 0 && <br />}
-                    {i === 1 ? <em>{line}</em> : line}
-                  </React.Fragment>
-                ))}
-              </h1>
+            <section className="welcome simple-welcome">
+              <h1>{lang === "ar" ? "كيف يمكنني مساعدتك؟" : "How can I help you?"}</h1>
               <p className="intro">
-                {t.subtitle.split("\n").map((line, i) => (
-                  <React.Fragment key={line}>
-                    {i > 0 && <br />}
-                    {line}
-                  </React.Fragment>
-                ))}
+                {lang === "ar" ? "اسأل عن دار جلوبال أو وصلت." : "Ask about Dar Global or Wasalt."}
               </p>
-              <div className="partner-row">
-                <span className="partner-name dar">
-                  DAR<span>GLOBAL</span>
-                </span>
-                <span className="partner-divider" />
-                <span className="partner-name wasalt">
-                  wasalt<span className="wasalt-mark">⌁</span>
-                </span>
-                <span className="partner-caption">
-                  {lang === "ar"
-                    ? "مصدران. محادثة واحدة."
-                    : "Two perspectives. One conversation."}
-                </span>
-              </div>
-              <div className="starting-label">
-                <span>{t.sample}</span>
-                <span className="label-line" />
-              </div>
-              <div className="prompt-grid">
-                {prompts[lang].map(([n, title, question, company]) => (
-                  <button
-                    className="prompt-card"
-                    key={n}
-                    onClick={() => void send(question)}
-                  >
-                    <div className="card-top">
-                      <span>{n}</span>
-                      <ArrowUpRight size={18} />
-                    </div>
-                    <h2>{title}</h2>
-                    <p>{question}</p>
-                    <span className="company-tag">{company}</span>
+              <div className="simple-suggestions">
+                {prompts[lang].map(([n, , question, company]) => (
+                  <button key={n} onClick={() => void send(question)}>
+                    {company}
                   </button>
                 ))}
-              </div>
-              <div className="welcome-note">
-                <ShieldCheck size={15} />
-                {lang === "ar"
-                  ? "مصادر واضحة. إجابات مدروسة."
-                  : "Clear sources. Considered answers."}
               </div>
             </section>
           ) : (

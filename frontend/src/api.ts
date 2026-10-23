@@ -11,6 +11,8 @@ export type Health = {
   synthetic: boolean;
   inference_configured: boolean;
   retrieval: string;
+  companies?: string[];
+  languages?: string[];
 };
 export type Event = { kind: string; data: Record<string, unknown> };
 const BASE = (import.meta.env.VITE_API_URL ?? "").replace(/\/$/, "");

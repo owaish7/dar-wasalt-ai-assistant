@@ -1,12 +1,55 @@
 {
-  "status": "awaiting_permission_and_robots_verification",
-  "purpose": "Seed URLs only; listing a URL is not permission to collect it.",
+  "status": "dar_assessment_authorization_wasalt_pending",
+  "purpose": "Candidate public source URLs. Dar collection proceeds for the company-issued assessment on the user-confirmed authorization basis; no separate website licence is asserted.",
   "seeds": [
-    {"url": "https://darglobal.co.uk/", "company": "dar"},
-    {"url": "https://darglobal.co.uk/ar", "company": "dar"},
-    {"url": "https://darglobal.co.uk/projects", "company": "dar"},
-    {"url": "https://wasalt.sa/en", "company": "wasalt"},
-    {"url": "https://wasalt.sa/ar", "company": "wasalt"}
+    {
+      "url": "https://darglobal.co.uk/",
+      "company": "dar"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar",
+      "company": "dar"
+    },
+    {
+      "url": "https://darglobal.co.uk/investor",
+      "company": "dar"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/investor",
+      "company": "dar"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects",
+      "company": "dar"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/the-astera",
+      "company": "dar"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/les-vagues",
+      "company": "dar"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/tierra-viva",
+      "company": "dar"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects",
+      "company": "dar"
+    },
+    {
+      "url": "https://wasalt.sa/en",
+      "company": "wasalt"
+    },
+    {
+      "url": "https://wasalt.sa/ar",
+      "company": "wasalt"
+    }
   ],
-  "restrictions": ["Wasalt published terms restrict extraction and reuse; obtain assessment permission or an approved dataset.", "Check terms and robots.txt for both sites before collecting.", "Do not bypass authentication, CAPTCHA, access denials or anti-bot controls."]
+  "restrictions": [
+    "Dar terms reserve copying/transmission rights; assessment authorization is the stated basis, not a claim of a separately issued website licence.",
+    "Wasalt remains excluded pending clarification or an approved dataset.",
+    "Check robots before fetching; do not bypass authentication, CAPTCHA, access denials or anti-bot controls."
+  ]
 }

@@ -34,3 +34,7 @@ The displayed fixture notice is intentional. Do not submit this preview as groun
 ## Rollback and shutdown
 
 Redeploy the last verified commit through Render if a release fails. Revert to fixtures only as an explicitly labelled engineering preview. Remove secrets and delete the services from Render after the assessment if no longer needed. Never enable automatic paid upgrades.
+
+## Dar only snapshot
+
+The Dar bundle is prepared at ignored `data/private/dar/deployment-bundle.json`. Use that file for `deployment-bundle.json` in hosting Secret Files and the same `CORPUS_BUNDLE_PATH` setting above. It contains only real Dar source records; no fictional Wasalt records are mixed into it. A partial preview must show Dar-only coverage and a Wasalt-pending notice. The final submission still needs both companies. `/healthz` reports actual `companies` and `languages`, so verify `companies=["dar"]`, `languages=["ar","en"]` and `synthetic=false` for this stage.

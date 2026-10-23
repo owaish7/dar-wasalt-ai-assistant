@@ -30,11 +30,11 @@ def canonical(url):
 def permitted(url, approvals):
     if not safe_url(url):
         return False
-    return any(url.startswith(prefix) for prefix in approvals[company_for(url)]["allowed_prefixes"])
+    return any(url.startswith(prefix) for prefix in approvals.get(company_for(url), {}).get("allowed_prefixes", []))
 
 
-def validate_permissions(approvals):
-    for company in ("dar", "wasalt"):
+def validate_permissions(approvals, companies=("dar", "wasalt")):
+    for company in companies:
         rule = approvals.get(company, {})
         if not all(rule.get(k) for k in ("approved", "reference", "reviewed_terms_url", "allow_openrouter_processing", "allow_public_answers", "allowed_prefixes")):
             raise ValueError(f"Missing collection and processing permission for {company}")
@@ -116,14 +116,20 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--permission", required=True, type=Path)
     parser.add_argument("--max-pages", type=int, default=30, choices=range(2, 31))
+    parser.add_argument("--companies", nargs="+", choices=("dar", "wasalt"), default=["dar", "wasalt"],
+                        help="Collect an approved company independently; default requires both.")
     args = parser.parse_args()
     approvals = json.loads(args.permission.read_text(encoding="utf-8"))
-    validate_permissions(approvals)
+    companies = tuple(dict.fromkeys(args.companies))
+    validate_permissions(approvals, companies)
+    # Exclude other companies before any fetching or link discovery.
+    approvals = {company: approvals[company] for company in companies}
     seeds = json.loads(Path("data/source-manifest.json").read_text())["seeds"]
-    target = Path("data/private")
+    # A partial snapshot cannot overwrite the final two-company corpus.
+    target = Path("data/private") if len(companies) == 2 else Path("data/private") / companies[0]
     target.mkdir(parents=True, exist_ok=True)
-    queue, visited, rows, report = deque(s["url"] for s in seeds), set(), [], []
-    per_company = {"dar": 0, "wasalt": 0}
+    queue, visited, rows, report = deque(s["url"] for s in seeds if s["company"] in companies), set(), [], []
+    per_company = {company: 0 for company in companies}
     with httpx.Client(headers={"User-Agent": AGENT}, timeout=20, follow_redirects=False) as client:
         collector = Collector(client, approvals, target / "collection-cache")
         while queue and len(rows) < args.max_pages and len(visited) < 100:
@@ -132,7 +138,7 @@ def main():
                 continue
             visited.add(url)
             company = company_for(url)
-            if per_company[company] >= (args.max_pages + 1) // 2:
+            if company not in companies or per_company[company] >= (args.max_pages + len(companies) - 1) // len(companies):
                 continue
             try:
                 final_url, html = collector.page(url)
@@ -163,8 +169,8 @@ def main():
                 report.append({"url": url, "status": "skipped", "reason": type(exc).__name__ + ": " + str(exc)[:200]})
     (target / "collection-report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     if not all(per_company.values()):
-        raise SystemExit("Both websites must have approved readable content. See private collection report.")
-    # Commit a new corpus atomically only after both sites have content.
+        raise SystemExit("Each selected website must have approved readable content. See private collection report.")
+    # Commit atomically only after each selected site has content.
     output = target / "corpus.jsonl"
     temporary = output.with_suffix(".tmp")
     temporary.write_text("\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n", encoding="utf-8")

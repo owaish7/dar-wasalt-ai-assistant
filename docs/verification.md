@@ -2,7 +2,7 @@
 
 ## Completed local checks
 
-- Backend unit/integration tests: 28 passed. Coverage includes real request validation, bounded body handling, CORS, rate limiting, SSE completion/interruption, missing credentials, citations and bounded repair, metadata privacy, bilingual lexical retrieval/follow-ups, free-only primary/backup model gating, corpus integrity, permission gating, robots denial/precedence/wildcards/crawl delay and redirect restrictions.
+- Backend unit/integration tests: 31 passed. Coverage includes real request validation, bounded body handling, CORS, rate limiting, SSE completion/interruption, missing credentials, citations and bounded repair, metadata privacy, bilingual lexical retrieval/follow-ups, free-only primary/backup model gating, corpus integrity, permission gating, robots denial/precedence/wildcards/crawl delay and redirect restrictions.
 - Frontend protocol tests: 7 passed. Coverage includes UTF-8/Arabic chunks, incomplete streams, quota errors, readiness retry, wake deadline and cancellation.
 - TypeScript checking and production frontend build passed.
 - Frontend dependency audit after patching the build/test toolchain: zero reported vulnerabilities.
@@ -27,3 +27,11 @@
 Generated code was inspected for credential handling, source URL validation, collection permission gates, paid fallbacks, request limits, SSE failure handling and React output rendering. Factual correctness requires checking statements against excerpts; valid citation numbers alone cannot establish entailment. A malicious source can still influence model text despite the instruction boundary, so human evaluation and conservative abstention matter.
 
 AI assistance contributed application scaffolding, UI components/styles, retrieval code, OpenRouter integration, collector, tests and documentation. The final author is responsible for reviewing these components and understanding the implementation. Do not claim a test, deployment, permission or performance result until it has actually been observed and recorded.
+
+## Dar snapshot preparation on 23 October 2026
+
+- Collected 30 Dar pages within the user-confirmed assessment scope; removed three duplicate product-category routes. The private corpus has 27 URLs, 23 English/four Arabic documents and 124 passages. Wasalt was excluded from requests and output.
+- Reviewed title/language metadata, sampled project/FAQ text, normalized whitespace and scanned retained text for email/phone patterns (none matched). This is agent review, not a human accuracy certification.
+- Built the real Dar hybrid index and private deployment bundle. All eight Dar smoke questions were checked locally: the first result matched the intended Dar project in each of the six answerable cases. Missing-Wasalt and injection questions still require generation/abstention review; a retrieval hit alone is not evidence that they are answerable.
+- Fixed JSONL loading to split on LF rather than every Unicode paragraph separator, after real source text exposed that bug. Added regression coverage, partial-company metadata and company-scoped authorization checks. Backend now passes 31 tests; TypeScript/production build passes.
+- Deployment and free-model checks for this real snapshot are recorded below after verification. Prior fixture trial results above remain fixture-only evidence.

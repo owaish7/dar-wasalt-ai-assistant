@@ -16,7 +16,7 @@ from backend.main import ABSTAIN, create_app, prompt_messages, validate_answer
 from backend.provider import OpenRouter, ProviderFailure
 from backend.retrieval import Retriever, load_corpus, safe_url, tokens
 from backend.schemas import ChatRequest
-from scripts.collect import Collector, validate_permissions
+from scripts.collect import Collector, permitted, validate_permissions
 
 
 def parsed_events(response):
@@ -57,6 +57,22 @@ class BackendTests(unittest.TestCase):
             self.assertEqual(len(sources["sources"]), 4)
             self.assertNotIn('"text"', json.dumps(sources))
             self.assertNotIn("api_key", json.dumps(sources))
+
+    def test_partial_corpus_reports_actual_coverage(self):
+        retriever = Retriever([p for p in self.passages if p.company == "dar"], Path("unused"), "lexical", "unused")
+        with TestClient(create_app(self.settings, retriever)) as client:
+            health = client.get("/healthz").json()
+            self.assertEqual(health["companies"], ["dar"])
+            self.assertEqual(health["languages"], ["ar", "en"])
+
+    def test_jsonl_unicode_paragraph_separator_is_not_a_record_boundary(self):
+        row = json.loads(Path("data/fixtures/corpus.jsonl").read_text(encoding="utf-8").split("\n")[0])
+        row["text"] = "Project facts\u2028More facts\u2029Final facts"
+        row["content_hash"] = hashlib.sha256(row["text"].encode()).hexdigest()
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "corpus.jsonl"
+            path.write_text(json.dumps(row, ensure_ascii=False) + "\n", encoding="utf-8")
+            self.assertIn("\u2028", load_corpus(path)[0].text)
 
     def test_grounded_stream_reports_model_and_verified_sources(self):
         with self.client(FakeProvider()) as client:
@@ -251,6 +267,21 @@ class ProviderTests(unittest.IsolatedAsyncioTestCase):
 
 
 class CollectionTests(unittest.TestCase):
+    def test_single_company_still_requires_permission_and_excludes_other_host(self):
+        approvals = json.loads(Path("data/permission.example.json").read_text())
+        with self.assertRaisesRegex(ValueError, "Missing.*dar"):
+            validate_permissions(approvals, ("dar",))
+        # This mock approval exists only for this test, never as an actual grant.
+        approvals["dar"].update(approved=True, reference="unit-test-only",
+            reviewed_terms_url="https://darglobal.co.uk/terms-conditions",
+            allow_openrouter_processing=True, allow_public_answers=True, expires_at="2099-12-31")
+        validate_permissions(approvals, ("dar",))
+        with self.assertRaisesRegex(ValueError, "Missing.*wasalt"):
+            validate_permissions(approvals)
+        dar_only = {"dar": approvals["dar"]}
+        self.assertTrue(permitted("https://darglobal.co.uk/projects", dar_only))
+        self.assertFalse(permitted("https://wasalt.sa/en", dar_only))
+
     def test_unapproved_template_cannot_collect(self):
         approvals = json.loads(Path("data/permission.example.json").read_text())
         with self.assertRaisesRegex(ValueError, "Missing"):

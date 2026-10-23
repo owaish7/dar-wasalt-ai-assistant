@@ -161,6 +161,7 @@ function App() {
   const bottom = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const t = copy[lang];
+  const darOnly = health?.companies?.length === 1 && health.companies[0] === "dar";
 
   async function connect() {
     connection.current?.abort();
@@ -371,10 +372,12 @@ function App() {
             <section className="welcome simple-welcome">
               <h1>{lang === "ar" ? "كيف يمكنني مساعدتك؟" : "How can I help you?"}</h1>
               <p className="intro">
-                {lang === "ar" ? "اسأل عن دار جلوبال أو وصلت." : "Ask about Dar Global or Wasalt."}
+                {darOnly
+                  ? lang === "ar" ? "اسأل عن دار جلوبال." : "Ask about Dar Global."
+                  : lang === "ar" ? "اسأل عن دار جلوبال أو وصلت." : "Ask about Dar Global or Wasalt."}
               </p>
               <div className="simple-suggestions">
-                {prompts[lang].map(([n, , question, company]) => (
+                {prompts[lang].filter(([n]) => !darOnly || n === "01").map(([n, , question, company]) => (
                   <button key={n} onClick={() => void send(question)}>
                     {company}
                   </button>
@@ -472,6 +475,13 @@ function App() {
               {t.syntheticBody}
             </div>
           )}
+          {!health?.synthetic && darOnly && (
+            <div className="fixture-notice">
+              {lang === "ar"
+                ? "مصادر دار جلوبال فقط حالياً. محتوى وصلت بانتظار الإذن."
+                : "Dar Global sources only for now. Wasalt content is awaiting permission."}
+            </div>
+          )}
           <form
             className="composer"
             onSubmit={(e) => {
@@ -504,7 +514,7 @@ function App() {
             <div className="composer-toolbar">
               <span className="corpus-badge">
                 <span />
-                {t.badge}
+                {darOnly ? lang === "ar" ? "دار جلوبال" : "Dar Global" : t.badge}
               </span>
               <div className="send-group">
                 <span className="keyboard-hint">↵</span>

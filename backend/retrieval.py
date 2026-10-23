@@ -45,7 +45,8 @@ class Passage:
 
 
 def load_corpus(path: Path) -> list[Passage]:
-    records = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    # JSON permits Unicode paragraph separators inside strings; only LF delimits JSONL.
+    records = [json.loads(line) for line in path.read_text(encoding="utf-8").split("\n") if line.strip()]
     if not records or len(records) > 200:
         raise ValueError("Corpus must contain 1–200 documents")
     passages = []

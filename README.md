@@ -4,7 +4,7 @@ A bilingual React/FastAPI chatbot with hybrid passage retrieval, cited answers, 
 
 [Live engineering preview](https://atlas-property-chat-owaish7.onrender.com/) · [Backend readiness](https://atlas-property-api-owaish7.onrender.com/healthz) · [CI checks](https://github.com/owaish7/dar-wasalt-ai-assistant/actions)
 
-**Current content status: synthetic fixtures only.** The example project, city, and services in the fixtures are fictional. They are not facts about either company. Collection of real website information is gated on permission and robots/terms checks. This is an engineering preview, not yet a completed source-grounded assignment submission.
+**Current data scope: Dar Global snapshot prepared; Wasalt pending.** The private Dar corpus contains 27 distinct pages (23 English, four Arabic), collected for the company-issued assessment on the user-confirmed authorization basis. The collected text stays outside GitHub. Default clean-checkout data is still explicitly fictional; deployment uses the private bundle. See [assignment notes](docs/assignment-notes.md) and [source coverage](docs/dar-source-coverage.md). The full two-website assignment is not yet complete.
 
 ## Run locally
 
@@ -75,9 +75,9 @@ Citation validation checks that references map to retrieved passages and forbids
 
 ## Data collection
 
-Read [collection and permissions](docs/collection.md) before any real collection. The public seed manifest is a list of candidate URLs, not evidence of permission. In particular, [Wasalt's terms](https://wasalt.sa/en/s/terms-of-use) restrict extraction/reuse. No live collection has been performed by this project yet.
+Read [collection and permissions](docs/collection.md) before any real collection. The public seed manifest is a list of candidate URLs, not evidence of permission. In particular, [Wasalt's terms](https://wasalt.sa/en/s/terms-of-use) restrict extraction/reuse. Dar-only collection was performed on 23 October 2026; [Dar terms](https://darglobal.co.uk/terms-conditions) also reserve reuse rights, so the assessment authorization basis and its limits are documented explicitly.
 
-After permission:
+For a snapshot within the recorded authorization scope:
 
 ```powershell
 # Fill an actual permission record in data/private/permission.json.

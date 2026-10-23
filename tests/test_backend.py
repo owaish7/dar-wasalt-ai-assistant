@@ -105,12 +105,19 @@ class BackendTests(unittest.TestCase):
             self.assertEqual(provider.calls, 0)
 
     def test_invalid_or_missing_citation_and_external_url_are_rejected(self):
-        for answer in ("An unsupported answer", "Invented [999]", "Wrong [0]", "Look https://evil.test [1]"):
+        for answer in ("An unsupported answer", "Invented [999]", "Wrong [0]", "Look https://evil.test [1]", "Grouped [1,999]"):
             with self.subTest(answer=answer):
                 text, sources, abstained = validate_answer(answer, self.passages, "ar")
                 self.assertTrue(abstained)
                 self.assertEqual(text, ABSTAIN["ar"])
                 self.assertEqual(sources, [])
+
+    def test_grouped_citations_preserve_validation(self):
+        for answer in ("Fictional project [1, 2]", "مشروع خيالي [1،2]"):
+            text, sources, abstained = validate_answer(answer, self.passages, "ar")
+            self.assertFalse(abstained)
+            self.assertEqual(text, answer)
+            self.assertEqual([s["id"] for s in sources], [1, 2])
 
     def test_interrupted_draft_has_no_done_event_and_slot_is_released(self):
         provider = FakeProvider(failure=ProviderFailure("interrupted", "test"))

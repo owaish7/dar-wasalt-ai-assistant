@@ -33,8 +33,13 @@ def source_cards(passages):
              "collected_at": p.collected_at, "synthetic": p.synthetic} for i, p in enumerate(passages, 1)]
 
 
+def citation_numbers(answer):
+    groups = re.findall(r"\[(\d+(?:\s*[,،]\s*\d+)*)\]", answer)
+    return {int(n) for group in groups for n in re.split(r"\s*[,،]\s*", group)}
+
+
 def validate_answer(answer, passages, language):
-    cited = set(int(x) for x in re.findall(r"\[(\d+)\]", answer))
+    cited = citation_numbers(answer)
     if not cited or any(i < 1 or i > len(passages) for i in cited):
         return ABSTAIN[language], [], True
     # Model-generated external links are never accepted as source references.
@@ -182,7 +187,7 @@ def create_app(settings=None, retriever=None, provider=None):
                                 raise ProviderFailure("too_long", "The model response exceeded its safe limit.")
                             yield event("delta", {"text": part["delta"]})
                     repaired = False
-                    if answer.strip() and not re.search(r"\[\d+\]", answer):
+                    if answer.strip() and not citation_numbers(answer):
                         # A model can give a supported answer but forget its references.
                         # Ask once for a cited rewrite; never invent references in code.
                         repair_messages = messages + [{"role": "assistant", "content": answer},

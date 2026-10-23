@@ -1,0 +1,135 @@
+[
+  {
+    "id": "expanded-marriott-en",
+    "language": "en",
+    "company": "dar",
+    "message": "Where are Marriott Residences AIDA and which bedroom types are described?",
+    "history": [],
+    "expectation": "answer",
+    "expected_facts": [
+      "AIDA",
+      "Oman",
+      "1",
+      "2",
+      "3"
+    ],
+    "expected_source_urls": [
+      "https://darglobal.co.uk/marriott-residences-aida-oman"
+    ],
+    "review_status": "ready",
+    "note": "Expected core facts checked against retained publisher snapshot; generated answer requires review."
+  },
+  {
+    "id": "expanded-sunrise-ar",
+    "language": "ar",
+    "company": "dar",
+    "message": "أين تقع فلل صن رايز هافن وهل هي مفروشة؟ وكم عدد غرف النوم؟",
+    "history": [],
+    "expectation": "answer",
+    "expected_facts": [
+      "عايدة",
+      "مسقط",
+      "مفروشة",
+      "3"
+    ],
+    "expected_source_urls": [
+      "https://darglobal.co.uk/ar/Sunrise-Haven-Luxury-Villas"
+    ],
+    "review_status": "ready",
+    "note": "Expected core facts checked against retained publisher snapshot; generated answer requires review."
+  },
+  {
+    "id": "expanded-coastal-en",
+    "language": "en",
+    "company": "dar",
+    "message": "Where are Coastal Investment Villas located and how many bedrooms do they have?",
+    "history": [],
+    "expectation": "answer",
+    "expected_facts": [
+      "Muscat",
+      "Oman",
+      "3"
+    ],
+    "expected_source_urls": [
+      "https://darglobal.co.uk/aida-coastal-investment-villas"
+    ],
+    "review_status": "ready",
+    "note": "Expected core facts checked against retained publisher snapshot; generated answer requires review."
+  },
+  {
+    "id": "expanded-great-escape-ar",
+    "language": "ar",
+    "company": "dar",
+    "message": "ما وسائل الراحة المذكورة في مشروع ذا غريت إسكيب 2 في عايدة؟",
+    "history": [],
+    "expectation": "answer",
+    "expected_facts": [
+      "مسبح",
+      "لياقة",
+      "أطفال"
+    ],
+    "expected_source_urls": [
+      "https://darglobal.co.uk/ar/the-great-escape-2-aida-oman"
+    ],
+    "review_status": "ready",
+    "note": "Expected core facts checked against retained publisher snapshot; generated answer requires review."
+  },
+  {
+    "id": "expanded-albert-en",
+    "language": "en",
+    "company": "dar",
+    "message": "In which city are Albert Hall Mansions and who was their architect?",
+    "history": [],
+    "expectation": "answer",
+    "expected_facts": [
+      "London",
+      "Richard Norman Shaw"
+    ],
+    "expected_source_urls": [
+      "https://darglobal.co.uk/one-of-one/THE-ALBERT-HALL-MANSION"
+    ],
+    "review_status": "ready",
+    "note": "Expected core facts checked against retained publisher snapshot; generated answer requires review."
+  },
+  {
+    "id": "dar-ar-astera",
+    "language": "ar",
+    "company": "dar",
+    "message": "أين يقع مشروع ذا أستيرا ومن صمم الديكورات الداخلية؟",
+    "history": [],
+    "expectation": "answer",
+    "expected_facts": [
+      "جزيرة المرجان",
+      "رأس الخيمة",
+      "أستون مارتن"
+    ],
+    "expected_source_urls": [
+      "https://darglobal.co.uk/ar/the-astera"
+    ],
+    "review_status": "ready",
+    "note": "Expected facts reviewed against the private 2026-10-23 Dar snapshot; generated answers still require review."
+  },
+  {
+    "id": "dar-en-wasalt-missing",
+    "language": "en",
+    "company": "wasalt",
+    "message": "What are Wasalt services and how do I list my apartment on Wasalt?",
+    "history": [],
+    "expectation": "abstain",
+    "expected_facts": [],
+    "expected_source_urls": [],
+    "review_status": "ready",
+    "note": "Expected facts reviewed against the private 2026-10-23 Dar snapshot; generated answers still require review."
+  },
+  {
+    "id": "expanded-live-price-ar",
+    "language": "ar",
+    "company": "dar",
+    "message": "ما سعر صن رايز هافن الحقيقي الآن وعدد الوحدات المتاحة اليوم؟",
+    "history": [],
+    "expectation": "abstain",
+    "expected_facts": [],
+    "expected_source_urls": [],
+    "review_status": "ready"
+  }
+]

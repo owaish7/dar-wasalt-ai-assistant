@@ -47,3 +47,23 @@ On 23 October 2026 the collector obtained 30 readable pages, then removed three 
 The collected corpus and raw HTML are private ignored artifacts. The current review is agent-assisted: titles/languages, duplicate routes, email/phone-pattern scan and sampled project/FAQ text were checked. It is not a human certification of every source claim. Marketing claims about returns, visas, taxes, future handovers and sold-out status can be stale or contradictory; they must not be treated as live facts or verified professional advice.
 
 If clarification is needed for Dar as well, a follow-up draft is: “Could you also confirm that the assessment authorizes a limited Dar Global snapshot, including relevant excerpt processing through OpenRouter and public cited answers? I noticed its terms also reserve copying and transmission rights.” This draft has not been sent by the agent.
+
+## Expanded mapping and collection on 24 October 2026
+
+The robots-allowed sitemap listed 477 URLs. `data/dar-expansion-manifest.json` records 176 planned candidates spanning company/FAQ entry points, projects, Arabic counterparts, selected news/blog posts and partners. This is a bounded coverage plan rather than an instruction to copy all historical material.
+
+The expansion encountered widespread Incapsula access challenges. The audited continuation retained 12 readable pages and recorded 59 challenged URLs before it was stopped. Three readable URLs refreshed prior sources; nine were additions. The interrupted first pass predates checkpoint logging, so it is not represented as a complete audited attempt count. The previous 27-page corpus was preserved, then merged by URL with the readable cached additions and cleaned offline. The result is 36 source pages (27 English/nine Arabic), with 154 passages. See the updated [coverage inventory](dar-source-coverage.md) for gaps.
+
+The collector now supports a separate private `--output-dir`, `--manifest`, up to 200 retained pages, bounded `--max-visits`, and `--seed-only`. It excludes tracking queries, fragments, contact/payment/login routes and PDF assets from discovery. Report checkpoints survive interruption, cached pages keep their fetch times, and five consecutive access challenges stop the run without automatic retry. These changes do not authorize bypasses or imply that all sitemap pages were collected.
+
+```powershell
+# Only run under normal permitted access and the recorded assessment scope.
+.venv\Scripts\python -m scripts.collect --permission data/private/permission.json --companies dar --manifest data/dar-expansion-manifest.json --max-pages 140 --max-visits 220 --output-dir data/private/dar-expanded
+# A stopped run can legitimately have no corpus; retain its report and previous snapshot.
+# Review/merge readable source records privately, preferring the newer record for each URL.
+.venv\Scripts\python -m scripts.curate_corpus --input data/private/dar-expanded/merged-corpus.jsonl --output data/private/dar-expanded/curated-corpus.jsonl
+.venv\Scripts\python -m scripts.build_index --corpus data/private/dar-expanded/curated-corpus.jsonl --output data/private/dar-expanded/index.npz
+.venv\Scripts\python -m scripts.package_corpus --corpus data/private/dar-expanded/curated-corpus.jsonl --index data/private/dar-expanded/index.npz --output data/private/dar-expanded/deployment-bundle.json
+```
+
+Curation normalizes whitespace, deduplicates exact content, checks whether Arabic-labelled bodies contain Arabic, removes email/international-phone patterns, updates hashes and writes a review trail. No contacts required redaction in this batch. Agent review sampled every added page's location, property type and amenities/FAQ text; publisher claims are not independently verified. Full company, FAQ landing, news and blog coverage remains blocked, as do Wasalt and the final two-company evaluation.

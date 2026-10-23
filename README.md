@@ -4,7 +4,7 @@ A bilingual React/FastAPI chatbot with hybrid passage retrieval, cited answers, 
 
 [Live engineering preview](https://atlas-property-chat-owaish7.onrender.com/) · [Backend readiness](https://atlas-property-api-owaish7.onrender.com/healthz) · [CI checks](https://github.com/owaish7/dar-wasalt-ai-assistant/actions)
 
-**Current data scope: Dar Global snapshot live; Wasalt pending.** The private Dar corpus contains 27 distinct pages (23 English, four Arabic), collected for the company-issued assessment on the user-confirmed authorization basis. The collected text stays outside GitHub. Default clean-checkout data is still explicitly fictional; deployment uses the private bundle. See [assignment notes](docs/assignment-notes.md) and [source coverage](docs/dar-source-coverage.md). The full two-website assignment is not yet complete.
+**Current data scope: Dar Global snapshot; Wasalt pending.** The reviewed Dar corpus contains 36 distinct pages (27 English, nine Arabic), collected for the company-issued assessment on the user-confirmed authorization basis. The collected text stays outside GitHub. Default clean-checkout data is still explicitly fictional; deployment uses the private bundle. The sitemap mapping and attempted expansion encountered access challenges, so this is not complete website coverage. See [assignment notes](docs/assignment-notes.md) and [source coverage](docs/dar-source-coverage.md). The full two-website assignment is not yet complete.
 
 ## Run locally
 

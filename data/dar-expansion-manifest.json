@@ -1,0 +1,886 @@
+{
+  "purpose": "Expanded Dar-only assessment snapshot: sitemap and project-list discovery, selected recent news/blog, English/Arabic project candidates. Wasalt excluded. Not a claim of complete website coverage.",
+  "discovered_sitemap_urls": 477,
+  "seeds": [
+    {
+      "url": "https://darglobal.co.uk/",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/about",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/about",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/investor",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/investor",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/faq",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/faq",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/aida-360",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/commercial",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/hospitality",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/development-management",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/luxury-golf-communities",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/press",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/press",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/blog",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/partners",
+      "company": "dar",
+      "category": "company"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/dar-global-opens-sales-trump-villas-simaisma-qatar-unprecedented-interest",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/dar-global-delivers-66-percent-revenue-growth-hy-2026-portfolio-gdv-reaches-23-billion",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/dar-global-appoints-gulf-asia-contracting-for-trump-international-hotel-tower-dubai",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/darglobal-fendi-casa-announce-azure-oceanfront-villas-oman",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/dar-global-awards-sar-338-million-rayana-master-community-infrastructure-contract-compass-bin-omairah-wadi-safar-diriyah-riyadh",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/darglobal-five-years-global-expansion-23bn-development-portfolio-future-vision",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/emirates-nbd-usd-250m-syndicated-loan-dar-global-expansion-uae",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/darglobal-art-district-real-estate-mad-muscat-marine-art-digital-district",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/darglobal-appoints-al-dahlawi-contracting-for-amaya-project-trump-plaza-jeddah",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/dar-global-17-3-roe-2025-strong-market-position",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/world-liberty-financial-tokenizes-trump-international-hotel-maldives",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/darglobal-strengthens-china-partnerships-saudi-real-estate-global-investors",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/dar-global-trump-organization-usd-1bn-trump-plaza-jeddah",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/darglobal-awards-enabling-works-contract-trump-international-hotel-tower-dubai-edrafor-emirates",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/darglobal-appoints-acc-for-main-works-as-trump-tower-jeddah-rises",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/darglobal-london-stock-exchange-opening-bell-live-all-in-launch",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/darglobal-trump-international-hotel-maldives-tokenized-hotel-development",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/darglobal-debuts-nickelodeon-hotels-resorts-oman-in-aida-setting-new-luxury-family-standard",
+      "company": "dar",
+      "category": "press"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/rise-of-reit-in-dubai",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/dubai-real-estate-roi-in-2025",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/dubai-property-prices-trend-2025",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/freehold-vs-leasehold-dubai",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/modern-architecture-in-dubai",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/renting-vs-buying-in-qatar",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/investing-in-oman-opportunities-and-benefits",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/foreign-investment-in-saudi-arabia",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/real-estate-forecast-next-5-years-dubai",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/golden-visa-countries-for-real-estate-roi",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/dubai-2040-smart-sustainable-city-roadmap",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/dubai-real-estate-investment-guide",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/can-foreigners-buy-property-in-qatar",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/real-estate-cycle-for-smarter-investing",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/rental-property-investing-guide",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/wellness-real-estate-guide",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/top-luxury-gated-communities",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/buying-property-in-spain-complete-guide",
+      "company": "dar",
+      "category": "blog"
+    },
+    {
+      "url": "https://darglobal.co.uk/one-of-one/one-of-one-unlisted-by-pagani",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/one-of-one/one-of-one-unlisted-by-pagani",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/one-of-one/project-pagani",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/one-of-one/project-pagani",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/one-of-one/THE-ALBERT-HALL-MANSION",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/one-of-one/THE-ALBERT-HALL-MANSION",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/one-of-one/painite-villas-design-inspired-by-Automobili-Lamborghini",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/one-of-one/painite-villas-design-inspired-by-Automobili-Lamborghini",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/one-of-one/top-of-the-astera",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/one-of-one/top-of-the-astera",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/one-of-one/trump-penthouse",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/one-of-one/trump-penthouse",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/one-of-one/fendi-casa-azure-oceanfront-villas",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/one-of-one/fendi-casa-azure-oceanfront-villas",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/rayana/trump-mansions",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/rayana/trump-mansions",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/rayana/trump-international-qatar",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/rayana/trump-international-qatar",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/rayana/darglobal-mansions",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/rayana/darglobal-mansions",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/amaya/amaya-plots",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/amaya/amaya-plots",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/amaya/padel-living",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/amaya/padel-living",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/trump-plaza/executive-residences",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/trump-plaza/executive-residences",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/trump-plaza/park-residences",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/trump-plaza/park-residences",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects/properties-in-uae/villas",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects/properties-in-uae/villas",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects/properties-in-uk/apartments",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects/properties-in-uk/apartments",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects/properties-in-spain/villas",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects/properties-in-spain/villas",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects/properties-in-oman/apartments",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects/properties-in-oman/apartments",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects/properties-in-qatar/villas",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects/properties-in-qatar/villas",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects/properties-in-uae",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects/properties-in-uae",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects/properties-in-uk",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects/properties-in-uk",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects/properties-in-saudi-arabia",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects/properties-in-saudi-arabia",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects/properties-in-oman",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects/properties-in-oman",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects/properties-in-qatar",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects/properties-in-qatar",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects/properties-in-spain",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects/properties-in-spain",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects/properties-in-saudi-arabia/villas",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects/properties-in-saudi-arabia/villas",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects/properties-in-saudi-arabia/apartments",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects/properties-in-saudi-arabia/apartments",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects/properties-in-oman/hotel-rooms",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/projects/properties-in-oman/hotel-rooms",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/trump-international-hotel-and-tower-dubai",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/trump-international-hotel-and-tower-dubai",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/d-villas-at-jge",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/d-villas-at-jge",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/the-astera",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/the-astera",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/dg1",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/dg1",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/davinci-tower-by-pagani",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/davinci-tower-by-pagani",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/urban-oasis-by-missoni",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/urban-oasis-by-missoni",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/w-residences",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/w-residences",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/tierra-viva",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/tierra-viva",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/marea",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/marea",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/les-vagues",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/les-vagues",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/lp/trump-international-qatar",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/lp/trump-international-qatar",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/aida-trump-international-hotel",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/aida-trump-international-hotel",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/aida-trump-international-cliff-villas",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/aida-trump-international-cliff-villas",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/aida-trump-villas",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/aida-trump-villas",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/landing-page/aida",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/landing-page/aida",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/fairway-villas-aida-oman",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/fairway-villas-aida-oman",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/amour-sans-detour",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/amour-sans-detour",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/the-great-escape-1-aida-oman",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/the-great-escape-1-aida-oman",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/the-great-escape-2-aida-oman",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/the-great-escape-2-aida-oman",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/aida-coastal-investment-villas",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/aida-coastal-investment-villas",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/Sunrise-Haven-Luxury-Villas",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/Sunrise-Haven-Luxury-Villas",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/marriott-residences-aida-oman",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/marriott-residences-aida-oman",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/amour-sans-detour-2",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/amour-sans-detour-2",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/play-project/nickelodeon",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/play-project/nickelodeon",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/the-mulliner",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/the-mulliner",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/neptune",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/neptune",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/trump-tower-jeddah",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/trump-tower-jeddah",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/trump-international-resort-maldives",
+      "company": "dar",
+      "category": "project"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/trump-international-resort-maldives",
+      "company": "dar",
+      "category": "arabic"
+    },
+    {
+      "url": "https://darglobal.co.uk/partners/elie-saab",
+      "company": "dar",
+      "category": "partner"
+    },
+    {
+      "url": "https://darglobal.co.uk/partners/lamborghini",
+      "company": "dar",
+      "category": "partner"
+    },
+    {
+      "url": "https://darglobal.co.uk/partners/aston-martin",
+      "company": "dar",
+      "category": "partner"
+    },
+    {
+      "url": "https://darglobal.co.uk/partners/missoni",
+      "company": "dar",
+      "category": "partner"
+    },
+    {
+      "url": "https://darglobal.co.uk/partners/the-trump-organization",
+      "company": "dar",
+      "category": "partner"
+    },
+    {
+      "url": "https://darglobal.co.uk/partners/pagani",
+      "company": "dar",
+      "category": "partner"
+    },
+    {
+      "url": "https://darglobal.co.uk/partners/mouawad",
+      "company": "dar",
+      "category": "partner"
+    },
+    {
+      "url": "https://darglobal.co.uk/partners/marriott-residences-aida-oman",
+      "company": "dar",
+      "category": "partner"
+    }
+  ]
+}

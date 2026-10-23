@@ -27,6 +27,23 @@ def canonical(url):
     return urlunsplit((p.scheme, p.netloc.lower(), p.path or "/", "", ""))
 
 
+def discover_links(soup, base_url, approvals):
+    links = []
+    for anchor in soup.select("a[href]"):
+        raw = urljoin(base_url, anchor["href"])
+        parsed = urlsplit(raw)
+        # Do not turn searches, query routes or asset URLs into crawl targets.
+        if parsed.query or parsed.fragment or parsed.scheme != "https":
+            continue
+        url = canonical(raw)
+        path = parsed.path.lower()
+        if permitted(url, approvals) and not any(x in path for x in (
+            "login", "privacy", "terms", "contact", "signup", "/api/", ".pdf", "pay-online", "careers", "internship"
+        )) and url not in links:
+            links.append(url)
+    return links
+
+
 def permitted(url, approvals):
     if not safe_url(url):
         return False
@@ -51,6 +68,7 @@ class Collector:
         self.rules = {}
         self.last_request = 0.0
         self.minimum_delay = 2.0
+        self.page_fetched_at = None
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
     def fetch(self, url):
@@ -104,18 +122,29 @@ class Collector:
         cache_file = self.cache_dir / (hashlib.sha256(url.encode()).hexdigest() + ".json")
         if cache_file.exists():
             cached = json.loads(cache_file.read_text(encoding="utf-8"))
+            if "_Incapsula_Resource" in cached["html"] or "cf-chl-" in cached["html"]:
+                raise ValueError("Access challenge; not bypassed")
+            self.page_fetched_at = cached.get("fetched_at")
             return cached["url"], cached["html"]
         final_url, html, content_type = self.fetch(url)
         if "text/html" not in content_type:
             raise ValueError("Not an HTML page")
-        cache_file.write_text(json.dumps({"url": final_url, "html": html}, ensure_ascii=False), encoding="utf-8")
+        if "_Incapsula_Resource" in html or "cf-chl-" in html:
+            raise ValueError("Access challenge; not bypassed")
+        self.page_fetched_at = datetime.now(timezone.utc).isoformat()
+        cache_file.write_text(json.dumps({"url": final_url, "html": html,
+            "fetched_at": self.page_fetched_at}, ensure_ascii=False), encoding="utf-8")
         return final_url, html
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--permission", required=True, type=Path)
-    parser.add_argument("--max-pages", type=int, default=30, choices=range(2, 31))
+    parser.add_argument("--max-pages", type=int, default=30, choices=range(2, 201))
+    parser.add_argument("--max-visits", type=int, default=400, choices=range(2, 801))
+    parser.add_argument("--manifest", type=Path, default=Path("data/source-manifest.json"))
+    parser.add_argument("--output-dir", type=Path, help="Separate private snapshot directory; never use a public source folder.")
+    parser.add_argument("--seed-only", action="store_true", help="Fetch the selected manifest only; do not follow additional links.")
     parser.add_argument("--companies", nargs="+", choices=("dar", "wasalt"), default=["dar", "wasalt"],
                         help="Collect an approved company independently; default requires both.")
     args = parser.parse_args()
@@ -124,15 +153,19 @@ def main():
     validate_permissions(approvals, companies)
     # Exclude other companies before any fetching or link discovery.
     approvals = {company: approvals[company] for company in companies}
-    seeds = json.loads(Path("data/source-manifest.json").read_text())["seeds"]
+    seeds = json.loads(args.manifest.read_text(encoding="utf-8"))["seeds"]
     # A partial snapshot cannot overwrite the final two-company corpus.
-    target = Path("data/private") if len(companies) == 2 else Path("data/private") / companies[0]
+    target = args.output_dir or (Path("data/private") if len(companies) == 2 else Path("data/private") / companies[0])
+    if not target.resolve().is_relative_to(Path("data/private").resolve()):
+        raise ValueError("Collected content must remain under ignored data/private/")
     target.mkdir(parents=True, exist_ok=True)
     queue, visited, rows, report = deque(s["url"] for s in seeds if s["company"] in companies), set(), [], []
     per_company = {company: 0 for company in companies}
+    consecutive_challenges = 0
+    challenge_stopped = False
     with httpx.Client(headers={"User-Agent": AGENT}, timeout=20, follow_redirects=False) as client:
         collector = Collector(client, approvals, target / "collection-cache")
-        while queue and len(rows) < args.max_pages and len(visited) < 100:
+        while queue and len(rows) < args.max_pages and len(visited) < args.max_visits:
             url = canonical(queue.popleft())
             if url in visited:
                 continue
@@ -143,31 +176,46 @@ def main():
             try:
                 final_url, html = collector.page(url)
                 soup = BeautifulSoup(html, "html.parser")
-                links = [canonical(urljoin(final_url, a["href"])) for a in soup.select("a[href]")]
+                # Discover routes even when the current page has no useful body.
+                if not args.seed_only:
+                    queue.extend(link for link in discover_links(soup, final_url, approvals) if link not in visited)
                 html_language = str(soup.html.get("lang", "")) if soup.html else ""
                 language = "ar" if html_language.startswith("ar") or urlsplit(final_url).path.split("/")[1:2] == ["ar"] else "en"
-                title = soup.title.get_text(" ", strip=True) if soup.title else final_url
+                title_node = soup.title or soup.find("h1")
+                title = title_node.get_text(" ", strip=True) if title_node else final_url
                 for tag in soup.select("script,style,nav,footer,header,form,noscript,svg"):
                     tag.decompose()
                 main = soup.find("main") or soup.body or soup
-                text = main.get_text(" ", strip=True)[:24000]
+                text = " ".join(main.get_text(" ", strip=True).split())[:24000]
                 if len(text) < 150:
                     raise ValueError("Insufficient readable content; no browser bypass attempted")
                 if any(r["url"] == final_url for r in rows):
                     continue
                 rows.append({"url": final_url, "title": title, "language": language,
-                    "collected_at": datetime.now(timezone.utc).isoformat(), "text": text,
+                    "collected_at": collector.page_fetched_at or datetime.now(timezone.utc).isoformat(), "text": text,
                     "content_hash": hashlib.sha256(text.encode()).hexdigest(), "company": company,
                     "synthetic": False, "permission_reference": approvals[company]["reference"]})
                 per_company[company] += 1
                 report.append({"url": url, "status": "collected"})
-                for link in links:
-                    path = urlsplit(link).path.lower()
-                    if permitted(link, approvals) and not any(x in path for x in ("login", "privacy", "terms", "contact", "signup", "/api/", ".pdf")):
-                        queue.append(link)
+                consecutive_challenges = 0
+                print(f"Collected {len(rows)}/{args.max_pages}: {final_url}", flush=True)
             except (ValueError, httpx.HTTPError) as exc:
                 report.append({"url": url, "status": "skipped", "reason": type(exc).__name__ + ": " + str(exc)[:200]})
+                consecutive_challenges = consecutive_challenges + 1 if "Access challenge" in str(exc) else 0
+            # Preserve coverage evidence even if a long crawl is interrupted.
+            (target / "collection-report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+            if len(visited) % 10 == 0:
+                print(f"Progress: {len(visited)} visited, {len(rows)} retained, {len(report) - len(rows)} skipped", flush=True)
+            if consecutive_challenges >= 5:
+                challenge_stopped = True
+                print("Stopped after five consecutive access challenges; no bypass or automatic retry.", flush=True)
+                break
     (target / "collection-report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    (target / "crawl-summary.json").write_text(json.dumps({"selected_companies": companies,
+        "visited": len(visited), "collected": len(rows), "queued_remaining": len(set(queue) - visited),
+        "page_limit": args.max_pages, "visit_limit": args.max_visits,
+        "stop_reason": "access_challenge_threshold" if challenge_stopped else "page_limit" if len(rows) >= args.max_pages else "visit_limit" if len(visited) >= args.max_visits else "queue_exhausted",
+        "snapshot_created_at": datetime.now(timezone.utc).isoformat()}, indent=2), encoding="utf-8")
     if not all(per_company.values()):
         raise SystemExit("Each selected website must have approved readable content. See private collection report.")
     # Commit atomically only after each selected site has content.

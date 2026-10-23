@@ -2,7 +2,7 @@
 
 The deployment uses a free static site for React and a free Docker web service for FastAPI. [Render's free-tier documentation](https://render.com/docs/free) explains sleep, quota, filesystem and availability limits. No paid instance, database, persistent disk or custom domain is required.
 
-Current engineering preview: [frontend](https://atlas-property-chat-owaish7.onrender.com/) and [backend readiness](https://atlas-property-api-owaish7.onrender.com/healthz). Both run on free services. The live corpus now contains 27 real Dar pages (23 English/four Arabic); Wasalt is pending. The server-side OpenRouter key was configured directly by the owner. Services were connected through the public repository URL without granting Render GitHub account access; after a Git push, use **Manual Deploy → Deploy latest commit** unless you later configure a Blueprint/Git integration.
+Current engineering preview: [frontend](https://atlas-property-chat-owaish7.onrender.com/) and [backend readiness](https://atlas-property-api-owaish7.onrender.com/healthz). Both run on free services. The live corpus now contains 36 real Dar pages (27 English/nine Arabic); Wasalt is pending. The server-side OpenRouter key was configured directly by the owner. Services were connected through the public repository URL without granting Render GitHub account access; after a Git push, use **Manual Deploy → Deploy latest commit** unless you later configure a Blueprint/Git integration.
 
 ## Initial fixture deployment
 
@@ -37,4 +37,4 @@ Redeploy the last verified commit through Render if a release fails. Revert to f
 
 ## Dar only snapshot
 
-The deployed Dar bundle is retained at ignored `data/private/dar/deployment-bundle.json`. Use that file for `deployment-bundle.json` in hosting Secret Files and the same `CORPUS_BUNDLE_PATH` setting above. It contains only real Dar source records; no fictional Wasalt records are mixed into it. A partial preview must show Dar-only coverage and a Wasalt-pending notice. The final submission still needs both companies. `/healthz` reports actual `companies` and `languages`, so verify `companies=["dar"]`, `languages=["ar","en"]` and `synthetic=false` for this stage.
+The deployed Dar bundle is retained at ignored `data/private/dar-expanded/deployment-bundle.json`. Use that file for `deployment-bundle.json` in hosting Secret Files and the same `CORPUS_BUNDLE_PATH` setting above. It contains only real Dar source records; no fictional Wasalt records are mixed into it. A partial preview must show Dar-only coverage and a Wasalt-pending notice. The final submission still needs both companies. `/healthz` reports actual `companies` and `languages`, so verify `companies=["dar"]`, `languages=["ar","en"]` and `synthetic=false` for this stage.

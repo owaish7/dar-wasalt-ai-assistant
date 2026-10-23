@@ -2,7 +2,7 @@
 
 ## Completed local checks
 
-- Backend unit/integration tests: 32 passed. Coverage includes real request validation, bounded body handling, CORS, rate limiting, SSE completion/interruption, missing credentials, citations and bounded repair, metadata privacy, bilingual lexical retrieval/follow-ups, free-only primary/backup model gating, corpus integrity, permission gating, robots denial/precedence/wildcards/crawl delay and redirect restrictions.
+- Backend unit/integration tests: 37 passed. Coverage includes real request validation, bounded body handling, CORS, rate limiting, SSE completion/interruption, missing credentials, citations and bounded repair, metadata privacy, bilingual lexical retrieval/follow-ups, free-only primary/backup model gating, corpus integrity, permission gating, robots denial/precedence/wildcards/crawl delay and redirect restrictions.
 - Frontend protocol tests: 7 passed. Coverage includes UTF-8/Arabic chunks, incomplete streams, quota errors, readiness retry, wake deadline and cancellation.
 - TypeScript checking and production frontend build passed.
 - Frontend dependency audit after patching the build/test toolchain: zero reported vulnerabilities.
@@ -45,3 +45,11 @@ Eight real hosted requests completed using the free Cohere model. Agent review f
 A backend coverage guard was added after that failure. Recognized unavailable-company names, comparisons and generic follow-ups to the last named user company are now refused before retrieval or provider calls. Explicitly switching back to Dar remains allowed. The regression test verifies English, Arabic, the Wassalt spelling, comparison, follow-up and topic-switch cases; all 32 backend tests pass. This guard does not establish that every possible alias or every unsupported fact is detected. The deployed retest passed: English and Arabic Wasalt questions plus a generic follow-up to a Wassalt question all returned `abstained=true`, no citations, `model=null` and `missing_companies=["wasalt"]`. Responses took 0–1 ms server-side and did not call inference. Readiness still showed real Dar-only data. CI passed for the guard commit `0fffabc`.
 
 The initial eight-case client median first text was 683 ms and median total latency was 1,776.5 ms (range 989–4,651 ms), including the failed Wasalt answer. Retrieval ranged 11–53 ms. Local Windows profiling of 124 passages with 24 Dar questions measured 8.23 ms median retrieval, 9.83 ms maximum, 1.663 s model/index loading and about 242.3 MB process RSS. Local RSS is not a hosted memory measurement. No 40-case/90% acceptance result is claimed.
+
+## Expanded Dar snapshot on 24 October 2026
+
+- Mapped 477 sitemap URLs and prepared 176 candidate seeds. The audited continuation recorded 71 attempts: 12 readable pages and 59 access challenges. The first interrupted mapping pass has no complete page-level attempt log and is not counted as verified coverage.
+- Preserved the old corpus and merged nine additional distinct pages, producing 36 sources (27 English/nine Arabic) and 154 passages. Scanned contact patterns, normalized and deduplicated text, checked Arabic bodies and sampled every addition. The built private bundle is approximately 466 KB.
+- All six answerable expanded smoke questions retrieved the intended project as the first local result. This is retrieval evidence, not generated-answer accuracy.
+- Backend/collector tests now pass 37 checks. New tests cover challenge detection, safe discovery, repeated-challenge stop/report preservation, cache timestamps, and curation/hash/privacy behavior. The repeated-challenge integration test initially had an already-open mock-client error; its setup was corrected and the full suite passed.
+- Actual deployment and real-inference checks for this expansion are recorded below after verification. Existing trial results remain specific to their earlier corpus versions. The company/news/blog access gaps and 40-case acceptance assessment remain unresolved.

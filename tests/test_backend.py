@@ -1,6 +1,7 @@
 import asyncio
 import hashlib
 import json
+import os
 import tempfile
 import unittest
 from dataclasses import replace
@@ -16,7 +17,8 @@ from backend.main import ABSTAIN, create_app, prompt_messages, validate_answer
 from backend.provider import OpenRouter, ProviderFailure
 from backend.retrieval import Retriever, load_corpus, safe_url, tokens
 from backend.schemas import ChatRequest
-from scripts.collect import Collector, permitted, validate_permissions
+from scripts.collect import Collector, discover_links, main as collect_main, permitted, validate_permissions
+from scripts.curate_corpus import curate
 
 
 def parsed_events(response):
@@ -288,6 +290,82 @@ class ProviderTests(unittest.IsolatedAsyncioTestCase):
 
 
 class CollectionTests(unittest.TestCase):
+    def test_repeated_access_challenges_stop_crawl_and_preserve_report(self):
+        approval = json.loads(Path('data/permission.example.json').read_text())
+        approval['dar'].update(approved=True, reference='unit-test-only', reviewed_terms_url='https://darglobal.co.uk/terms-conditions',
+            allow_openrouter_processing=True, allow_public_answers=True, expires_at='2099-12-31')
+        seen = []
+        def handle(request):
+            seen.append(request.url.path)
+            text = 'User-agent: *\nAllow: /' if request.url.path == '/robots.txt' else '<script src="/_Incapsula_Resource"></script>'
+            return httpx.Response(200, text=text, headers={'content-type':'text/html'})
+        previous = Path.cwd()
+        client = httpx.Client(transport=httpx.MockTransport(handle))
+        with tempfile.TemporaryDirectory() as directory:
+            try:
+                os.chdir(directory)
+                Path('data/private').mkdir(parents=True)
+                Path('data/private/approval.json').write_text(json.dumps(approval))
+                Path('data/source-manifest.json').write_text(json.dumps({'seeds':[{'url':f'https://darglobal.co.uk/project-{i}', 'company':'dar'} for i in range(10)]}))
+                with patch('sys.argv', ['collect', '--permission','data/private/approval.json','--companies','dar','--seed-only']), patch('scripts.collect.httpx.Client', return_value=client), patch('scripts.collect.time.sleep'), self.assertRaises(SystemExit):
+                    collect_main()
+                report = json.loads(Path('data/private/dar/collection-report.json').read_text())
+                self.assertEqual(len(report), 5)
+                self.assertEqual(json.loads(Path('data/private/dar/crawl-summary.json').read_text())['stop_reason'], 'access_challenge_threshold')
+                self.assertFalse(Path('data/private/dar/corpus.jsonl').exists())
+            finally:
+                os.chdir(previous)
+                client.close()
+        self.assertEqual(len(seen), 6)
+
+    def test_cache_preserves_fetch_time_without_a_second_page_request(self):
+        seen = []
+        def handle(request):
+            seen.append(request.url.path)
+            return httpx.Response(200, text='User-agent: *\nAllow: /' if request.url.path == '/robots.txt' else '<main>Project</main>', headers={'content-type':'text/html'})
+        with tempfile.TemporaryDirectory() as directory, httpx.Client(transport=httpx.MockTransport(handle)) as client:
+            collector = Collector(client, {'dar': {'allowed_prefixes': ['https://darglobal.co.uk/']}}, Path(directory))
+            with patch('scripts.collect.time.sleep'):
+                collector.page('https://darglobal.co.uk/project')
+                fetched = collector.page_fetched_at
+                collector.page('https://darglobal.co.uk/project')
+            self.assertEqual(collector.page_fetched_at, fetched)
+            self.assertEqual(seen, ['/robots.txt', '/project'])
+
+    def test_curation_redacts_contacts_deduplicates_and_updates_hash(self):
+        row = {"url": "https://darglobal.co.uk/project", "language": "en",
+               "text": "Project description " * 10 + " Email person@example.test, phone +971 50 123 4567"}
+        duplicate = dict(row, url="https://darglobal.co.uk/duplicate", text=row["text"].replace(" ", "  "))
+        kept, report = curate([row, duplicate])
+        self.assertEqual(len(kept), 1)
+        self.assertNotIn("person@example.test", kept[0]["text"])
+        self.assertNotIn("+971", kept[0]["text"])
+        self.assertEqual(kept[0]["content_hash"], hashlib.sha256(kept[0]["text"].encode()).hexdigest())
+        self.assertEqual(report["removed"][0]["reason"], "duplicate normalized content")
+        self.assertNotIn("content_hash", row)
+
+    def test_discovery_excludes_tracking_contacts_assets_and_other_company(self):
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup('<a href="/press/news">News</a><a href="/press/news">Again</a>'
+            '<a href="/projects?utm_source=x">Tracking</a><a href="/get-contact">Contact</a>'
+            '<a href="https://wasalt.sa/en">Other</a><a href="/brochure.pdf">PDF</a>'
+            '<a href="/project#form">Form</a><a href="mailto:test@example.test">Mail</a>', 'html.parser')
+        self.assertEqual(discover_links(soup, 'https://darglobal.co.uk/',
+            {'dar': {'allowed_prefixes': ['https://darglobal.co.uk/']}}), ['https://darglobal.co.uk/press/news'])
+
+    def test_access_challenge_is_not_cached_or_followed(self):
+        seen = []
+        def handle(request):
+            seen.append(request.url.path)
+            text = 'User-agent: *\nAllow: /' if request.url.path == '/robots.txt' else '<script src="/_Incapsula_Resource"></script>'
+            return httpx.Response(200, text=text, headers={'content-type': 'text/html'})
+        with tempfile.TemporaryDirectory() as directory, httpx.Client(transport=httpx.MockTransport(handle)) as client:
+            collector = Collector(client, {'dar': {'allowed_prefixes': ['https://darglobal.co.uk/']}}, Path(directory))
+            with patch('scripts.collect.time.sleep'), self.assertRaisesRegex(ValueError, 'Access challenge'):
+                collector.page('https://darglobal.co.uk/about')
+            self.assertEqual(list(Path(directory).iterdir()), [])
+        self.assertEqual(seen, ['/robots.txt', '/about'])
+
     def test_single_company_still_requires_permission_and_excludes_other_host(self):
         approvals = json.loads(Path("data/permission.example.json").read_text())
         with self.assertRaisesRegex(ValueError, "Missing.*dar"):

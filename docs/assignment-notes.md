@@ -2,7 +2,7 @@
 
 This note maps the original Word assignment to the implementation and records what is complete, what was tested, and what remains. It is a technical handover for the candidate and reviewer. The Word attachment and recruitment correspondence are not included in the public repository.
 
-The system is built and deployed. The live Dar-only corpus has 27 distinct pages and 124 searchable passages. Wasalt content and the complete two-company evaluation remain pending. This is partial assignment progress, not a claim that all source requirements have been fulfilled.
+The system is built and deployed. The live Dar-only corpus has 36 distinct pages and 154 searchable passages. Wasalt content and the complete two-company evaluation remain pending. This is partial assignment progress, not a claim that all source requirements have been fulfilled.
 
 ## Original requirements and current status
 
@@ -36,7 +36,7 @@ The extractor removes scripts, navigation, forms, headers and footers, then keep
 
 Dar terms also reserve copying and transmission rights. The recorded basis for the current limited snapshot is the company-issued assessment requesting Dar content and the user's explicit instruction to proceed on that basis. This is an authorization assumption for the assessment, not a claim that the website issued a separate licence. Wasalt stays excluded while its clarification is pending. Single-company collection writes its own directory, so it can progress without overwriting the final combined corpus.
 
-Thirty Dar pages were collected; three duplicate routes were removed. The resulting 27 pages include 23 English and four Arabic pages, indexed into 124 passages. Some landing/company pages returned insufficient readable HTML and were skipped without bypass. See [coverage and retained URLs](dar-source-coverage.md) and [collection procedure](collection.md). Prices, availability, handovers, market statistics and legal/visa statements are dated publisher claims, not verified current advice.
+The initial snapshot retained 27 pages after removing duplicate routes. The 24 October expansion mapped 477 sitemap URLs and selected 176 candidates. Its audited continuation obtained 12 readable pages and recorded 59 access challenges; nine of those pages were additions. Merging them with the preserved snapshot produced 36 pages, including 27 English and nine Arabic pages, indexed into 154 passages. Company, news and blog coverage remains incomplete because of access challenges. See [coverage and retained URLs](dar-source-coverage.md) and [collection procedure](collection.md). Prices, availability, handovers, market statistics and legal/visa statements are dated publisher claims, not verified current advice.
 
 ## Model choice and free deployment
 
@@ -60,7 +60,7 @@ Render was chosen for the agreed Docker deployment and a single hosting dashboar
 
 AI assisted with application scaffolding, UI, collector, retrieval, model integration, tests and documentation. Review focused on secret handling, host validation, scope/permission gates, free-only inference, streaming completion, citation handling and corpus fingerprints. The candidate should understand these decisions and personally review the final evaluation before submission; AI-generated code is not evidence of correctness by itself.
 
-Local backend checks now pass 32 tests, including the single-company permission scope, partial coverage metadata and a real-content issue where Unicode paragraph separators broke JSONL loading. The frontend production build passes; existing protocol tests and Docker checks run in CI. Prior fixture inference tests exposed output truncation, omitted citations and grouped-citation handling, which were recorded and corrected. See [verification evidence](verification.md) for measured results and remaining checks.
+Local backend checks now pass 37 tests, including the single-company permission scope, partial coverage metadata and a real-content issue where Unicode paragraph separators broke JSONL loading. The frontend production build passes; existing protocol tests and Docker checks run in CI. Prior fixture inference tests exposed output truncation, omitted citations and grouped-citation handling, which were recorded and corrected. See [verification evidence](verification.md) for measured results and remaining checks.
 
 The 40-case two-company evaluation is not complete. An eight-case Dar trial returned supported core facts in all six answerable cases, with one repeated answer and some overly broad references. It refused invented pricing but initially hallucinated Wasalt services with Dar citations; an explicit backend company-coverage guard now rejects recognized unavailable-company questions before retrieval or generation, verified on the live service in English, Arabic and a follow-up. This is not a complete factual-quality score; Wasalt comparisons must remain unavailable until Wasalt content is supplied. The 90% answer-quality target is a future acceptance check, not an achieved score. Mobile visual QA, naturally idle hosted wake timing and sustained hosted memory profiling must also be reported honestly.
 

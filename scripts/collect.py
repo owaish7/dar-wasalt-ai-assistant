@@ -132,7 +132,8 @@ def main():
                 final_url, html = collector.page(url)
                 soup = BeautifulSoup(html, "html.parser")
                 links = [canonical(urljoin(final_url, a["href"])) for a in soup.select("a[href]")]
-                language = "ar" if str(soup.html.get("lang", "")).startswith("ar") or "/ar" in urlsplit(final_url).path.split("?")[0] else "en"
+                html_language = str(soup.html.get("lang", "")) if soup.html else ""
+                language = "ar" if html_language.startswith("ar") or urlsplit(final_url).path.split("/")[1:2] == ["ar"] else "en"
                 title = soup.title.get_text(" ", strip=True) if soup.title else final_url
                 for tag in soup.select("script,style,nav,footer,header,form,noscript,svg"):
                     tag.decompose()

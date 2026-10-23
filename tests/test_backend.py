@@ -5,6 +5,7 @@ import tempfile
 import unittest
 from dataclasses import replace
 from pathlib import Path
+from unittest.mock import patch
 
 import httpx
 import numpy as np
@@ -176,9 +177,12 @@ class ProviderTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_free_id_still_requires_zero_catalog_price(self):
         response = {"data": [{"id": "test/model:free", "pricing": {"prompt": "0.01", "completion": "0"}}]}
+        # Fresh CI hosts can have <600 seconds of monotonic uptime. First use must
+        # never be mistaken for a cached successful catalog check.
         async with httpx.AsyncClient(transport=httpx.MockTransport(lambda r: httpx.Response(200, json=response))) as client:
             with self.assertRaises(ProviderFailure):
-                await OpenRouter("key", "test/model:free", client).check_model()
+                with patch("backend.provider.time.monotonic", return_value=1.0):
+                    await OpenRouter("key", "test/model:free", client).check_model()
 
     async def test_upstream_stream_requires_finish_marker(self):
         stream = 'data: {"model":"example/free","choices":[{"delta":{"content":"text"}}]}\n\ndata: [DONE]\n\n'

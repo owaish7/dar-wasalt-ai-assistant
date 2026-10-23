@@ -17,19 +17,19 @@ class ProviderFailure(Exception):
 class OpenRouter:
     def __init__(self, api_key: str, model: str, client: httpx.AsyncClient):
         self.api_key, self.model, self.client = api_key, model, client
-        self.checked_at = 0.0
+        self.checked_at: float | None = None
 
     async def check_model(self):
         if self.model == "openrouter/free":
             return
         if not self.model.endswith(":free"):
             raise ProviderFailure("model_not_free", "Only free models are permitted.")
-        if time.monotonic() - self.checked_at < 600:
+        if self.checked_at is not None and time.monotonic() - self.checked_at < 600:
             return
         response = await self.client.get("https://openrouter.ai/api/v1/models")
         response.raise_for_status()
         entry = next((m for m in response.json()["data"] if m["id"] == self.model), None)
-        if entry is None or any(float(entry["pricing"].get(k, "1")) != 0 for k in ("prompt", "completion")):
+        if entry is None or any(float(entry["pricing"].get(k, "1")) != 0 for k in ("prompt", "completion")) or float(entry["pricing"].get("request", "0")) != 0:
             raise ProviderFailure("model_not_free", "Configured model is not an available free model.")
         self.checked_at = time.monotonic()
 

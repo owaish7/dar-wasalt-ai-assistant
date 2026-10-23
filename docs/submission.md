@@ -6,7 +6,7 @@ Do not send until approved source content, real inference, live deployment and e
 >
 > Please find my completed technical assignment below:
 >
-> Live application: [verified frontend URL]
+> Live application: https://atlas-property-chat-owaish7.onrender.com/
 >
 > Source repository: https://github.com/owaish7/dar-wasalt-ai-assistant
 >

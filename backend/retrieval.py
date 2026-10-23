@@ -80,14 +80,14 @@ class E5Encoder:
     def __init__(self, cache: str, allow_download: bool):
         import onnxruntime as ort
         from huggingface_hub import snapshot_download
-        from tokenizers import Tokenizer
+        from sentencepiece import SentencePieceProcessor
 
         root = Path(snapshot_download(EMBED_REPO, revision=EMBED_REVISION, cache_dir=cache,
             local_files_only=not allow_download,
-            allow_patterns=[EMBED_FILE, "tokenizer.json", "tokenizer_config.json", "special_tokens_map.json", "config.json"]))
-        self.tokenizer = Tokenizer.from_file(str(root / "tokenizer.json"))
-        self.tokenizer.enable_truncation(max_length=256)
-        self.tokenizer.enable_padding(pad_id=1, pad_token="<pad>")
+            allow_patterns=[EMBED_FILE, "sentencepiece.bpe.model"]))
+        # XLM-R uses the SentencePiece vocabulary with a fairseq offset of one.
+        # Its JSON tokenizer consumes substantially more memory on startup.
+        self.tokenizer = SentencePieceProcessor(model_file=str(root / "sentencepiece.bpe.model"))
         options = ort.SessionOptions()
         options.intra_op_num_threads = 1
         options.inter_op_num_threads = 1
@@ -103,16 +103,21 @@ class E5Encoder:
         documents = list(documents)
         for offset in range(0, len(documents), batch_size):
             with self.lock:
-                encoded = self.tokenizer.encode_batch(documents[offset:offset + batch_size])
-                mask = np.array([e.attention_mask for e in encoded], dtype=np.int64)
-                inputs = {"input_ids": np.array([e.ids for e in encoded], dtype=np.int64), "attention_mask": mask}
+                encoded = [self.encode(text) for text in documents[offset:offset + batch_size]]
+                width = max(len(ids) for ids in encoded)
+                mask = np.array([[1] * len(ids) + [0] * (width - len(ids)) for ids in encoded], dtype=np.int64)
+                inputs = {"input_ids": np.array([ids + [1] * (width - len(ids)) for ids in encoded], dtype=np.int64), "attention_mask": mask}
                 if "token_type_ids" in self.inputs:
-                    inputs["token_type_ids"] = np.array([e.type_ids for e in encoded], dtype=np.int64)
+                    inputs["token_type_ids"] = np.zeros_like(mask)
                 hidden = self.session.run(None, inputs)[0]
                 weighted = hidden * mask[..., None]
                 vectors = weighted.sum(axis=1) / np.maximum(mask.sum(axis=1, keepdims=True), 1)
                 vectors /= np.maximum(np.linalg.norm(vectors, axis=1, keepdims=True), 1e-12)
             yield from vectors.astype(np.float32)
+
+    def encode(self, text):
+        pieces = self.tokenizer.encode(text, out_type=int)
+        return [0] + [piece + 1 if piece != 0 else 3 for piece in pieces[:254]] + [2]
 
 
 def embedding_model(cache: str, allow_download: bool = False):

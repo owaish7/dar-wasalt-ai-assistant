@@ -40,12 +40,16 @@ jobs:
       - run: docker build -t atlas:test .
       - name: Verify container readiness and restart
         run: |
-          docker run -d --name atlas -p 8000:8000 atlas:test
+          docker run -d --name atlas --memory=512m --cpus=0.5 -p 8000:8000 atlas:test
           for attempt in $(seq 1 30); do
             if curl -fsS http://localhost:8000/healthz; then break; fi
             sleep 2
           done
           curl -fsS http://localhost:8000/healthz
+          curl -fsS -X POST http://localhost:8000/api/chat -H 'Content-Type: application/json' -d '{"message":"Where are the waterfront villas?","language":"en"}' | tee /tmp/chat-stream.txt
+          grep -q 'not_configured' /tmp/chat-stream.txt
+          curl -fsS -X POST http://localhost:8000/api/chat -H 'Content-Type: application/json' -d '{"message":"ما هي خدمات وصلت؟","language":"ar"}' | tee /tmp/chat-ar-stream.txt
+          grep -q 'not_configured' /tmp/chat-ar-stream.txt
           docker restart atlas
           for attempt in $(seq 1 30); do
             if curl -fsS http://localhost:8000/healthz; then break; fi

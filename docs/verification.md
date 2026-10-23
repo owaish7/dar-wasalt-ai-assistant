@@ -7,8 +7,8 @@
 - TypeScript checking and production frontend build passed.
 - Frontend dependency audit after patching the build/test toolchain: zero reported vulnerabilities.
 - Python runtime dependency audit: no known vulnerabilities reported after removing the unused image-processing dependency tree and updating the HTTP framework/dotenv packages.
-- Local hybrid retrieval profiling over four original synthetic passages with weight prepacking disabled: approximately 7 ms median, model load approximately 1.9 seconds, process resident memory approximately 451 MB on Windows. These are fixture/local measurements, not hosted performance claims.
-- GitHub Actions passed backend/frontend tests and production build on Linux after correcting an initial free-pricing-cache bug exposed by low system uptime. Docker build, container readiness and restart checks passed. Initial Docker idle memory was approximately 471 MiB; actual Render query-time memory still needs verification.
+- Local hybrid retrieval profiling over four original synthetic passages after switching from JSON tokenization to equivalent SentencePiece tokenization: approximately 6 ms median, model load approximately 1.3 seconds, process resident memory approximately 241 MB on Windows. Five English/Arabic/mixed-language tokenization examples matched the original tokenizer exactly. These are fixture/local measurements, not hosted performance claims.
+- GitHub Actions passed backend/frontend tests and production build on Linux after correcting an initial free-pricing-cache bug exposed by low system uptime. Docker build, container readiness and restart checks passed. Initial Docker idle memory was approximately 471 MiB, but that version exceeded Render's 512 MiB peak-startup limit. The SentencePiece change addresses that observed deployment failure; CI now enforces a 512 MiB container limit and performs English/Arabic query smoke tests before restart.
 
 ## Checks that require external access or approved content
 

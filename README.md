@@ -33,7 +33,7 @@ For multilingual hybrid retrieval:
 # Set RETRIEVAL_MODE=hybrid in .env, then restart the API.
 ```
 
-The build command downloads the public int8 multilingual E5-small ONNX model at a pinned revision. Runtime loading is offline. Direct ONNX Runtime inference avoids unnecessary image-processing dependencies. Document embeddings are precomputed; only the query is embedded during a chat request.
+The build command downloads the public int8 multilingual E5-small ONNX model at a pinned revision. Runtime loading is offline. Direct ONNX Runtime inference avoids unnecessary image-processing dependencies; SentencePiece preserves the model's XLM-R token IDs while reducing tokenizer memory. Document embeddings are precomputed; only the query is embedded during a chat request.
 
 On macOS/Linux, substitute `.venv/bin/python` for `.venv\Scripts\python`, and `cp .env.example .env` for `Copy-Item`.
 

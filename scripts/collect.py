@@ -7,10 +7,10 @@ from collections import deque
 from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.parse import urljoin, urlsplit, urlunsplit
-from urllib.robotparser import RobotFileParser
 
 import httpx
 from bs4 import BeautifulSoup
+from protego import Protego
 
 from backend.retrieval import safe_url
 
@@ -50,6 +50,7 @@ class Collector:
         self.client, self.approvals, self.cache_dir = client, approvals, cache_dir
         self.rules = {}
         self.last_request = 0.0
+        self.minimum_delay = 2.0
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
     def fetch(self, url):
@@ -57,7 +58,7 @@ class Collector:
         for _ in range(4):
             if not safe_url(url):
                 raise ValueError("Redirect left allowlist")
-            time.sleep(max(0, 2 - (time.monotonic() - self.last_request)))
+            time.sleep(max(0, self.minimum_delay - (time.monotonic() - self.last_request)))
             self.last_request = time.monotonic()
             with self.client.stream("GET", url) as response:
                 if response.status_code in {301, 302, 303, 307, 308}:
@@ -86,11 +87,16 @@ class Collector:
                 if exc.response.status_code != 404:
                     raise ValueError("Could not verify robots.txt; collection stopped") from exc
                 text = "User-agent: *\nAllow: /"
-            rules = RobotFileParser()
-            rules.parse(text.splitlines())
+            rules = Protego.parse(text)
+            crawl_delay = rules.crawl_delay(AGENT)
+            if crawl_delay is not None:
+                self.minimum_delay = max(self.minimum_delay, float(crawl_delay))
+            rate = rules.request_rate(AGENT)
+            if rate is not None and rate.requests > 0:
+                self.minimum_delay = max(self.minimum_delay, rate.seconds / rate.requests)
             self.rules[root] = rules
         rules = self.rules[root]
-        return rules is not None and rules.can_fetch(AGENT, url)
+        return rules is not None and rules.can_fetch(url, AGENT)
 
     def page(self, url):
         if not permitted(url, self.approvals) or not self.robot_allowed(url):

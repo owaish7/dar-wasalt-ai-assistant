@@ -2,6 +2,8 @@
 
 Publicly readable does not automatically mean approved for extraction, provider processing or republication. Wasalt's [published terms](https://wasalt.sa/en/s/terms-of-use) explicitly restrict these activities. The assignment asks that access restrictions be respected. The application therefore starts with original fictional fixtures; no company content has been copied into the repository.
 
+Read-only policy checks on 23 October 2026: both robots.txt endpoints returned HTTP 200. Dar Global disallows its sitemap index, several tracking/query patterns and malformed paths; its root, blog, press and project paths have explicit allow entries. Wasalt's default group allows ordinary paths but disallows `/search` and `/cdn-cgi/rum`; the collector identifies itself honestly and does not impersonate one of the separately named AI bots. The referenced `/llms.txt` returned an HTTP 403 access challenge and was not bypassed. These robots rules do not resolve the separate published reuse restrictions.
+
 ## Clarification email draft
 
 Reply in the existing recruitment thread. This is a draft only; it has not been sent.

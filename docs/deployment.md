@@ -2,6 +2,8 @@
 
 The deployment uses a free static site for React and a free Docker web service for FastAPI. [Render's free-tier documentation](https://render.com/docs/free) explains sleep, quota, filesystem and availability limits. No paid instance, database, persistent disk or custom domain is required.
 
+Current engineering preview: [frontend](https://atlas-property-chat-owaish7.onrender.com/) and [backend readiness](https://atlas-property-api-owaish7.onrender.com/healthz). Both run on free services. The content is synthetic and the server-side OpenRouter key must still be configured. Services were connected through the public repository URL without granting Render GitHub account access; after a Git push, use **Manual Deploy → Deploy latest commit** unless you later configure a Blueprint/Git integration.
+
 ## Initial fixture deployment
 
 1. Publish the source repository and ensure CI passes. Open Render and choose **New → Blueprint**, using the public repository and its root `render.yaml`. Alternatively create the two services manually with the settings below.

@@ -219,6 +219,21 @@ class CollectionTests(unittest.TestCase):
                 collector.page("https://wasalt.sa/en")
         self.assertEqual(seen, ["https://wasalt.sa/robots.txt"])
 
+    def test_robots_longest_match_and_wildcards(self):
+        robots = "User-agent: *\nAllow: /\nDisallow: /search\nDisallow: /*private*\nCrawl-delay: 3\n"
+        seen = []
+        def handle(request):
+            seen.append(str(request.url))
+            return httpx.Response(200, text=robots)
+        approvals = {"wasalt": {"allowed_prefixes": ["https://wasalt.sa/"]}}
+        with tempfile.TemporaryDirectory() as directory, httpx.Client(transport=httpx.MockTransport(handle)) as client:
+            collector = Collector(client, approvals, Path(directory))
+            self.assertFalse(collector.robot_allowed("https://wasalt.sa/search"))
+            self.assertFalse(collector.robot_allowed("https://wasalt.sa/en/private/example"))
+            self.assertTrue(collector.robot_allowed("https://wasalt.sa/en"))
+            self.assertEqual(collector.minimum_delay, 3)
+        self.assertEqual(seen, ["https://wasalt.sa/robots.txt"])
+
     def test_cross_domain_redirect_is_not_followed(self):
         seen = []
         def handle(request):

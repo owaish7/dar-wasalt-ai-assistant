@@ -147,7 +147,7 @@ class Retriever:
 
     def search(self, question: str, history: list[str], limit=6) -> list[Passage]:
         # Previous user questions retain proper names without trusting assistant facts.
-        query = (" ".join(history[-2:]) + " " + question)[-4000:]
+        query = (question + " " + " ".join(history[-2:]))[:4000]
         terms = set(tokens(query))
         lexical = np.zeros(len(self.docs), dtype=np.float32)
         for term in terms:

@@ -2,6 +2,8 @@
 
 A bilingual React/FastAPI chatbot with hybrid passage retrieval, cited answers, free-only OpenRouter inference, and Docker deployment.
 
+[Live engineering preview](https://atlas-property-chat-owaish7.onrender.com/) · [Backend readiness](https://atlas-property-api-owaish7.onrender.com/healthz) · [CI checks](https://github.com/owaish7/dar-wasalt-ai-assistant/actions)
+
 **Current content status: synthetic fixtures only.** The example project, city, and services in the fixtures are fictional. They are not facts about either company. Collection of real website information is gated on permission and robots/terms checks. This is an engineering preview, not yet a completed source-grounded assignment submission.
 
 ## Run locally

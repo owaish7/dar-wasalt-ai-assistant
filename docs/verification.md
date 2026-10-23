@@ -7,12 +7,13 @@
 - TypeScript checking and production frontend build passed.
 - Frontend dependency audit after patching the build/test toolchain: zero reported vulnerabilities.
 - Python runtime dependency audit: no known vulnerabilities reported after removing the unused image-processing dependency tree and updating the HTTP framework/dotenv packages.
-- Local hybrid retrieval profiling over four original synthetic passages: approximately 4 ms median, model load approximately 1.6 seconds, process resident memory approximately 454 MB on Windows. These are fixture/local measurements, not hosted performance claims.
+- Local hybrid retrieval profiling over four original synthetic passages with weight prepacking disabled: approximately 7 ms median, model load approximately 1.9 seconds, process resident memory approximately 451 MB on Windows. These are fixture/local measurements, not hosted performance claims.
+- GitHub Actions passed backend/frontend tests and production build on Linux after correcting an initial free-pricing-cache bug exposed by low system uptime. Docker build, container readiness and restart checks passed. Initial Docker idle memory was approximately 471 MiB; actual Render query-time memory still needs verification.
 
 ## Checks that require external access or approved content
 
 - Real OpenRouter inference and observed first-token/full-answer latency require a configured API key.
-- Docker build, container readiness/restart and Linux memory are checked by GitHub Actions because Docker is not installed on the local machine.
+- Docker checks run in GitHub Actions because Docker is not installed on the local machine. Query-time profiling on the free host remains necessary.
 - Hosted UI/API, free-tier cold-start and memory checks require successful deployment.
 - A 40-case real-content assessment and the 90% answer-quality acceptance target require approved content from both websites and human review. No accuracy result is claimed yet.
 - Prompt injection unit tests check prompt structure and isolation; they do not prove that every free model resists injection. The evaluation suite includes adversarial questions for actual model testing.

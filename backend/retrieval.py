@@ -93,6 +93,8 @@ class E5Encoder:
         options.inter_op_num_threads = 1
         options.enable_cpu_mem_arena = False
         options.enable_mem_pattern = False
+        # Avoid a second cached copy of packed weights on 512 MB free hosts.
+        options.add_session_config_entry("session.disable_prepacking", "1")
         self.session = ort.InferenceSession(str(root / EMBED_FILE), sess_options=options, providers=["CPUExecutionProvider"])
         self.inputs = {item.name for item in self.session.get_inputs()}
         self.lock = threading.Lock()

@@ -24,7 +24,7 @@ def main():
         start = time.perf_counter()
         retriever.search(question, [])
         measurements.append((time.perf_counter() - start) * 1000)
-    report = {"synthetic": True, "passages": len(retriever.passages), "load_seconds": round(load_s, 3),
+    report = {"synthetic": any(p.synthetic for p in retriever.passages), "passages": len(retriever.passages), "load_seconds": round(load_s, 3),
         "retrieval_median_ms": round(statistics.median(measurements), 2),
         "retrieval_max_ms": round(max(measurements), 2),
         "rss_mb": round(psutil.Process().memory_info().rss / 1024**2, 1),

@@ -5,6 +5,7 @@ numpy==2.2.5
 onnxruntime==1.31.0
 tokenizers==0.23.3
 huggingface-hub==0.36.2
+hf-xet==1.7.0; sys_platform == "linux"
 beautifulsoup4==4.13.4
 python-dotenv==1.2.4
 psutil==7.0.0

@@ -18,7 +18,7 @@ services:
       - key: RATE_LIMIT_PER_MINUTE
         value: "8"
       - key: MAX_CONCURRENT_CHATS
-        value: "2"
+        value: "1"
   - type: web
     name: atlas-property-chat
     runtime: static

@@ -7,7 +7,10 @@ from packaging.utils import canonicalize_name
 
 
 def main():
-    pending = [Requirement(line).name for line in Path("backend/requirements.in").read_text().splitlines() if line.strip() and not line.startswith("#")]
+    direct = [Requirement(line) for line in Path("backend/requirements.in").read_text().splitlines() if line.strip() and not line.startswith("#")]
+    pending = [r.name for r in direct if r.marker is None or r.marker.evaluate()]
+    # Preserve explicitly pinned dependencies for other deployment platforms.
+    conditional = [str(r) for r in direct if r.marker is not None and not r.marker.evaluate()]
     locked = {}
     while pending:
         name = canonicalize_name(pending.pop())
@@ -23,6 +26,7 @@ def main():
     for name, version in sorted(locked.items()):
         marker = '; sys_platform == "win32"' if name == "win32-setctime" else ""
         lines.append(f"{name}=={version}{marker}")
+    lines.extend(conditional)
     Path("backend/requirements.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"Locked {len(locked)} runtime packages")
 

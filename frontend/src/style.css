@@ -150,27 +150,6 @@ button {
   margin-block-start: auto;
   padding: 28px 9px 0;
 }
-.evidence-icon {
-  background: #e4e8dc;
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
-  color: #6c8661;
-  margin-block-end: 14px;
-}
-.sidebar-bottom > strong {
-  font-size: 12px;
-  font-weight: 600;
-}
-.sidebar-bottom > p {
-  font-size: 11px;
-  line-height: 1.9;
-  color: #91998a;
-  margin: 8px 0 27px;
-  max-width: 175px;
-}
 .profile {
   display: flex;
   align-items: center;

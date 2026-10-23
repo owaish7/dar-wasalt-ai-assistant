@@ -44,9 +44,6 @@ const copy = {
     workspace: "YOUR WORKSPACE",
     explore: "Explore properties",
     library: "Source library",
-    about: "Built on evidence.",
-    aboutBody:
-      "Answers grounded in collected sources, with references you can check.",
     title: "A world of property.\nA clearer perspective.",
     subtitle:
       "Explore Dar Global and Wasalt in one conversation.\nAsk a question. Follow the sources. Find your next insight.",
@@ -86,8 +83,6 @@ const copy = {
     workspace: "مساحة العمل",
     explore: "استكشف العقارات",
     library: "مكتبة المصادر",
-    about: "إجابات تستند إلى الأدلة.",
-    aboutBody: "معلومات مدعومة بالمصادر المجمعة، مع مراجع يمكنك التحقق منها.",
     title: "عالم من العقارات.\nرؤية أكثر وضوحاً.",
     subtitle:
       "استكشف دار جلوبال ووصلت في محادثة واحدة.\nاسأل، وتحقق من المصادر، واكتشف المزيد.",
@@ -320,11 +315,6 @@ function App() {
           </button>
         </nav>
         <div className="sidebar-bottom">
-          <div className="evidence-icon">
-            <ShieldCheck size={20} />
-          </div>
-          <strong>{t.about}</strong>
-          <p>{t.aboutBody}</p>
           <div className="profile">
             <span className="profile-avatar">A</span>
             <div>

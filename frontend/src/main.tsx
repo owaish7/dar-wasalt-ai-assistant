@@ -2,9 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   ArrowUp,
-  ArrowUpRight,
   BookOpen,
-  Check,
   ChevronDown,
   Compass,
   ExternalLink,
@@ -14,15 +12,14 @@ import {
   PanelLeftClose,
   Sparkles,
   Square,
-  X,
 } from "lucide-react";
 import {
-  fetchSources,
   streamChat,
   waitForBackend,
   type Health,
   type Source,
 } from "./api";
+import { citationParts } from "./citations";
 import "./style.css";
 
 type Language = "en" | "ar";
@@ -153,8 +150,6 @@ function App() {
   >("connecting");
   const [health, setHealth] = useState<Health | null>(null);
   const [busy, setBusy] = useState(false);
-  const [library, setLibrary] = useState(false);
-  const [sourceList, setSourceList] = useState<Source[]>([]);
   const [sidebar, setSidebar] = useState(false);
   const connection = useRef<AbortController | null>(null);
   const generation = useRef<AbortController | null>(null);
@@ -174,7 +169,6 @@ function App() {
       );
       setHealth(state);
       setStatus("ready");
-      setSourceList(await fetchSources(controller.signal));
     } catch {
       if (!controller.signal.aborted) setStatus("failed");
     }
@@ -294,24 +288,12 @@ function App() {
           <button
             className="nav-item active"
             onClick={() => {
-              setLibrary(false);
               setSidebar(false);
             }}
           >
             <Compass size={18} />
             {t.explore}
             <span className="nav-dot" />
-          </button>
-          <button
-            className="nav-item"
-            onClick={() => {
-              setLibrary(true);
-              setSidebar(false);
-            }}
-          >
-            <BookOpen size={18} />
-            {t.library}
-            <span className="nav-count">{sourceList.length || "—"}</span>
           </button>
         </nav>
         <div className="sidebar-bottom">
@@ -416,7 +398,11 @@ function App() {
                       )}
                     </div>
                     <div className="answer-text">
-                      {m.text || (
+                      {(m.text && m.role === "assistant" && !m.draft && !m.pending
+                        ? citationParts(m.text, m.sources ?? []).map((part, i) => part.url
+                          ? <a key={i} className="inline-citation" href={part.url} target="_blank" rel="noopener noreferrer">{part.text}</a>
+                          : <React.Fragment key={i}>{part.text}</React.Fragment>)
+                        : m.text) || (
                         <span className="thinking">
                           <LoaderCircle size={15} />
                           {t.thinking}
@@ -559,60 +545,7 @@ function App() {
           </span>
         </footer>
       </div>
-      {library && (
-        <div className="modal-backdrop" onClick={() => setLibrary(false)}>
-          <section
-            className="source-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-label={t.library}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="modal-heading">
-              <div>
-                <div className="eyebrow">ATLAS / RESEARCH</div>
-                <h2>{t.library}</h2>
-              </div>
-              <button onClick={() => setLibrary(false)} aria-label={t.close}>
-                <X size={22} />
-              </button>
-            </div>
-            <p className="modal-note">
-              {health?.synthetic ? t.syntheticBody : t.live}
-            </p>
-            {sourceList.length ? (
-              sourceList.map((s) => (
-                <a
-                  className="library-source"
-                  href={s.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  key={s.url}
-                >
-                  <BookOpen size={18} />
-                  <div>
-                    <strong>{s.title}</strong>
-                    <small>
-                      {s.synthetic
-                        ? t.syntheticSource
-                        : `${t.snapshot}: ${new Date(s.collected_at).toLocaleDateString(lang)}`}
-                    </small>
-                  </div>
-                  <ArrowUpRight size={17} />
-                </a>
-              ))
-            ) : (
-              <p>{t.noSources}</p>
-            )}
-            <div className="modal-foot">
-              <Check size={15} />
-              {lang === "ar"
-                ? "روابط المصادر فقط. لا يتم نشر النصوص الكاملة هنا."
-                : "Source links only. Full collected text is not published here."}
-            </div>
-          </section>
-        </div>
-      )}
+
     </div>
   );
 }

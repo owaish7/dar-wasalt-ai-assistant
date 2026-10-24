@@ -52,6 +52,43 @@ class BackendTests(unittest.TestCase):
     def client(self, provider=None, **settings):
         return TestClient(create_app(replace(self.settings, **settings), self.retriever, provider))
 
+    def test_scope_and_ambiguity_use_no_model_quota(self):
+        provider = FakeProvider()
+        with self.client(provider) as client:
+            for question, language, reason in [
+                ('Write Python code', 'en', 'out_of_scope'),
+                ('اكتب قصيدة', 'ar', 'out_of_scope'),
+                ('What is the price?', 'en', 'clarification'),
+                ('كم السعر؟', 'ar', 'clarification'),
+                ('Tell me about Trump', 'en', 'clarification'),
+            ]:
+                final = parsed_events(client.post('/api/chat', json={'message': question, 'language': language}))[-1][1]
+                self.assertEqual(final['reason'], reason)
+                self.assertEqual(final['sources'], [])
+        self.assertEqual(provider.calls, 0)
+
+    def test_context_resolves_ambiguity(self):
+        from backend.conversation import route_message
+        for body in [
+            {'message': 'Tell me about Trump in Dubai'},
+            {'message': 'Compare all Trump projects'},
+            {'message': 'What is the price?', 'history': [{'role':'user', 'content':'Tell me about Cedar Bay'}]},
+        ]:
+            self.assertIsNone(route_message(ChatRequest(**body)))
+
+    def test_control_responses_do_not_spend_quota_on_citation_repair(self):
+        for response in ['INSUFFICIENT_EVIDENCE', 'OUT_OF_SCOPE', 'CLARIFY: Which Cedar Bay property do you mean?']:
+            provider = FakeProvider(text=response)
+            with self.client(provider) as client:
+                final = parsed_events(client.post('/api/chat', json={'message': 'Cedar Bay'}))[-1][1]
+                self.assertTrue(final['abstained'])
+                self.assertEqual(final['sources'], [])
+                self.assertEqual(provider.calls, 1)
+
+    def test_clarification_rejects_links_and_citations(self):
+        for answer in ['CLARIFY: See https://evil.test?', 'CLARIFY: Which property [1]?', 'CLARIFY: An unsupported claim.']:
+            self.assertEqual(validate_answer(answer, self.passages, 'en')[0], ABSTAIN['en'])
+
     def test_health_and_metadata_do_not_publish_text_or_credentials(self):
         with self.client() as client:
             self.assertTrue(client.get("/healthz").json()["synthetic"])

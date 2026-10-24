@@ -67,6 +67,14 @@ class BackendTests(unittest.TestCase):
                 self.assertEqual(final['sources'], [])
         self.assertEqual(provider.calls, 0)
 
+    def test_arabic_proper_name_retrieves_english_only_project(self):
+        from backend.retrieval import Passage
+        passages = [Passage('marriott', 'Marriott Residences AIDA', 'https://darglobal.co.uk/marriott-residences-aida-oman', 'en', '2026-10-24', 'Marriott Residences AIDA in Oman offers one to three bedrooms.', True, 'dar'),
+                    Passage('other', 'Other project', 'https://darglobal.co.uk/other', 'ar', '2026-10-24', 'مشروع في عمان وغرف نوم', True, 'dar')]
+        retriever = Retriever(passages, Path('unused'), 'lexical', 'unused')
+        results = retriever.search('أين تقع ماريوت ريزيدنسز عايدة وما أنواع غرف النوم؟', [])
+        self.assertEqual(results[0].id, 'marriott')
+
     def test_context_resolves_ambiguity(self):
         from backend.conversation import route_message
         for body in [

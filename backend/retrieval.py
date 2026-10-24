@@ -149,6 +149,12 @@ class Retriever:
     def search(self, question: str, history: list[str], limit=6) -> list[Passage]:
         # Previous user questions retain proper names without trusting assistant facts.
         query = (question + " " + " ".join(history[-2:]))[:4000]
+        # The Marriott page is English-only in this snapshot. Preserve its proper
+        # name across Arabic transliterations instead of relying on embedding recall.
+        if re.search(r'ماريوت|ماريوّت', query):
+            query += ' Marriott Residences'
+            if re.search(r'عايدة|عايدا|عمان', query):
+                query += ' AIDA Oman'
         terms = set(tokens(query))
         lexical = np.zeros(len(self.docs), dtype=np.float32)
         for term in terms:

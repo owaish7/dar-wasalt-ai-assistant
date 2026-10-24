@@ -1,0 +1,482 @@
+{
+  "snapshot": "2026-10-24",
+  "scope": "Bounded reviewed snapshot; not complete sites or live listing inventory",
+  "sources": [
+    {
+      "url": "https://darglobal.co.uk/ar/the-astera",
+      "title": "ذا أستيرا في جزيرة المرجان | دار جلوبال",
+      "language": "ar",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:14.468145+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/les-vagues",
+      "title": "لي فاج من إيلي صعب في الدوحة | دار جلوبال",
+      "language": "ar",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:16.236102+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/tierra-viva",
+      "title": "تييرا فيفا في بيناهافيس | دار جلوبال",
+      "language": "ar",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:18.547088+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/projects",
+      "title": "Buy Modern Apartments & Exclusive Villas | International Homes for Sale",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:18.571115+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/dg1",
+      "title": "دي جي ون في دبي | دار جلوبال",
+      "language": "ar",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:22.198915+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/trump-international-hotel-and-tower-dubai",
+      "title": "Trump International Hotel & Tower Dubai | DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.254616+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/d-villas-at-jge",
+      "title": "D-Villas | Jumeirah Golf Estates Villas Dubai UAE | DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.272269+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/the-astera",
+      "title": "The Astera, Interiors by Aston Martin | Al Marjan Island RAK",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.294399+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/dg1",
+      "title": "Apartments in Business Bay, Dubai for Sale - DG1 by DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.313020+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/davinci-tower-by-pagani",
+      "title": "Da Vinci Tower | Pagani Residences, Dubai | DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.335717+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/urban-oasis-by-missoni",
+      "title": "Urban Oasis by Missoni | Branded Dubai Canal Tower",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.357577+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/w-residences",
+      "title": "W Residences Downtown Dubai | DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.379578+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/one-of-one/project-pagani",
+      "title": "Buy Pagani Penthouses in Dubai UAE | DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T18:48:23.200741+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/one-of-one/top-of-the-astera",
+      "title": "Buy Branded Homes | Million Dollar Houses for Sale | Darglobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.404091+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/tierra-viva",
+      "title": "Tierra Viva by Lamborghini | Luxury Villas Benahavis",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.424091+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/one-of-one/painite-villas-design-inspired-by-Automobili-Lamborghini",
+      "title": "Painite Villas in Benahavis | Benahavis Property | DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.437096+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/marea",
+      "title": "Marea, Interiors by Missoni | Costa Del Sol, Spain",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.458092+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/les-vagues",
+      "title": "Les Vagues by Elie Saab | Sea-View Residences Doha",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.480091+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/aida-trump-international-hotel",
+      "title": "Invest in Trump International Hotel Oman | DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.507606+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/aida-trump-international-cliff-villas",
+      "title": "Trump Cliff Villas AIDA Oman | Sea-View Villas Muscat",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.530607+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/aida-trump-villas",
+      "title": "Trump Golf Villas at AIDA | Luxury Villas Muscat Oman",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.553607+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/landing-page/aida",
+      "title": "AIDA Properties | Luxury Hilltop Homes in Muscat | DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.583609+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/fairway-villas-aida-oman",
+      "title": "Luxury Fairway Villas in Muscat, Oman - DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.605118+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/one-of-one/fendi-casa-azure-oceanfront-villas",
+      "title": "Azure Oceanfront Villas by Fendi Casa | Luxury Branded Residences",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:26.618118+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/amour-sans-detour",
+      "title": "Amour Sans Detour",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T15:42:28.357575+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/the-great-escape-1-aida-oman",
+      "title": "Premium Apartments | Flats in Muscat, Oman - Great Escape 1 | DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T18:52:31.275076+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/the-great-escape-2-aida-oman",
+      "title": "Ultra Luxury Apartments | Flats for Sale in Muscat, Oman - Great Escape 2 | DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T18:52:35.302003+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/marriott-residences-aida-oman",
+      "title": "Marriott Residences Aida Oman | Branded Apartments Muscat",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T18:52:47.399712+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/Sunrise-Haven-Luxury-Villas",
+      "title": "Sunrise Haven Villas | Luxury Beach Villa In Muscat, Oman | DarGlobal",
+      "language": "ar",
+      "company": "dar",
+      "collected_at": "2026-10-23T18:52:45.303944+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/aida-coastal-investment-villas",
+      "title": "فلل ساحلية استثمارية",
+      "language": "ar",
+      "company": "dar",
+      "collected_at": "2026-10-23T18:52:41.343770+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/one-of-one/project-pagani",
+      "title": "Buy Pagani Penthouses in Dubai UAE | DarGlobal",
+      "language": "ar",
+      "company": "dar",
+      "collected_at": "2026-10-23T18:48:25.107723+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/the-great-escape-2-aida-oman",
+      "title": "ذا غريت إسكايب ٢",
+      "language": "ar",
+      "company": "dar",
+      "collected_at": "2026-10-23T18:52:37.259171+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/the-great-escape-1-aida-oman",
+      "title": "Premium Apartments | Flats in Muscat, Oman - Great Escape 1 | DarGlobal",
+      "language": "ar",
+      "company": "dar",
+      "collected_at": "2026-10-23T18:52:33.291311+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/Sunrise-Haven-Luxury-Villas",
+      "title": "Sunrise Haven Villas | Luxury Beach Villa In Muscat, Oman | DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T18:52:43.303536+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/aida-coastal-investment-villas",
+      "title": "Luxury Beachfront Villas in AIDA, Oman - Coastal Investment | DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T18:52:39.366091+00:00"
+    },
+    {
+      "url": "https://darglobal.co.uk/one-of-one/THE-ALBERT-HALL-MANSION",
+      "title": "Buy Branded Homes | Million Dollar Houses for Sale | Darglobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-23T18:48:27.203685+00:00"
+    },
+    {
+      "url": "https://wasalt.sa/en",
+      "title": "Properties For Sale and Rent in Saudi Arabia | Wasalt",
+      "language": "en",
+      "company": "wasalt",
+      "collected_at": "2026-10-24T08:21:52.689Z"
+    },
+    {
+      "url": "https://wasalt.sa/en/corporate",
+      "title": "Wasalt company, products and milestones",
+      "language": "en",
+      "company": "wasalt",
+      "collected_at": "2026-10-24T08:20:06.204Z"
+    },
+    {
+      "url": "https://wasalt.sa/corporate",
+      "title": "وصلت: الشركة والمنتجات والإنجازات",
+      "language": "ar",
+      "company": "wasalt",
+      "collected_at": "2026-10-24T08:20:14.713Z"
+    },
+    {
+      "url": "https://wasalt.sa/",
+      "title": "وصلت: الخدمات والأسئلة الشائعة",
+      "language": "ar",
+      "company": "wasalt",
+      "collected_at": "2026-10-24T08:21:05.041Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/",
+      "title": "DarGlobal | International Luxury Real Estate Developer",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:28:44.180Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/about",
+      "title": "About Us",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:29:05.435Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/about",
+      "title": "About Us",
+      "language": "ar",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:29:11.984Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/investor",
+      "title": "Investor | Luxury Second Homes by DarGlobal",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:29:24.558Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/hospitality",
+      "title": "Hospitality - Dar Global",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:29:26.448Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/commercial",
+      "title": "Commercial - DARGLOBAL",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:29:28.781Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/luxury-golf-communities",
+      "title": "darglobal.co.uk/luxury-golf-communities",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:29:30.384Z"
+    },
+    {
+      "url": "https://wasalt.sa/en/s/terms-of-advertising",
+      "title": "Wasalt Real Estate Services",
+      "language": "ar",
+      "company": "wasalt",
+      "collected_at": "2026-10-24T08:29:36.898Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/dar-global-opens-sales-trump-villas-simaisma-qatar-unprecedented-interest",
+      "title": "Dar Global Opens Sales for Trump Villas Simaisma, Qatar with Unprecedented Interest",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:29:40.233Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/dar-global-delivers-66-percent-revenue-growth-hy-2026-portfolio-gdv-reaches-23-billion",
+      "title": "Dar Global delivers 66% revenue growth in HY 2026 as portfolio GDV reaches $23bln",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:29:42.026Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/dar-global-appoints-gulf-asia-contracting-for-trump-international-hotel-tower-dubai",
+      "title": "Dar Global Appoints Gulf Asia for Trump Tower Dubai",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:29:43.603Z"
+    },
+    {
+      "url": "https://wasalt.sa/s/terms-of-use",
+      "title": "وصلت للخدمات العقارية",
+      "language": "ar",
+      "company": "wasalt",
+      "collected_at": "2026-10-24T08:30:14.836Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/capital-growth-vs-rental-yield-in-luxury-real-estate",
+      "title": "Capital Growth vs Rental Yield in Luxury Real Estate",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:30:17.818Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/luxury-waterfront-properties-what-makes-them-so-valuable",
+      "title": "Luxury Waterfront Properties: What Makes Them So Valuable?",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:30:19.506Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/blog/the-complete-guide-to-investing-in-dubai-off-plan-properties",
+      "title": "The Complete Guide to Investing in Dubai Off-Plan Properties",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:30:21.601Z"
+    },
+    {
+      "url": "https://wasalt.sa/en/s/terms-of-use",
+      "title": "Wasalt Real Estate Services",
+      "language": "en",
+      "company": "wasalt",
+      "collected_at": "2026-10-24T08:30:29.087Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/blog/the-complete-guide-to-investing-in-dubai-off-plan-properties",
+      "title": "الدليل الشامل والعملي للاستثمار في العقارات على الخارطة في دبي",
+      "language": "ar",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:30:36.904Z"
+    },
+    {
+      "url": "https://wasalt.sa/en/property/sale/villa-45556-sqm-facing-east-on-20m-width-street-5904949",
+      "title": "Villa 455.56 SQM Facing East on 20m Width Street For Sale",
+      "language": "en",
+      "company": "wasalt",
+      "collected_at": "2026-10-24T08:34:33.337Z"
+    },
+    {
+      "url": "https://wasalt.sa/en/property/sale/floor-185-sqm-with-4-bedrooms-5958783",
+      "title": "Floor 185 SQM with 4 Bedrooms For Sale",
+      "language": "en",
+      "company": "wasalt",
+      "collected_at": "2026-10-24T08:34:34.214Z"
+    },
+    {
+      "url": "https://wasalt.sa/en/property/sale/apartment-14552-sqm-with-3-bedrooms-5892869",
+      "title": "Apartment 145.52 SQM with 3 Bedrooms For Sale",
+      "language": "en",
+      "company": "wasalt",
+      "collected_at": "2026-10-24T08:34:35.327Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/darglobal-fendi-casa-announce-azure-oceanfront-villas-oman",
+      "title": "Dar Global & Fendi Casa Announce Azure Oceanfront Villas in Oman",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:35:02.708Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/dar-global-awards-sar-338-million-rayana-master-community-infrastructure-contract-compass-bin-omairah-wadi-safar-diriyah-riyadh",
+      "title": "DarGlobal Awards SAR 338 Million Rayana Infrastructure Contract in Wadi Safar, Diriyah",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:35:04.239Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/press/darglobal-five-years-global-expansion-23bn-development-portfolio-future-vision",
+      "title": "DarGlobal Marks Five Years of Global Expansion with $23 Billion Real Estate Portfolio",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:35:05.763Z"
+    },
+    {
+      "url": "https://blog.wasalt.sa/en/how-to-buy-a-house-in-saudi-arabia/",
+      "title": "How to Buy a House in Saudi Arabia: First-Time Buyer’s Guide",
+      "language": "en",
+      "company": "wasalt",
+      "collected_at": "2026-10-24T08:35:53.789Z"
+    },
+    {
+      "url": "https://blog.wasalt.sa/en/king-salman-park-riyadh/",
+      "title": "King Salman Park Riyadh: An Ultimate 2026 Guide",
+      "language": "en",
+      "company": "wasalt",
+      "collected_at": "2026-10-24T08:35:55.601Z"
+    },
+    {
+      "url": "https://blog.wasalt.sa/en/ejar-system-saudi-arabia-2026-guide/",
+      "title": "Ejar System Saudi Arabia 2026: A Comprehensive Guide",
+      "language": "en",
+      "company": "wasalt",
+      "collected_at": "2026-10-24T08:35:56.841Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/why-invest",
+      "title": "Why Invest",
+      "language": "en",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:35:58.494Z"
+    },
+    {
+      "url": "https://darglobal.co.uk/ar/why-invest",
+      "title": "Why Invest",
+      "language": "ar",
+      "company": "dar",
+      "collected_at": "2026-10-24T08:36:06.248Z"
+    }
+  ]
+}

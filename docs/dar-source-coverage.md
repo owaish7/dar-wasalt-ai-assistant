@@ -61,3 +61,8 @@ The authorization basis remains the company-issued FDE assessment and the user-c
 ## Next coverage work
 
 Use site-owner-provided page exports or an approved dataset for the currently challenged company/news/blog routes. A future collection run should start only under normal permitted access; do not retry challenges automatically. Wasalt still requires its separate pending clarification.
+
+
+## Later expansion on 24 October
+
+The current reviewed snapshot supersedes the counts above: 68 sources (55 Dar / 13 Wasalt), 310 passages, revision `1f08fa38af30`. See [expanded coverage](expanded-source-coverage.md) for the method, retained scope, exact checks and remaining limitations. No OpenRouter quota was consumed.

@@ -74,3 +74,8 @@ The targeted post-cleanup model retest stopped on its first request with a free-
 ## Wasalt browser integration — 24 October
 
 Four normally accessible browser pages were reviewed and imported reproducibly; combined corpus 40 pages/165 passages, revision `09bbdc97b456`. All 12 focused local retrieval checks returned the intended company first. All 12 collection unit tests passed after HTTP 401/403/429 denial handling was added. The broader backend test run stalled locally and was interrupted; no full-suite success is claimed for this turn. No model quota was consumed. Generated Wasalt answers and the full 40-case scoring remain pending.
+
+
+## Later expansion on 24 October
+
+The current reviewed snapshot supersedes the counts above: 68 sources (55 Dar / 13 Wasalt), 310 passages, revision `1f08fa38af30`. See [expanded coverage](expanded-source-coverage.md) for the method, retained scope, exact checks and remaining limitations. No OpenRouter quota was consumed.

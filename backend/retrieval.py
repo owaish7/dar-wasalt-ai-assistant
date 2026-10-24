@@ -16,7 +16,7 @@ EMBED_MODEL = "assessment/multilingual-e5-small-int8"
 EMBED_REPO = "Xenova/multilingual-e5-small"
 EMBED_FILE = "onnx/model_quantized.onnx"
 EMBED_REVISION = "761b726dd34fb83930e26aab4e9ac3899aa1fa78"
-ALLOWED_HOSTS = {"darglobal.co.uk", "www.darglobal.co.uk", "wasalt.sa", "www.wasalt.sa"}
+ALLOWED_HOSTS = {"darglobal.co.uk", "www.darglobal.co.uk", "wasalt.sa", "www.wasalt.sa", "blog.wasalt.sa"}
 STOP = set("the a an and or is are of in to for what which how tell me about does do it its with this that can you more please".split()) | set("ما ماذا هي هو عن في من إلى على هل كيف لي هذه هذا التي الذي و".split())
 
 

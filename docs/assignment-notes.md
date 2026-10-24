@@ -77,3 +77,8 @@ Finish by obtaining Wasalt content within the confirmed scope, building a combin
 ## Latest coverage update — 24 October
 
 The combined dataset is now deployed: 36 Dar pages plus four Wasalt pages, 40 total / 165 passages, revision `09bbdc97b456`. Earlier Wasalt-pending references describe the previous stage. Wasalt was collected through ordinary Chrome navigation and visible FAQ expansion after direct HTTP requests were denied. No challenge was solved or bypassed. The public-source importer and coverage report document this method. Local retrieval selected the expected company first in 12/12 focused cases; this is not a generated-answer accuracy claim. Full website coverage and the final model evaluation remain incomplete; model quota was preserved.
+
+
+## Later expansion on 24 October
+
+The current reviewed snapshot supersedes the counts above: 68 sources (55 Dar / 13 Wasalt), 310 passages, revision `1f08fa38af30`. See [expanded coverage](expanded-source-coverage.md) for the method, retained scope, exact checks and remaining limitations. No OpenRouter quota was consumed.

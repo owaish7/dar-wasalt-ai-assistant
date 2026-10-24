@@ -4,7 +4,7 @@ A bilingual React/FastAPI chatbot with hybrid passage retrieval, cited answers, 
 
 [Live engineering preview](https://atlas-property-chat-owaish7.onrender.com/) · [Backend readiness](https://atlas-property-api-owaish7.onrender.com/healthz) · [CI checks](https://github.com/owaish7/dar-wasalt-ai-assistant/actions)
 
-**Current data scope: 36 Dar pages plus four Wasalt pages.** The combined snapshot contains 40 source pages (29 English/11 Arabic) and 165 passages. Wasalt's public home/FAQ and corporate pages were captured from normally accessible Chrome pages after the direct HTTP collector received 403 responses. Collection uses the explicit user-assumed assessment authorization basis, not a separately issued website licence. Source text remains private; clean-checkout defaults remain fictional fixtures. See [Dar coverage](docs/dar-source-coverage.md), [Wasalt coverage](docs/wasalt-source-coverage.md) and [assignment notes](docs/assignment-notes.md). Complete website coverage and the full generated-answer evaluation remain unfinished.
+**Current data scope: 68 reviewed pages — 55 Dar Global and 13 Wasalt.** The bilingual snapshot contains 310 passages (52 English/16 Arabic source pages), including company information, services/FAQs, selected news/blog articles and three dated Wasalt property examples. See [expanded coverage and verification](docs/expanded-source-coverage.md) and [full URL inventory](data/reviewed-source-manifest.json). Captured text stays private; clean-checkout defaults are fictional fixtures. Collection uses the explicit user-assumed assessment authorization basis, not a separately issued website licence. Full-site coverage and the final model-answer evaluation remain incomplete.
 
 ## Run locally
 

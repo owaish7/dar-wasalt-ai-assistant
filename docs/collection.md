@@ -83,3 +83,8 @@ After the HTTP failures, ordinary Chrome navigation loaded Wasalt without a chal
 ```
 
 Keep the raw visible captures private. Merge reviewed Wasalt records with the existing reviewed Dar corpus, then build/package using `data/private/combined/`. Do not recrawl automatically on each chat request.
+
+
+## Later expansion on 24 October
+
+The current reviewed snapshot supersedes the counts above: 68 sources (55 Dar / 13 Wasalt), 310 passages, revision `1f08fa38af30`. See [expanded coverage](expanded-source-coverage.md) for the method, retained scope, exact checks and remaining limitations. No OpenRouter quota was consumed.

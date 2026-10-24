@@ -40,7 +40,9 @@ jobs:
       - run: docker build -t atlas:test .
       - name: Verify container readiness and restart
         run: |
-          docker run -d --name atlas --memory=512m --cpus=0.5 -p 8000:8000 atlas:test
+          mkdir -p /tmp/atlas-secrets
+          docker run --rm --user 0 -v /tmp/atlas-secrets:/out --entrypoint python atlas:test -m scripts.package_corpus --corpus data/fixtures/corpus.jsonl --index data/fixtures/index.npz --output /out/bundle.json --compress-text
+          docker run -d --name atlas --memory=512m --cpus=0.5 -v /tmp/atlas-secrets/bundle.json:/etc/secrets/bundle.json:ro -e CORPUS_BUNDLE_PATH=/etc/secrets/bundle.json -p 8000:8000 atlas:test
           for attempt in $(seq 1 30); do
             if curl -fsS http://localhost:8000/healthz; then break; fi
             sleep 2

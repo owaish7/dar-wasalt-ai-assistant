@@ -29,3 +29,8 @@ The reproducible importer `scripts/import_browser_capture.py` trims navigation/f
 Coverage: platform/services, listing steps, login/OTP, auctions overview, Matchmaker, Wasalt Business CRM tools, company milestones and public board roles. These are dated publisher claims, not independently verified facts. No individual property inventory, live availability, detailed auction rules, complete blog, masterplan dataset or every sitemap page is claimed.
 
 Twelve local hybrid-retrieval checks (English/Arabic Wasalt services plus Dar regressions) returned the expected company as the top result in all 12 cases, in approximately 10–16 ms locally. This is a retrieval check, not a generated-answer or full accuracy evaluation. The source corpus and index remain private. No OpenRouter requests were used for collection, indexing or these checks.
+
+
+## Later expansion on 24 October
+
+The current reviewed snapshot supersedes the counts above: 68 sources (55 Dar / 13 Wasalt), 310 passages, revision `1f08fa38af30`. See [expanded coverage](expanded-source-coverage.md) for the method, retained scope, exact checks and remaining limitations. No OpenRouter quota was consumed.

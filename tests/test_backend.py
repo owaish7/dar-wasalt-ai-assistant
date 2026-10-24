@@ -19,6 +19,7 @@ from backend.retrieval import Retriever, load_corpus, safe_url, tokens
 from backend.schemas import ChatRequest
 from scripts.collect import Collector, discover_links, main as collect_main, permitted, validate_permissions
 from scripts.curate_corpus import curate
+from scripts.start import corpus_text
 
 
 def parsed_events(response):
@@ -206,6 +207,8 @@ class BackendTests(unittest.TestCase):
         self.assertEqual(tokens("الأَرْز"), tokens("الارز"))
 
     def test_source_url_validation(self):
+        self.assertTrue(safe_url("https://blog.wasalt.sa/en/example/"))
+        self.assertFalse(safe_url("https://blog.wasalt.sa.evil.test/en/example/"))
         for url in ("http://wasalt.sa/en", "https://wasalt.sa.evil.test/", "https://secret@wasalt.sa/en", "https://wasalt.sa:444/en", "file:///etc/passwd"):
             self.assertFalse(safe_url(url))
         self.assertTrue(safe_url("https://wasalt.sa/en"))
@@ -291,6 +294,16 @@ class ProviderTests(unittest.IsolatedAsyncioTestCase):
 
 
 class CollectionTests(unittest.TestCase):
+    def test_compressed_corpus_restores_exact_utf8_and_bounds_expansion(self):
+        import base64
+        import gzip
+        value = 'English and العربية\n'
+        encoded = lambda raw: base64.b64encode(gzip.compress(raw)).decode('ascii')
+        self.assertEqual(corpus_text({'corpus_gzip_base64': encoded(value.encode())}), value)
+        self.assertEqual(corpus_text({'corpus_jsonl': value}), value)
+        with self.assertRaisesRegex(ValueError, 'size limit'):
+            corpus_text({'corpus_gzip_base64': encoded(b'x' * 2_000_001)})
+
     def test_related_project_cards_do_not_contaminate_main_project_facts(self):
         text = 'Marriott is in AIDA Oman. ' * 8 + 'Other Projects Marea in Finca Cortesin Spain View All Projects Frequently Asked Questions Marriott apartments have one to three bedrooms.'
         kept, report = curate([{'url':'https://darglobal.co.uk/marriott-residences-aida-oman','language':'en','text':text}])

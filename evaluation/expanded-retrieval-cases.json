@@ -1,0 +1,134 @@
+[
+  {
+    "message": "Who is Dar Global CEO?",
+    "expected_url_fragment": "/about",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "Where is Dar Global listed?",
+    "expected_url_fragment": "/about",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "What does Dar Global do in hospitality?",
+    "expected_url_fragment": "/hospitality",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "What is Dar Global commercial project in Jeddah?",
+    "expected_url_fragment": "/commercial",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "Dar Global HY 2026 revenue growth",
+    "expected_url_fragment": "/press/dar-global-delivers",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "Dar Global Fendi Casa Azure Oceanfront Villas",
+    "expected_url_fragment": "/press/darglobal-fendi",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "What is capital growth versus rental yield?",
+    "expected_url_fragment": "/blog/capital-growth",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "ما هي دار جلوبال؟",
+    "expected_url_fragment": "/ar/about",
+    "language": "ar",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "لماذا الاستثمار مع دار جلوبال؟",
+    "expected_url_fragment": "/ar/why-invest",
+    "language": "ar",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "What is Wasalt?",
+    "expected_url_fragment": "wasalt.sa/en",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "How can I list my property on Wasalt?",
+    "expected_url_fragment": "wasalt.sa/en",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "How does Wasalt Matchmaker work?",
+    "expected_url_fragment": "wasalt.sa/en",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "What is Wasalt Business?",
+    "expected_url_fragment": "wasalt.sa/en/corporate",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "كيف أعلن عن عقاري في وصلت؟",
+    "expected_url_fragment": "wasalt.sa/",
+    "language": "ar",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "ما هي مزادات وصلت؟",
+    "expected_url_fragment": "wasalt.sa/",
+    "language": "ar",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "What is Ejar?",
+    "expected_url_fragment": "ejar-system",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "What does Wasalt say about Sakani?",
+    "expected_url_fragment": "how-to-buy",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "What is King Salman Park?",
+    "expected_url_fragment": "king-salman",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "Villa 455.56 SQM Dahrat Laban",
+    "expected_url_fragment": "villa-45556",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "Apartment 145.52 SQM 3 bedrooms",
+    "expected_url_fragment": "apartment-14552",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "Where is Marriott Residences AIDA?",
+    "expected_url_fragment": "marriott-residences-aida-oman",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  },
+  {
+    "message": "Where is The Astera?",
+    "expected_url_fragment": "/the-astera",
+    "language": "en",
+    "note": "Exact expected page may have equivalent supporting evidence on another source; inspect passages."
+  }
+]

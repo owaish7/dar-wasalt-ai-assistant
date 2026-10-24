@@ -33,3 +33,6 @@ Compressed text restores exactly as UTF-8; startup enforces a 2 MB decompression
 Twenty of 22 queries retrieved the exact expected URL. The other two retrieved alternative Dar pages containing the requested CEO and stock-exchange facts, confirmed by inspecting the passages. This is evidence retrieval verification, not model-answer scoring. No OpenRouter calls were made. Full 40-question generated-answer evaluation, current provider availability, and sustained hosted memory measurements remain pending.
 
 Remaining scope: all historical news/blog archives, every property/project listing, PDFs, account-only functions, auction transactions, and full Arabic counterparts are not collected. Riyadh alone displayed over 26,000 listing results; the app intentionally uses a small dated sample. Continue expansions by coverage gaps and resource limits rather than claiming an exhaustive mirror.
+
+
+Deployment verification: public readiness returned exact revision `1f08fa38af30` and both companies; the source endpoint returned 68 pages / 52 English / 16 Arabic. Local profile: 2.317 seconds initialization, 10.01 ms median / 11.71 ms maximum retrieval across the profiler's 20 requests, 242.9 MiB process RSS. These are local measurements, not a hosted latency or RAM guarantee. CI passed for `07d5df6`; all 40 backend tests passed. Zero OpenRouter calls in this expansion.

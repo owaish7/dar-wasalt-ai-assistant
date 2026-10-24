@@ -79,3 +79,6 @@ Four normally accessible browser pages were reviewed and imported reproducibly; 
 ## Later expansion on 24 October
 
 The current reviewed snapshot supersedes the counts above: 68 sources (55 Dar / 13 Wasalt), 310 passages, revision `1f08fa38af30`. See [expanded coverage](expanded-source-coverage.md) for the method, retained scope, exact checks and remaining limitations. No OpenRouter quota was consumed.
+
+
+Expansion validation: all 40 backend tests passed locally. GitHub Actions [40079033816](https://github.com/owaish7/dar-wasalt-ai-assistant/actions/runs/40079033816) passed backend, frontend and Docker checks for `07d5df6`, including compressed secret-file startup and restart. The 22 local retrieval queries are retained in `evaluation/expanded-retrieval-cases.json`; no free-provider requests were made.

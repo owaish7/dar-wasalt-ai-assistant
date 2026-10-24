@@ -48,3 +48,10 @@ Render limits **all secret files combined to 1 MB**, including rollback copies (
 ## Combined snapshot deployed 24 October
 
 The active `deployment-bundle-reviewed.json` was replaced with the locally reviewed `data/private/combined/deployment-bundle.json` (503,395 bytes). The existing path and original rollback file remain. Public readiness confirmed `companies=["dar","wasalt"]`, `synthetic=false`, `retrieval=hybrid` and exact revision `09bbdc97b456`. The frontend derives its company notice/chips from coverage, so Wasalt no longer shows as unavailable. The deployment uses the existing runtime; changes in this update concern offline import/collection and documentation. No real model calls were made for this rollout.
+
+
+## Expanded snapshot deployed 24 October
+
+Current runtime commit: `07d5df6`. Active file remains `deployment-bundle-reviewed.json`, now containing the compressed 68-source bundle from `data/private/expanded-browser/deployment-bundle.json` (429,582 bytes). The original rollback file remains intact. Live `/healthz` confirmed `status=ok`, `retrieval=hybrid`, `companies=["dar","wasalt"]`, `synthetic=false`, and revision `1f08fa38af30`. `/api/sources` confirmed 68 records: 52 English/16 Arabic. Older counts above describe historical deployments.
+
+The text is gzip/base64 encoded inside JSON and restored with a bounded decompressor; original-format bundles remain supported. Float16 document vectors are converted to float32 for retrieval. This changed storage precision without changing the ordered results in 22 local comparisons. Keep corpus source text private.

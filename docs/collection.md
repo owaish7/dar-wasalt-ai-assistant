@@ -1,6 +1,6 @@
 # Collection and permissions
 
-Publicly readable does not automatically mean approved for extraction, provider processing or republication. Wasalt's [published terms](https://wasalt.sa/en/s/terms-of-use) explicitly restrict these activities. The assignment asks that access restrictions be respected. The application started with original fictional fixtures. On 23 October 2026 the user explicitly instructed proceeding with Dar Global for the company-issued assessment. A private Dar-only snapshot was collected on that stated authorization basis; Wasalt remains excluded. No company corpus is committed to the repository. Dar terms also reserve copying/transmission rights; this assessment basis is recorded as an assumption, not as a separately issued website licence.
+Publicly readable does not automatically mean approved for extraction, provider processing or republication. Wasalt's [published terms](https://wasalt.sa/en/s/terms-of-use) explicitly restrict these activities. The assignment asks that access restrictions be respected. The application started with original fictional fixtures. On 23 October 2026 the user explicitly instructed proceeding with Dar Global for the company-issued assessment. A private Dar-only snapshot was collected on that stated authorization basis; Wasalt was initially excluded; on 24 October the user explicitly instructed proceeding on the same assumed assessment basis. Direct collection then encountered HTTP 403 denials; no Wasalt corpus was retained. No company corpus is committed to the repository. Dar terms also reserve copying/transmission rights; this assessment basis is recorded as an assumption, not as a separately issued website licence.
 
 Read-only policy checks on 23 October 2026: both robots.txt endpoints returned HTTP 200. Dar Global disallows its sitemap index, several tracking/query patterns and malformed paths; its root, blog, press and project paths have explicit allow entries. Wasalt's default group allows ordinary paths but disallows `/search` and `/cdn-cgi/rum`; the collector identifies itself honestly and does not impersonate one of the separately named AI bots. The referenced `/llms.txt` returned an HTTP 403 access challenge and was not bypassed. These robots rules do not resolve the separate published reuse restrictions.
 
@@ -19,7 +19,7 @@ Reply in the existing recruitment thread. The owner sent the Wasalt clarificatio
 
 ## Approved collection procedure
 
-1. Record the actual authorization basis and its scope for each selected website, including third-party model processing and public generated answers. Do not invent a separate permission grant. The current Dar record uses the company-issued assessment and explicit user instruction; Wasalt is still awaiting clarification. Review applicable terms; record the reviewed URL and scope in the private permission record.
+1. Record the actual authorization basis and its scope for each selected website, including third-party model processing and public generated answers. Do not invent a separate permission grant. The current Dar record uses the company-issued assessment and explicit user instruction; Wasalt now uses the explicit user-assumed assessment basis recorded on 24 October; no independent permission grant is claimed. Review applicable terms; record the reviewed URL and scope in the private permission record.
 2. Copy `data/permission.example.json` into `data/private/permission.json`. Populate the reference, expiry and approved directory prefixes. Do not invent permission or simply change flags to bypass the gate.
 3. Run `python -m scripts.collect --permission data/private/permission.json --max-pages 30`.
 4. The collector checks robots.txt before pages (404 means no published rules; other failures stop that host), uses an identifying user agent, requests sequentially with at least two seconds between requests, checks redirects, and caches fetched HTML privately. It stops at denials and does not automate CAPTCHA, login or anti-bot bypasses. Caches are reused only after permission and robots checks; clear the task-specific cache manually when an intentional new snapshot is required.
@@ -67,3 +67,19 @@ The collector now supports a separate private `--output-dir`, `--manifest`, up t
 ```
 
 Curation normalizes whitespace, deduplicates exact content, checks whether Arabic-labelled bodies contain Arabic, removes email/international-phone patterns, updates hashes and writes a review trail. No contacts required redaction in this batch. Agent review sampled every added page's location, property type and amenities/FAQ text; publisher claims are not independently verified. Full company, FAQ landing, news and blog coverage remains blocked, as do Wasalt and the final two-company evaluation.
+
+
+## Wasalt attempt on 24 October 2026
+
+See [Wasalt coverage](wasalt-source-coverage.md). The static sitemaps and robots.txt were readable, but all 14 selected HTML pages returned HTTP 403. No retry, impersonation, proxy or challenge solving was used. The collector now counts HTTP 401/403/429 toward the existing five-consecutive-access-denial stop condition. This fix was made after this 14-page attempt; it does not retroactively change the collection report. No OpenRouter calls were made.
+
+
+## Browser fallback, 24 October
+
+After the HTTP failures, ordinary Chrome navigation loaded Wasalt without a challenge. Four public home/corporate pages were captured in both languages, explicitly expanding FAQ accordions. This is a supervised visible-page capture, not search-engine text substitution or an unrestricted browser crawler. The earlier zero-page result describes only the direct HTTP attempt. See the Wasalt coverage report for the final retained scope.
+
+```powershell
+.venv\Scripts\python -m scripts.import_browser_capture --input data/private/wasalt-browser/browser-captures.json --permission data/private/permission.json --output data/private/wasalt-browser/corpus.jsonl
+```
+
+Keep the raw visible captures private. Merge reviewed Wasalt records with the existing reviewed Dar corpus, then build/package using `data/private/combined/`. Do not recrawl automatically on each chat request.

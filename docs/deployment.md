@@ -2,7 +2,7 @@
 
 The deployment uses a free static site for React and a free Docker web service for FastAPI. [Render's free-tier documentation](https://render.com/docs/free) explains sleep, quota, filesystem and availability limits. No paid instance, database, persistent disk or custom domain is required.
 
-Current engineering preview: [frontend](https://atlas-property-chat-owaish7.onrender.com/) and [backend readiness](https://atlas-property-api-owaish7.onrender.com/healthz). Both run on free services. The live corpus now contains 36 real Dar pages (27 English/nine Arabic); Wasalt is pending. The server-side OpenRouter key was configured directly by the owner. Services were connected through the public repository URL without granting Render GitHub account access; after a Git push, use **Manual Deploy → Deploy latest commit** unless you later configure a Blueprint/Git integration.
+Current engineering preview: [frontend](https://atlas-property-chat-owaish7.onrender.com/) and [backend readiness](https://atlas-property-api-owaish7.onrender.com/healthz). Both run on free services. The live corpus now contains 40 real pages: 36 Dar and four Wasalt (29 English/11 Arabic in total). The server-side OpenRouter key was configured directly by the owner. Services were connected through the public repository URL without granting Render GitHub account access; after a Git push, use **Manual Deploy → Deploy latest commit** unless you later configure a Blueprint/Git integration.
 
 ## Initial fixture deployment
 
@@ -43,3 +43,8 @@ For the reviewed 36-source bundle, verify `corpus_revision=9b4cdc9cc0cf` from `/
 
 
 Render limits **all secret files combined to 1 MB**, including rollback copies ([official documentation](https://render.com/docs/configure-environment-variables#secret-files)). The packager now rejects a single bundle above 900 KB, but operators must still count other files. The original approximately 369 KB file plus the reviewed approximately 458 KB file fit; retaining the intermediate approximately 466 KB file as a third copy did not. Verify that the filename and non-secret corpus path actually persist, and that readiness returns the expected corpus revision, before declaring a release successful.
+
+
+## Combined snapshot deployed 24 October
+
+The active `deployment-bundle-reviewed.json` was replaced with the locally reviewed `data/private/combined/deployment-bundle.json` (503,395 bytes). The existing path and original rollback file remain. Public readiness confirmed `companies=["dar","wasalt"]`, `synthetic=false`, `retrieval=hybrid` and exact revision `09bbdc97b456`. The frontend derives its company notice/chips from coverage, so Wasalt no longer shows as unavailable. The deployment uses the existing runtime; changes in this update concern offline import/collection and documentation. No real model calls were made for this rollout.

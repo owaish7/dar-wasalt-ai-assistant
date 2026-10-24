@@ -126,7 +126,12 @@ class Collector:
                 raise ValueError("Access challenge; not bypassed")
             self.page_fetched_at = cached.get("fetched_at")
             return cached["url"], cached["html"]
-        final_url, html, content_type = self.fetch(url)
+        try:
+            final_url, html, content_type = self.fetch(url)
+        except httpx.HTTPStatusError as exc:
+            if exc.response.status_code in {401, 403, 429}:
+                raise ValueError(f"Access challenge or denial (HTTP {exc.response.status_code}); not retried or bypassed") from exc
+            raise
         if "text/html" not in content_type:
             raise ValueError("Not an HTML page")
         if "_Incapsula_Resource" in html or "cf-chl-" in html:

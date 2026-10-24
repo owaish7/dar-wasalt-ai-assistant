@@ -331,6 +331,19 @@ class CollectionTests(unittest.TestCase):
                 client.close()
         self.assertEqual(len(seen), 6)
 
+    def test_http_access_denials_are_counted_as_challenges_and_not_cached(self):
+        for status in (401, 403, 429):
+            with self.subTest(status=status), tempfile.TemporaryDirectory() as directory:
+                def handle(request):
+                    if request.url.path == '/robots.txt':
+                        return httpx.Response(200, text='User-agent: *\nAllow: /')
+                    return httpx.Response(status, text='Access denied')
+                with httpx.Client(transport=httpx.MockTransport(handle)) as client:
+                    collector = Collector(client, {'wasalt': {'allowed_prefixes': ['https://wasalt.sa/']}}, Path(directory))
+                    with patch('scripts.collect.time.sleep'), self.assertRaisesRegex(ValueError, f'Access challenge.*{status}'):
+                        collector.page('https://wasalt.sa/en')
+                    self.assertEqual(list(Path(directory).iterdir()), [])
+
     def test_cache_preserves_fetch_time_without_a_second_page_request(self):
         seen = []
         def handle(request):

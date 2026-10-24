@@ -72,3 +72,8 @@ The 40-case two-company evaluation is not complete. An eight-case Dar trial retu
 - [Setup](../README.md), [deployment](deployment.md), [evaluation protocol](evaluation.md), [submission draft](submission.md)
 
 Finish by obtaining Wasalt content within the confirmed scope, building a combined corpus, reviewing all 40 expected answers against source snapshots, and recording actual quality/latency results. Send the live URL, repository URL and concise implementation notes only once the submission accurately reflects both companies' coverage.
+
+
+## Latest coverage update — 24 October
+
+The combined dataset is now deployed: 36 Dar pages plus four Wasalt pages, 40 total / 165 passages, revision `09bbdc97b456`. Earlier Wasalt-pending references describe the previous stage. Wasalt was collected through ordinary Chrome navigation and visible FAQ expansion after direct HTTP requests were denied. No challenge was solved or bypassed. The public-source importer and coverage report document this method. Local retrieval selected the expected company first in 12/12 focused cases; this is not a generated-answer accuracy claim. Full website coverage and the final model evaluation remain incomplete; model quota was preserved.

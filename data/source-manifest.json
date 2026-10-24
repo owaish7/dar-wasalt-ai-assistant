@@ -1,6 +1,6 @@
 {
-  "status": "dar_assessment_authorization_wasalt_pending",
-  "purpose": "Candidate public source URLs. Dar collection proceeds for the company-issued assessment on the user-confirmed authorization basis; no separate website licence is asserted.",
+  "status": "assessment_authorization_assumed_both_sites_browser_snapshot",
+  "purpose": "Candidate public source URLs for the company-issued assessment on the explicit user-assumed authorization basis for both sites; no separately issued website licence asserted.",
   "seeds": [
     {
       "url": "https://darglobal.co.uk/",
@@ -43,13 +43,13 @@
       "company": "wasalt"
     },
     {
-      "url": "https://wasalt.sa/ar",
+      "url": "https://wasalt.sa/",
       "company": "wasalt"
     }
   ],
   "restrictions": [
     "Dar terms reserve copying/transmission rights; assessment authorization is the stated basis, not a claim of a separately issued website licence.",
-    "Wasalt remains excluded pending clarification or an approved dataset.",
+    "Wasalt HTTP collection returned 403; four normally accessible browser pages were captured and reviewed. No full-site coverage claimed.",
     "Check robots before fetching; do not bypass authentication, CAPTCHA, access denials or anti-bot controls."
   ]
 }

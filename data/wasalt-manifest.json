@@ -1,0 +1,61 @@
+{
+  "purpose": "Public information candidates for assessment; not a claim of complete collection. Search routes and private account data excluded.",
+  "seeds": [
+    {
+      "url": "https://wasalt.sa/en",
+      "company": "wasalt"
+    },
+    {
+      "url": "https://wasalt.sa/",
+      "company": "wasalt"
+    },
+    {
+      "url": "https://wasalt.sa/en/corporate",
+      "company": "wasalt"
+    },
+    {
+      "url": "https://wasalt.sa/corporate",
+      "company": "wasalt"
+    },
+    {
+      "url": "https://wasalt.sa/en/s/wasalt-business",
+      "company": "wasalt"
+    },
+    {
+      "url": "https://wasalt.sa/s/wasalt-business",
+      "company": "wasalt"
+    },
+    {
+      "url": "https://wasalt.sa/en/s/masterplan",
+      "company": "wasalt"
+    },
+    {
+      "url": "https://wasalt.sa/s/masterplan",
+      "company": "wasalt"
+    },
+    {
+      "url": "https://wasalt.sa/en/s/terms-of-advertising",
+      "company": "wasalt"
+    },
+    {
+      "url": "https://wasalt.sa/s/terms-of-advertising",
+      "company": "wasalt"
+    },
+    {
+      "url": "https://wasalt.sa/en/s/terms-n-conditions-for-auction",
+      "company": "wasalt"
+    },
+    {
+      "url": "https://wasalt.sa/s/terms-n-conditions-for-auction",
+      "company": "wasalt"
+    },
+    {
+      "url": "https://wasalt.sa/en/s/terms-n-conditions-for-ewallet",
+      "company": "wasalt"
+    },
+    {
+      "url": "https://wasalt.sa/s/terms-n-conditions-for-ewallet",
+      "company": "wasalt"
+    }
+  ]
+}

@@ -69,3 +69,8 @@ The first replacement deployment failed with a missing reviewed bundle file. Inv
 The reviewed deployment is live: `/healthz` returned HTTP 200, `synthetic=false`, `companies=["dar"]`, `languages=["ar","en"]` and `corpus_revision=9b4cdc9cc0cf`, matching the locally reviewed corpus exactly. Source metadata lists 36 URLs. CI passed all backend/frontend and Docker checks for `7a78119`. Local inspection confirms no Finca Cortesin text remains in any Marriott passage; main Marriott facts and FAQs remain present.
 
 The targeted post-cleanup model retest stopped on its first request with a free-provider quota/capacity error. The runner preserved that result and made no further model requests. Therefore the corrected Marriott answer and remaining targeted model cases are **not claimed as passed on the final corpus**. No paid fallback was used. Rerun `evaluation/dar-expanded-cases.json` when free inference is available, then review complete claims and citations against the final passages. The full 40-case two-company acceptance score, blocked company/news/blog collection and Wasalt data remain outstanding.
+
+
+## Wasalt browser integration — 24 October
+
+Four normally accessible browser pages were reviewed and imported reproducibly; combined corpus 40 pages/165 passages, revision `09bbdc97b456`. All 12 focused local retrieval checks returned the intended company first. All 12 collection unit tests passed after HTTP 401/403/429 denial handling was added. The broader backend test run stalled locally and was interrupted; no full-suite success is claimed for this turn. No model quota was consumed. Generated Wasalt answers and the full 40-case scoring remain pending.

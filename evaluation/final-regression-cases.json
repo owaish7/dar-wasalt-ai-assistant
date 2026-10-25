@@ -1,0 +1,137 @@
+[
+  {
+    "id": "en-09",
+    "language": "en",
+    "company": "both",
+    "message": "Compare The Astera by Dar Global with Wasalt listing services.",
+    "history": [],
+    "expectation": "answer",
+    "expected_facts": [
+      "Astera is a residential project on Al Marjan Island; Wasalt is a property platform with listing services; cite both companies"
+    ],
+    "expected_source_urls": [
+      "https://darglobal.co.uk/the-astera",
+      "https://darglobal.co.uk/ar/the-astera",
+      "https://wasalt.sa/en",
+      "https://wasalt.sa/"
+    ],
+    "review_status": "ready",
+    "notes": "Expected URLs are acceptable evidence candidates, not a requirement to cite every URL. Grade actual claim support against retrieved passages; professional concise language; no unsupported additions."
+  },
+  {
+    "id": "ar-03",
+    "language": "ar",
+    "company": "dar",
+    "message": "أين يقع لي فاج من إيلي صعب؟",
+    "history": [],
+    "expectation": "answer",
+    "expected_facts": [
+      "Doha, Qatar; Qetaifan Island North"
+    ],
+    "expected_source_urls": [
+      "https://darglobal.co.uk/les-vagues",
+      "https://darglobal.co.uk/ar/les-vagues"
+    ],
+    "review_status": "ready",
+    "notes": "Expected URLs are acceptable evidence candidates, not a requirement to cite every URL. Grade actual claim support against retrieved passages; professional concise language; no unsupported additions."
+  },
+  {
+    "id": "ar-06",
+    "language": "ar",
+    "company": "wasalt",
+    "message": "كيف أسجل الدخول إلى وصلت؟",
+    "history": [],
+    "expectation": "answer",
+    "expected_facts": [
+      "Profile icon, mobile number, verification; English FAQ specifies OTP"
+    ],
+    "expected_source_urls": [
+      "https://wasalt.sa/en",
+      "https://wasalt.sa/"
+    ],
+    "review_status": "ready",
+    "notes": "Expected URLs are acceptable evidence candidates, not a requirement to cite every URL. Grade actual claim support against retrieved passages; professional concise language; no unsupported additions."
+  },
+  {
+    "id": "ar-09",
+    "language": "ar",
+    "company": "both",
+    "message": "قارن مشروع ذا أستيرا من دار جلوبال بخدمة نشر العقارات في وصلت.",
+    "history": [],
+    "expectation": "answer",
+    "expected_facts": [
+      "Astera is a residential project on Al Marjan Island; Wasalt is a property platform with listing services; cite both companies"
+    ],
+    "expected_source_urls": [
+      "https://darglobal.co.uk/the-astera",
+      "https://darglobal.co.uk/ar/the-astera",
+      "https://wasalt.sa/en",
+      "https://wasalt.sa/"
+    ],
+    "review_status": "ready",
+    "notes": "Expected URLs are acceptable evidence candidates, not a requirement to cite every URL. Grade actual claim support against retrieved passages; professional concise language; no unsupported additions."
+  },
+  {
+    "id": "ar-11",
+    "language": "ar",
+    "company": "dar",
+    "message": "اشرح بالعربية معلومات Marriott Residences AIDA من مصادره الإنجليزية: الموقع والغرف.",
+    "history": [],
+    "expectation": "answer",
+    "expected_facts": [
+      "English: Astera Al Marjan Island and supported amenities; Arabic: Marriott AIDA Oman, one to three bedrooms"
+    ],
+    "expected_source_urls": [
+      "https://darglobal.co.uk/ar/the-astera",
+      "https://darglobal.co.uk/the-astera",
+      "https://darglobal.co.uk/marriott-residences-aida-oman"
+    ],
+    "review_status": "ready",
+    "notes": "Expected URLs are acceptable evidence candidates, not a requirement to cite every URL. Grade actual claim support against retrieved passages; professional concise language; no unsupported additions."
+  },
+  {
+    "id": "en-02",
+    "language": "en",
+    "company": "dar",
+    "message": "Where is The Astera?",
+    "history": [],
+    "expectation": "answer",
+    "expected_facts": [
+      "Al Marjan Island, Ras Al Khaimah"
+    ],
+    "expected_source_urls": [
+      "https://darglobal.co.uk/the-astera",
+      "https://darglobal.co.uk/ar/the-astera"
+    ],
+    "review_status": "ready",
+    "notes": "Expected URLs are acceptable evidence candidates, not a requirement to cite every URL. Grade actual claim support against retrieved passages; professional concise language; no unsupported additions."
+  },
+  {
+    "id": "en-12",
+    "language": "en",
+    "company": "both",
+    "message": "What is the exact live inventory available right now?",
+    "history": [],
+    "expectation": "abstain",
+    "expected_facts": [
+      "Snapshots cannot establish live inventory"
+    ],
+    "expected_source_urls": [],
+    "review_status": "ready",
+    "notes": "Expected URLs are acceptable evidence candidates, not a requirement to cite every URL. Grade actual claim support against retrieved passages; professional concise language; no unsupported additions."
+  },
+  {
+    "id": "ar-12",
+    "language": "ar",
+    "company": "both",
+    "message": "ما عدد الوحدات المتاحة حالياً في هذه اللحظة؟",
+    "history": [],
+    "expectation": "abstain",
+    "expected_facts": [
+      "Snapshots cannot establish live inventory"
+    ],
+    "expected_source_urls": [],
+    "review_status": "ready",
+    "notes": "Expected URLs are acceptable evidence candidates, not a requirement to cite every URL. Grade actual claim support against retrieved passages; professional concise language; no unsupported additions."
+  }
+]

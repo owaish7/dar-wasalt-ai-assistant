@@ -1,20 +1,55 @@
-# Atlas · Dar Global and Wasalt assistant
+# Atlas — Dar Global & Wasalt Chatbot
 
-A bilingual React/FastAPI chatbot with hybrid passage retrieval, cited answers, free-only OpenRouter inference, and Docker deployment.
+Ask questions about Dar Global projects and Wasalt property services in English or Arabic. Answers use collected website information and include clickable references, with source details collapsed below each answer.
 
-[Live engineering preview](https://atlas-property-chat-owaish7.onrender.com/) · [Backend readiness](https://atlas-property-api-owaish7.onrender.com/healthz) · [CI checks](https://github.com/owaish7/dar-wasalt-ai-assistant/actions)
+**[Open the live demo](https://atlas-property-chat-owaish7.onrender.com/)** · **[View test runs](https://github.com/owaish7/dar-wasalt-ai-assistant/actions)**
 
-**Current data scope: 68 reviewed pages — 55 Dar Global and 13 Wasalt.** The bilingual snapshot contains 310 passages (52 English/16 Arabic source pages), including company information, services/FAQs, selected news/blog articles and three dated Wasalt property examples. See [expanded coverage and verification](docs/expanded-source-coverage.md) and [full URL inventory](data/reviewed-source-manifest.json). Captured text stays private; clean-checkout defaults are fictional fixtures. Collection uses the explicit user-assumed assessment authorization basis, not a separately issued website licence. Full-site coverage and the final model-answer evaluation remain incomplete.
+The free backend may take around a minute to wake after inactivity. Free model quotas can also affect availability.
+
+## Architecture, simply explained
+
+```text
+Website pages → Clean text → Searchable passages
+                                    ↓
+User question → FastAPI → Find relevant passages → OpenRouter model
+                                                      ↓
+React chatbot ← Answer with checked source references
+```
+
+1. **React + TypeScript** provides the chat interface, English/Arabic selection and right-to-left Arabic layout.
+2. **FastAPI** receives the question and recent conversation, checks the input and limits requests.
+3. **Search** finds up to six relevant passages. It combines keyword matching (BM25) with meaning-based search (multilingual E5-small).
+4. **OpenRouter** receives those passages and is instructed to answer only from them, ask for clarification when needed, and decline unrelated or unsupported requests.
+5. **The backend checks citation numbers** against the supplied passages. The interface displays the answer and links to its sources. Invalid or interrupted responses produce an honest fallback or error.
+
+This approach is called **retrieval-augmented generation (RAG)**: find relevant information first, then give it to the model. The model is not trained on the websites. Pages are collected in advance, so chatting does not trigger scraping. A small local search index avoids needing a separate database.
+
+## How the data was collected
+
+The current snapshot has **68 pages: 55 Dar Global and 13 Wasalt**, split into 310 searchable passages. It includes selected projects, company information, services, FAQs, news, property guides and three dated Wasalt listing examples.
+
+- A shared Python scraper handles both websites with separate URL lists. It checks allowed domains, robots rules and redirects, spaces requests, and stops on repeated access denials.
+- Some pages were collected through normal browser navigation and visible FAQ expansion when direct HTTP collection was denied. Browser import scripts process those captures; no access challenge was bypassed.
+- Cleaning removes navigation, unrelated project cards, duplicates and contact details. Each record keeps its source URL, title, language, collection date and content hash.
+- The collected text and index stay private. The public repository includes the [source URL list](data/reviewed-source-manifest.json), collection scripts and clearly labelled fictional fixtures for local setup.
+
+This is a selected snapshot, not every page or live property inventory. Collection records the candidate's assumed assessment authorization; no separate website licence is claimed. See [collection details](docs/collection.md) and [coverage](docs/expanded-source-coverage.md).
+
+## Model choice
+
+The primary model is `cohere/north-mini-code:free`, with `poolside/laguna-s-2.1:free` as a free backup. These were selected after trials with free OpenRouter models. The server checks that configured models have zero listed usage pricing and records the model actually used. There is no paid fallback.
+
+Free-model quality varies, especially for Arabic. Citation checks verify source references, not the truth of every sentence. Evaluation findings and remaining issues are documented in the [verification report](docs/final-review.md).
 
 ## Run locally
 
-Requires Python 3.12 and Node 22.14 or later within Node 22.
+Requires **Python 3.12** and **Node.js 22.14+ within Node 22**. Commands below use PowerShell.
 
 ```powershell
 python -m venv .venv
 .venv\Scripts\python -m pip install -r backend/requirements.txt
 Copy-Item .env.example .env
-# Edit .env and set OPENROUTER_API_KEY locally. Never commit it.
+# Add OPENROUTER_API_KEY to .env. Never commit it.
 .venv\Scripts\python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
@@ -26,91 +61,51 @@ npm ci
 npm run dev
 ```
 
-Open `http://localhost:5173`. Default local retrieval is explicitly labelled `lexical` in `/healthz`, making development possible without downloading an embedding model. Missing API credentials produce an honest configuration error; there are no hardcoded or simulated model answers.
+Open `http://localhost:5173`. A clean checkout uses **fictional demo data and keyword search**, not the private live dataset. An OpenRouter key is required for generated answers.
 
-For multilingual hybrid retrieval:
+To enable meaning-based search locally, run `.venv\Scripts\python -m scripts.build_index`, set `RETRIEVAL_MODE=hybrid` in `.env`, and restart the backend. This downloads the pinned embedding model and builds the search index. On macOS/Linux, use `.venv/bin/python` and `cp` instead.
 
-```powershell
-.venv\Scripts\python -m scripts.build_index
-# Set RETRIEVAL_MODE=hybrid in .env, then restart the API.
-```
-
-The build command downloads the public int8 multilingual E5-small ONNX model at a pinned revision. Runtime loading is offline. Direct ONNX Runtime inference avoids unnecessary image-processing dependencies; SentencePiece preserves the model's XLM-R token IDs while reducing tokenizer memory. Document embeddings are precomputed; only the query is embedded during a chat request.
-
-On macOS/Linux, substitute `.venv/bin/python` for `.venv\Scripts\python`, and `cp .env.example .env` for `Copy-Item`.
-
-## Docker
+## Docker and deployment
 
 ```sh
 docker build -t atlas-assistant .
 docker run --rm -p 8000:8000 --env-file .env -e RETRIEVAL_MODE=hybrid -e EMBEDDING_CACHE=/opt/models atlas-assistant
 ```
 
-The image runs the API as a non-root user, packages the model and fixture index during the build, and exposes `/healthz`. It does not contain credentials or privately collected material. The React application is built and hosted separately; configure `VITE_API_URL` to the API origin and `ALLOWED_ORIGINS` to the frontend's exact origin.
+Docker packages the **backend**, search model and fixture index. The frontend is built separately.
 
-## Architecture
+The live app uses a Render Free Static Site for React and a Render Free Web Service for the Docker backend. Set `VITE_API_URL` to the backend URL and `ALLOWED_ORIGINS` to the frontend URL. Add the OpenRouter key as a backend environment secret. The real dataset and index are restored from a private Render secret file on startup.
 
-```text
-React UI (English / Arabic, RTL)
-  → FastAPI validation and request/concurrency limits
-  → recent user context + BM25 / int8 multilingual E5 retrieval
-  → up to six source passages, each assigned a citation number
-  → free OpenRouter inference, streamed as SSE
-  → citation validation and authoritative final answer + source cards
-```
+See [step-by-step deployment instructions](docs/deployment.md) for the private bundle and hosting configuration.
 
-For a small corpus, NumPy vectors and in-process BM25 avoid an external database. Reciprocal-rank fusion combines semantic and lexical results, and results are limited to two passages per source page. Multilingual embeddings support asking in Arabic about English documents and vice versa. The application does not fine-tune a model or crawl during user requests.
+## Security
 
-The default is `cohere/north-mini-code:free`, with `poolside/laguna-s-2.1:free` as an automatic free-only backup and reasoning disabled for short evidence-based answers. These models completed English/Arabic requests during the initial trial; Cohere showed more consistent citation use. An initial `openrouter/free` trial produced four truncated responses in eight fixture tests because some routed reasoning models consumed the output budget before answering. A subsequent Gemma free-model trial encountered quota/capacity errors. The configured small fallback list avoids arbitrary reasoning-model selection and handles model-specific unavailability; it cannot bypass account-wide quotas. Every primary/backup is checked for zero catalog prompt/completion/request pricing before inference. The actual returned model is recorded in final responses and metadata-only logs. `openrouter/free` remains an explicit optional configuration. There is no paid fallback or provider-side paid plugin configuration.
+- API keys stay on the server; credentials and collected text are excluded from public Git and Docker images.
+- Input size, history, request rate, concurrent requests and response time are limited.
+- Website content and chat history are treated as untrusted input, not instructions.
+- Model text is rendered without executing HTML. Citation links use approved HTTPS source domains.
+- Missing keys, quota exhaustion and interrupted answers produce visible errors. The app never silently switches to paid inference.
 
-Citation validation checks that references map to retrieved passages and forbids model-generated external URLs. If a response omits all reference numbers, one bounded model rewrite requests citations; the server never invents citations itself. If the rewrite still lacks valid references, it abstains. Validation does **not** prove every sentence is entailed by the passages. Human factual evaluation remains necessary, especially for Arabic, source conflicts, and prompt injection.
+## Testing and AI-assisted code verification
 
-## API
+AI assisted with implementation, tests and documentation. Review focused on data attribution, safe links, secrets, free-only inference, streaming failures and bilingual retrieval.
 
-- `GET /healthz`: readiness, retrieval mode, coverage, short corpus revision, synthetic-data flag and inference configuration status. It does not call the inference provider.
-- `GET /api/sources`: source titles, URLs, languages, timestamps and synthetic flags; never the corpus text.
-- `POST /api/chat`: `{ "message": "…", "history": [{"role":"user","content":"…"}], "language": "en" }`; `language` is `en` or `ar`.
-- Chat SSE events: `meta` (request ID, retrieval duration, fixture flag), `delta` (unverified draft text), `done` (authoritative answer, validated sources, model, timings), or `error` (safe error code/message). A connection without `done` is incomplete. Clients must discard partial text after errors.
-- Current message maximum: 2,000 characters; up to eight history messages, each ≤2,000 characters and ≤8,000 history characters in total; maximum raw request body 48 KB.
-
-## Data collection
-
-Read [collection and permissions](docs/collection.md) before any real collection. The public seed manifest is a list of candidate URLs, not evidence of permission. In particular, [Wasalt's terms](https://wasalt.sa/en/s/terms-of-use) restrict extraction/reuse. Initial Dar-only collection was performed on 23 October 2026 and expanded on 24 October 2026; [Dar terms](https://darglobal.co.uk/terms-conditions) also reserve reuse rights, so the assessment authorization basis and its limits are documented explicitly.
-
-For a snapshot within the recorded authorization scope:
-
-```powershell
-# Fill an actual permission record in data/private/permission.json.
-.venv\Scripts\python -m scripts.collect --permission data/private/permission.json --max-pages 30
-.venv\Scripts\python -m scripts.build_index --corpus data/private/corpus.jsonl --output data/private/index.npz
-.venv\Scripts\python -m scripts.package_corpus
-```
-
-Review coverage for both companies and both languages, content quality, collection reports, and dated information before enabling real data. Upload the private deployment bundle only to hosting secret storage. See [deployment instructions](docs/deployment.md).
-
-## Verification
+**50 backend tests and nine frontend tests passed locally.** GitHub Actions also checks the frontend build, dependencies, Docker startup and container restart.
 
 ```powershell
 .venv\Scripts\python -m unittest discover -s tests -v
 npm --prefix frontend test
 npm --prefix frontend run build
-.venv\Scripts\python -m scripts.profile_retrieval
 ```
 
-CI also builds the Docker image, checks container readiness/restart, and reports container memory. See [verification status](docs/verification.md) and the [40-case evaluation procedure](docs/evaluation.md). Neither unit tests with mocked inference nor fixture retrieval establishes the 90% real-answer acceptance target.
+A 40-question English/Arabic live evaluation completed and exposed model errors that informed later fixes. Follow-up checks found remaining Arabic reliability issues; a final 90% accuracy score is **not claimed**. The [verification report](docs/final-review.md) separates completed checks from pending ones.
 
-## Security and limitations
+## Further details
 
-- API keys remain server-side. `.env`, private datasets, bundles and collection caches are ignored by Git and Docker.
-- Source collection is restricted to the two HTTPS domains; redirects are validated, private/local destinations are refused, and robots failures are handled conservatively.
-- The server bounds input, context, output, retries, total generation time and concurrency. The default request limit is eight per minute per observed client address.
-- Forwarded client addresses are trusted only when configured by the ASGI server. Do not indiscriminately trust browser-supplied `X-Forwarded-For`. Behind an untrusted/shared proxy, rate limits may be shared; this intentionally errs toward limiting abuse.
-- Answers render as React text, with no HTML or generated Markdown execution. Only validated source cards create external links. Streaming drafts are labelled until validation completes.
-- Request logs contain IDs, outcomes, model names and durations, not user messages, source text or provider errors. The process does not persist chat history.
-- Free Render backends sleep after 15 minutes of inactivity and can take approximately one minute to wake. The static UI stays independently available. There are no synthetic keep-alive requests.
-- Free OpenRouter quotas/capacity can interrupt service. The app reports errors and does not silently switch to a paid model.
-- This is a single-instance assessment demo, with no authentication, persistent conversations, live inventory, payment/booking functionality or production SLA.
+- [Assignment requirement checklist and verification](docs/final-review.md)
+- [Architecture and implementation walkthrough](docs/assignment-notes.md)
+- [Data collection](docs/collection.md) and [source coverage](docs/expanded-source-coverage.md)
+- [Deployment guide](docs/deployment.md)
+- [Evaluation procedure](docs/evaluation.md)
 
-## AI assistance and independent ownership
-
-AI assisted with scaffolding, UI, retrieval, adapter code, tests, and documentation. Verification includes type checking/build, unit and integration tests, dependency audits, bilingual browser inspection, retrieval profiling, and container CI. [Verification notes](docs/verification.md) distinguish completed checks from pending ones. The author should review and explain the data flow, permission constraints, index/model matching, streaming failure handling and remaining grounding risks before submission.
+The demo uses dated source snapshots and does not provide live inventory or booking. Free-host sleep, provider quotas and occasional model errors remain practical limitations.

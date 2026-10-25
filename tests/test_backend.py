@@ -315,6 +315,20 @@ class BackendTests(unittest.TestCase):
 
 
 class ProviderTests(unittest.IsolatedAsyncioTestCase):
+
+    async def test_rewrite_prefers_only_validated_free_backup(self):
+        seen = []
+        def handler(request):
+            if request.url.path.endswith('/models'):
+                return httpx.Response(200, json={'data': [{'id': x, 'pricing': {'prompt':'0','completion':'0'}} for x in ['test/primary:free','test/backup:free']]})
+            seen.append(json.loads(request.content)['models'])
+            return httpx.Response(200, text='data: {"choices":[{"delta":{"content":"Answer [1]"},"finish_reason":"stop"}]}\n\ndata: [DONE]\n\n')
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            provider = OpenRouter('key', 'test/primary:free', client, ('test/backup:free',))
+            _ = [part async for part in provider.rewrite([])]
+        self.assertEqual(seen, [['test/backup:free','test/primary:free']])
+
+
     async def test_paid_fallback_never_reaches_api(self):
         called = []
         async with httpx.AsyncClient(transport=httpx.MockTransport(lambda request: called.append(request))) as client:

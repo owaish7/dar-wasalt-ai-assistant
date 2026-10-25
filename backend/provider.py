@@ -48,15 +48,22 @@ class OpenRouter:
         self.available_models = tuple(available)
         self.checked_at = time.monotonic()
 
-    async def stream(self, messages: list[dict]) -> AsyncIterator[dict]:
+    async def rewrite(self, messages: list[dict]) -> AsyncIterator[dict]:
+        async for part in self.stream(messages, prefer_fallback=True):
+            yield part
+
+    async def stream(self, messages: list[dict], prefer_fallback=False) -> AsyncIterator[dict]:
         if not self.api_key:
             raise ProviderFailure("not_configured", "The server needs an OpenRouter API key. No model response was generated.")
         await self.check_model()
+        models = list(self.available_models)
+        if prefer_fallback and len(models) > 1:
+            models = models[1:] + models[:1]
         # Retry only a transient status before any generation starts, never a partial answer.
         for attempt in range(2):
             async with self.client.stream("POST", "https://openrouter.ai/api/v1/chat/completions",
                     headers={"Authorization": "Bearer " + self.api_key},
-                    json={"models": list(self.available_models), "messages": messages, "stream": True,
+                    json={"models": models, "messages": messages, "stream": True,
                           "max_tokens": 900, "temperature": 0.1,
                           "reasoning": {"effort": "none"}}) as response:
                 if response.status_code in {429, 502, 503} and attempt == 0:

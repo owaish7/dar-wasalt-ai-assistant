@@ -55,7 +55,7 @@ def citation_numbers(answer):
 
 
 def process_narration(answer):
-    return bool(re.search(r'\bthe user asks\b|\bwe need to answer\b|\bwe can cite\b|المستخدم يسأل|علينا الإجابة|هذا السؤال يتعلق|يجب تضمين اقتباس|يجب أن تكون الإجابة', answer[:1200], re.I))
+    return bool(re.search(r'\bthe user asks\b|\bwe need to answer\b|\bwe can cite\b|المستخدم يسأل|علينا الإجابة|هذا السؤال يتعلق|يجب تضمين اقتباس|يجب أن تكون الإجابة|(?:لذا|لذلك) الإجابة|قدم اقتباس|اذكر المصدر|قدم الخطوات|وفقًا للمقتطف', answer[:1200], re.I))
 
 
 def validate_answer(answer, passages, language):
@@ -277,7 +277,8 @@ def create_app(settings=None, retriever=None, provider=None):
                         repair_messages = messages + [{"role": "assistant", "content": answer},
                             {"role": "user", "content": "Rewrite only the final answer in the requested language, without analysis or process commentary, citing the provided excerpts as [1], [2], etc. Include citations for fictional demonstration facts too. Do not add unsupported facts. If no excerpt supports an answer, output exactly INSUFFICIENT_EVIDENCE."}]
                         answer = ""
-                        async for part in app.state.provider.stream(repair_messages):
+                        rewrite = getattr(app.state.provider, 'rewrite', app.state.provider.stream)
+                        async for part in rewrite(repair_messages):
                             if part.get("model"):
                                 actual_model = part["model"]
                             answer += part.get("delta", "")

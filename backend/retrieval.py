@@ -176,6 +176,15 @@ class Retriever:
                 # Similarity is a recall gate, not a probability of correctness.
                 if similarity[i] >= 0.78:
                     scores[i] += 1 / (60 + rank + 1)
+        # Long comparison questions can drown out a named project's own page.
+        # Prefer its canonical source over similarly named promotional variants.
+        if re.search(r'\bastera\b|أستيرا|استيرا', query, re.I) and not re.search(r'\btop\b|قمة', query, re.I):
+            for i, passage in enumerate(self.passages):
+                path = urlparse(passage.url).path.rstrip('/')
+                if path in {'/the-astera', '/ar/the-astera'} and scores[i] > 0:
+                    scores[i] += 0.04
+                elif path == '/one-of-one/top-of-the-astera':
+                    scores[i] = 0
         # Avoid ambiguous broad queries being dominated by a single long page.
         results, counts = [], Counter()
         for i in np.argsort(-scores):

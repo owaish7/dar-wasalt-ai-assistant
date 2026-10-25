@@ -45,6 +45,9 @@ def main():
             results.append({"case": case, "events": events, "first_token_ms": first_delta,
                 "total_ms": round((time.perf_counter() - start) * 1000),
                 "human_review": {"correct": None, "supported": None, "appropriate_abstention": None, "notes": ""}})
+            # Preserve completed cases even if a later network call is interrupted.
+            Path("artifacts").mkdir(exist_ok=True)
+            Path("artifacts/evaluation-results.json").write_text(json.dumps({"health": health.json(), "results": results}, ensure_ascii=False, indent=2), encoding="utf-8")
             final = next((e for e in reversed(events) if e["event"] in {"done", "error"}), None)
             outcome = final["event"] if final else "interrupted"
             code = final["data"].get("code", "") if final else ""

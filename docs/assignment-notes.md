@@ -1,84 +1,50 @@
-# Technical assignment implementation notes
+# Assignment handover
 
-This note maps the original Word assignment to the implementation and records what is complete, what was tested, and what remains. It is a technical handover for the candidate and reviewer. The Word attachment and recruitment correspondence are not included in the public repository.
+## What was built
 
-The system is built and deployed. The live Dar-only corpus has 36 distinct pages and 151 searchable passages. Wasalt content and the complete two-company evaluation remain pending. This is partial assignment progress, not a claim that all source requirements have been fulfilled.
+Atlas is a React/TypeScript chatbot with a FastAPI backend. It supports English and Arabic with RTL layout, follow-up questions, streaming answers, inline citation links and collapsed per-answer Sources. The sidebar contains no source library.
 
-## Original requirements and current status
+The Word assignment asks for relevant public information from Dar Global and Wasalt, grounded answers, free OpenRouter inference, Docker, a live URL, source code, setup/deployment instructions and an explanation of technical decisions. It does not require an exhaustive copy of either website. The bilingual 40-case evaluation and 90% target were additional project goals.
 
-| Assignment requirement | Implementation and evidence | Status |
-|---|---|---|
-| Collect public information from both websites while respecting restrictions | Bounded collector, robots checks, validated redirects, private provenance records; Dar collected for the company-issued assessment on the user-confirmed authorization basis | Dar live; Wasalt pending |
-| Build a chatbot grounded in collected content | FastAPI retrieves relevant passages before free-model generation; numbered references are checked against retrieved metadata | Implemented; real Dar checks recorded in verification notes |
-| Use a suitable free model through OpenRouter | Cohere North Mini Code free primary, Poolside Laguna free backup; catalog pricing checked and actual model recorded | Implemented and real inference verified |
-| Containerise the application with Docker | Multi-stage Dockerfile packages the backend, runtime dependencies and multilingual model, runs as a non-root user | CI build/startup/query/restart checks passed under 512 MiB |
-| Deploy and supply a live URL | Separate free Render static frontend and Docker backend | Live; see links below |
-| Supply source repository and brief setup/deployment instructions | README, locked dependencies, environment example, deployment notes and GitHub Actions | Published |
-| Explain architecture, collection, model, security and AI-code verification | This note and the linked detailed documents | Documented with limitations |
+## Collection and coverage
 
-English/Arabic support, a public GitHub repository, free hosting, the 40-question evaluation and a 90% target are our agreed implementation choices. The Word document does not itself specify those languages, a public repository, that question count or that acceptance percentage. It asks for a source repository and evaluates functionality, engineering understanding, robustness, deployability, security awareness and independent ownership.
+The private snapshot contains 68 reviewed pages: 55 Dar Global and 13 Wasalt; 52 English and 16 Arabic pages, split into 310 passages. It covers selected projects, company information, services/FAQs, news, property guides and three dated Wasalt listing examples. The full metadata inventory is in `data/reviewed-source-manifest.json`.
 
-## Architecture and RAG
+There is one shared HTTP collector with company-specific URL manifests, not two unrelated scraper implementations. It checks allowed hosts, recorded scope, robots rules and redirects; rate-limits requests, caches successful captures and stops on repeated access challenges. When HTTP requests were denied, ordinary Chrome navigation could display some public pages. Those pages and expanded FAQs were captured from visible DOM content and passed through the browser import/merge scripts. No CAPTCHA, proxy or access-control bypass was used.
 
-React and TypeScript provide the chat interface, English/Arabic selection, RTL layout, streaming state, compact suggestions and expandable sources. FastAPI validates requests and coordinates retrieval and generation. OpenRouter routes the request to a permitted free model; the browser never receives the API key.
+Cleaning removes navigation, unrelated project recommendation cards, duplicated text and contact details. Each record retains URL, title, actual language, collection timestamp and SHA-256 hash. The permission reference records the user's assumed assessment authorization; it does not assert a separately granted website licence. Collected text and index bundles stay outside public Git.
 
-Before deployment, cleaned documents are split into windows of 1,000 characters with up to 150 characters of preceding overlap. Each passage retains its URL, title, language, snapshot time and content provenance. Multilingual E5-small int8 embeddings are precomputed and saved with a fingerprint linking the vectors to the exact corpus. The model revision is pinned; loading an incompatible index fails readiness.
+This is a bounded snapshot, not all pages, all listings or live inventory. Conflicting publisher facts remain conflicts; prices, completion dates and availability are dated claims. See `expanded-source-coverage.md` for details.
 
-During chat, the current question and the last two user messages form the search query. BM25 matches names and keywords; E5 embeddings match meaning across English and Arabic. Reciprocal-rank fusion combines the results, with at most six passages and at most two per source URL. The small corpus uses NumPy and in-process search rather than a paid database.
+## How an answer is produced
 
-Related-project recommendation cards are excluded during curation; a real expanded-corpus test exposed location contamination from those cards. The cleaned corpus revision is deployed and verified, but its targeted model retest was blocked by free-provider quota/capacity, so final model accuracy is still pending. The model receives the question, bounded history and numbered source excerpts. It is told that source text and history are untrusted, that claims need citations, and that missing facts require abstention. SSE streams an explicitly unverified draft. The backend validates reference numbers and forbids model-written external links; one bounded rewrite can repair omitted citations. The final event replaces the draft with the validated result or an abstention. Valid reference numbers alone do not prove factual entailment.
+1. React sends the current question, bounded recent history and selected language.
+2. FastAPI validates input and applies rate/concurrency limits. Common off-topic requests and ambiguous project/price questions are handled without inference.
+3. BM25 keyword retrieval and quantised multilingual E5-small embeddings find relevant passages. Reciprocal-rank fusion combines results, with at most six passages and two per page. An explicit Arabic Marriott name mapping improves recall for its English-only page.
+4. The model receives only these passages as evidence, plus recent context. Instructions require concise professional language, source numbers, clarification where needed and abstention without evidence.
+5. SSE streams a clearly labelled draft. The backend checks final citation numbers against retrieved passages, rejects invented URLs, and replaces the draft with a validated final result or an honest error. Numeric references become safe clickable links, while source cards stay collapsed.
 
-## Data collection and authorization basis
+No website crawl or document embedding occurs during chat. The corpus, index and query embedding model load once at startup. No external vector database or model fine-tuning is needed for this dataset.
 
-`scripts/collect.py` uses HTTPX, BeautifulSoup and Protego. It fetches only allowlisted HTTPS hosts and approved directory prefixes, identifies itself as `AssessmentResearchBot/1.0`, checks robots rules, honors crawl delays, validates redirects, and requests sequentially with at least two seconds between requests. No website crawling or document embedding occurs during chat.
+## Models and hosting
 
-The extractor removes scripts, navigation, forms, headers and footers, then keeps main text with URL, title, language, UTC collection time and SHA-256 hash. Cache, corpus, reports, index and deployment bundle stay under ignored private storage. No raw website corpus is published in GitHub or offered through an API download endpoint.
+The primary is `cohere/north-mini-code:free`, with `poolside/laguna-s-2.1:free` as a free-only fallback. The server checks zero catalog pricing before generation and records the actual returned model. Earlier `openrouter/free` experiments encountered output truncation from routed reasoning models; the current bounded configuration was selected from observed tests. Provider quotas and availability remain variable. There is no paid fallback.
 
-Dar terms also reserve copying and transmission rights. The recorded basis for the current limited snapshot is the company-issued assessment requesting Dar content and the user's explicit instruction to proceed on that basis. This is an authorization assumption for the assessment, not a claim that the website issued a separate licence. Wasalt stays excluded while its clarification is pending. Single-company collection writes its own directory, so it can progress without overwriting the final combined corpus.
+Render hosts the React build on a free static site and the backend on a free Docker web service. The multi-stage image runs as a non-root user, uses locked dependencies and packages the quantised query model. A private compressed secret file restores the real corpus/index on each startup. Exact-origin CORS connects the frontend. Render was selected for straightforward Docker hosting and a single dashboard; Vercel was not benchmarked as an alternative.
 
-The initial snapshot retained 27 pages after removing duplicate routes. The 24 October expansion mapped 477 sitemap URLs and selected 176 candidates. Its audited continuation obtained 12 readable pages and recorded 59 access challenges; nine of those pages were additions. Merging them with the preserved snapshot produced 36 pages, including 27 English and nine Arabic pages, indexed into 151 passages. Company, news and blog coverage remains incomplete because of access challenges. See [coverage and retained URLs](dar-source-coverage.md) and [collection procedure](collection.md). Prices, availability, handovers, market statistics and legal/visa statements are dated publisher claims, not verified current advice.
+The free backend sleeps when idle. The UI shows a waking status and retries readiness for up to 90 seconds during real use. No artificial keep-alive traffic is configured. One worker, one embedding thread and bounded chat concurrency control memory.
 
-## Model choice and free deployment
+## Security and ownership
 
-The current default is `cohere/north-mini-code:free`, with `poolside/laguna-s-2.1:free` as backup. An initial `openrouter/free` trial routed some requests to reasoning models that exhausted their output budget before answering. A Gemma trial encountered capacity/quota errors. The current small free-model list, disabled reasoning, 900-token limit and requested answers under 150 words were selected after those observed failures. Provider availability and quotas remain variable; there is no paid fallback.
+Credentials remain server-side. Git and Docker exclude `.env`, recruitment correspondence, assignment attachments and private corpus artifacts. Requests are bounded by message/history/body limits, rate limits, concurrency and timeouts. Website passages and history are treated as untrusted. React renders model text without HTML execution; citation links use exact HTTPS host allowlists. Quota exhaustion, missing keys and interrupted streams cannot silently produce a completed answer.
 
-Render runs the React build as a free static site and FastAPI as a free Docker service. One worker and one concurrent hosted generation bound memory use. The multilingual model and fixture index are packaged during the Docker build; the real corpus and its precomputed index are supplied in a private deployment bundle. Startup restores that bundle from hosting secret storage on each restart.
+AI assisted with scaffolding, UI, collection scripts, retrieval, integration, tests and documentation. Review covered source attribution, related-project contamination, secret handling, URL validation, free-only pricing, stream completion, model control responses and Arabic retrieval. Automated citation validity does not establish factual entailment; generated claims must still be reviewed against passages. No company brand guide was supplied, so the tone is concise, courteous and professional, without claiming official company representation.
 
-Render was chosen for the agreed Docker deployment and a single hosting dashboard. Vercel is also technically possible; no comparison test has established that it would make this backend faster. Free Render web services sleep when idle. The frontend displays wake status and polls readiness for up to 90 seconds only during actual use; no artificial keep-alive traffic is configured.
+## Evidence and delivery
 
-## Security and robustness
+See `final-review.md` for the latest requirement matrix and actual evaluation outcome, and `verification.md` for the historical test record. CI performs clean-checkout backend tests, frontend tests/build/audit and a Docker build with readiness and restart checks under a 512 MiB container limit. Local process memory measurements are not sustained Render memory measurements.
 
-- OpenRouter credentials stay server-side; private data, `.env` files, assignment attachment and recruitment correspondence are excluded from Git and Docker context.
-- HTTPS source URLs are restricted to the two intended domains. Scope, redirect and robots checks prevent arbitrary crawl targets.
-- Input is limited to 2,000 characters, eight history messages and 8,000 total history characters. Extra fields and system-role history are rejected; raw request bodies are capped at 48 KB.
-- Exact-origin CORS, per-client rate limits, bounded concurrency, a 55-second generation deadline and bounded output prevent unbounded work.
-- Model output is rendered as React text, without executing HTML or Markdown. Source links come from validated metadata; numeric citations, including grouped references, must identify supplied passages.
-- Missing credentials, quota errors, timeouts and interrupted streams are visible failures. The UI discards unfinished drafts instead of presenting them as final answers.
-- Logs contain operational metadata, not API keys, full prompts, source excerpts or private email content. Source prompt injection remains a model risk despite the instruction boundary.
-
-## AI assistance and verification
-
-AI assisted with application scaffolding, UI, collector, retrieval, model integration, tests and documentation. Review focused on secret handling, host validation, scope/permission gates, free-only inference, streaming completion, citation handling and corpus fingerprints. The candidate should understand these decisions and personally review the final evaluation before submission; AI-generated code is not evidence of correctness by itself.
-
-Local backend checks now pass 38 tests, including the single-company permission scope, partial coverage metadata and a real-content issue where Unicode paragraph separators broke JSONL loading. The frontend production build passes; existing protocol tests and Docker checks run in CI. Prior fixture inference tests exposed output truncation, omitted citations and grouped-citation handling, which were recorded and corrected. See [verification evidence](verification.md) for measured results and remaining checks.
-
-The 40-case two-company evaluation is not complete. An eight-case Dar trial returned supported core facts in all six answerable cases, with one repeated answer and some overly broad references. It refused invented pricing but initially hallucinated Wasalt services with Dar citations; an explicit backend company-coverage guard now rejects recognized unavailable-company questions before retrieval or generation, verified on the live service in English, Arabic and a follow-up. This is not a complete factual-quality score; Wasalt comparisons must remain unavailable until Wasalt content is supplied. The 90% answer-quality target is a future acceptance check, not an achieved score. Mobile visual QA, naturally idle hosted wake timing and sustained hosted memory profiling must also be reported honestly.
-
-## Delivery links and next steps
-
-- [Live frontend](https://atlas-property-chat-owaish7.onrender.com/)
-- [Backend readiness](https://atlas-property-api-owaish7.onrender.com/healthz)
-- [Source repository](https://github.com/owaish7/dar-wasalt-ai-assistant)
-- [Setup](../README.md), [deployment](deployment.md), [evaluation protocol](evaluation.md), [submission draft](submission.md)
-
-Finish by obtaining Wasalt content within the confirmed scope, building a combined corpus, reviewing all 40 expected answers against source snapshots, and recording actual quality/latency results. Send the live URL, repository URL and concise implementation notes only once the submission accurately reflects both companies' coverage.
-
-
-## Latest coverage update — 24 October
-
-The combined dataset is now deployed: 36 Dar pages plus four Wasalt pages, 40 total / 165 passages, revision `09bbdc97b456`. Earlier Wasalt-pending references describe the previous stage. Wasalt was collected through ordinary Chrome navigation and visible FAQ expansion after direct HTTP requests were denied. No challenge was solved or bypassed. The public-source importer and coverage report document this method. Local retrieval selected the expected company first in 12/12 focused cases; this is not a generated-answer accuracy claim. Full website coverage and the final model evaluation remain incomplete; model quota was preserved.
-
-
-## Later expansion on 24 October
-
-The current reviewed snapshot supersedes the counts above: 68 sources (55 Dar / 13 Wasalt), 310 passages, revision `1f08fa38af30`. See [expanded coverage](expanded-source-coverage.md) for the method, retained scope, exact checks and remaining limitations. No OpenRouter quota was consumed.
+- Live app: https://atlas-property-chat-owaish7.onrender.com/
+- GitHub: https://github.com/owaish7/dar-wasalt-ai-assistant
+- Setup: `README.md`; deployment: `docs/deployment.md`
+- Submission email: `docs/submission.md` (prepared, not sent)

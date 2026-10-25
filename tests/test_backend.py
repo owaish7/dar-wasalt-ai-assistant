@@ -75,6 +75,36 @@ class BackendTests(unittest.TestCase):
         results = retriever.search('أين تقع ماريوت ريزيدنسز عايدة وما أنواع غرف النوم؟', [])
         self.assertEqual(results[0].id, 'marriott')
 
+    def test_exact_whole_answer_duplication_is_removed_without_rewriting_claims(self):
+        answer = 'The fictional Cedar Bay development has walking trails and waterfront villas in Noor. [1]'
+        self.assertEqual(validate_answer(answer * 2, self.passages, 'en')[0], answer)
+        distinct = answer + ' Another detail is different. [1]'
+        self.assertEqual(validate_answer(distinct, self.passages, 'en')[0], distinct)
+
+    def test_named_astera_comparison_prefers_main_project_over_variant(self):
+        from backend.retrieval import Passage
+        passages = [Passage('main', 'The Astera', 'https://darglobal.co.uk/the-astera', 'en', '2026-10-24', 'The Astera is under development on Al Marjan Island.', True, 'dar'),
+                    Passage('variant', 'Top of the Astera', 'https://darglobal.co.uk/one-of-one/top-of-the-astera', 'en', '2026-10-24', 'Top of the Astera villa by Dar Global.', True, 'dar'),
+                    Passage('wasalt', 'Wasalt', 'https://wasalt.sa/en', 'en', '2026-10-24', 'Wasalt listing services.', True, 'wasalt')]
+        retriever = Retriever(passages, Path('unused'), 'lexical', 'unused')
+        results = retriever.search('Compare The Astera by Dar Global with Wasalt listing services.', [])
+        self.assertEqual(results[0].id, 'main')
+        self.assertNotIn('variant', [p.id for p in results])
+        self.assertIn('variant', [p.id for p in retriever.search('Top of the Astera', [])])
+
+    def test_process_narration_is_not_streamed_or_accepted(self):
+        provider = FakeProvider(text='The user asks about Cedar Bay. We need to answer using the excerpts. Fictional trails exist. [1]')
+        with self.client(provider) as client:
+            events = parsed_events(client.post('/api/chat', json={'message':'Cedar Bay'}))
+        self.assertNotIn('delta', [kind for kind, _ in events])
+        self.assertTrue(events[-1][1]['abstained'])
+        self.assertEqual(provider.calls, 2)
+
+    def test_arabic_process_narration_is_rejected(self):
+        result = validate_answer('هذا السؤال يتعلق بخطوات الدخول. يجب أن تكون الإجابة مختصرة. [1]', self.passages, 'ar')
+        self.assertEqual(result[0], ABSTAIN['ar'])
+        self.assertEqual(result[1], [])
+
     def test_context_resolves_ambiguity(self):
         from backend.conversation import route_message
         for body in [

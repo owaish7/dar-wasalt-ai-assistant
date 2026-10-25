@@ -1,6 +1,6 @@
 # Bilingual factual evaluation
 
-`evaluation/cases.json` contains 40 scenarios: 20 English and 20 Arabic. They cover both companies, cross-language questions, comparisons, follow-ups, unknown facts, live inventory, private information, instructions to fabricate citations and requests for secrets. Expected facts/source URLs are deliberately unfilled until approved content exists.
+`evaluation/cases.json` contains 40 scenarios: 20 English and 20 Arabic. They cover both companies, cross-language questions, comparisons, follow-ups, unknown facts, live inventory, private information, instructions to fabricate citations and requests for secrets. Expected facts and candidate source URLs are filled against the reviewed 68-source snapshot. The current set also includes explicit ambiguity and off-topic scenarios. Candidate URLs are alternatives unless both companies are required; passing requires actual claim support, not merely a link match.
 
 1. Review each case against the approved corpus. Add expected facts and supporting source URLs, and set `review_status` to `ready`. Replace broad questions with specific project/service names present in the corpus. For follow-ups, include the actual preceding user/assistant exchange. Do not mark a question answerable unless the collected sources support it.
 2. Configure the server's OpenRouter key and confirm `synthetic=false` through `/healthz`.
@@ -13,3 +13,7 @@
 For development-only fixture inference, add `--allow-fixtures`. The output remains explicitly synthetic and cannot satisfy final assignment acceptance.
 
 Reproduce the eight focused fixture smoke scenarios with `python -m scripts.evaluate --cases evaluation/fixture-smoke-cases.json --limit 8 --allow-fixtures --allow-inference --url https://atlas-property-api-owaish7.onrender.com`. The runner stops on a quota/capacity error and preserves the results collected so far.
+
+## Quota-free retrieval check
+
+Run `python -m scripts.evaluate_retrieval --corpus data/private/expanded-browser/corpus.jsonl --index data/private/expanded-browser/index-float16.npz`. This records all 40 retrieval/routing cases without generation. It is a source-recall diagnostic, not an answer-accuracy score.

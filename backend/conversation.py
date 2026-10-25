@@ -13,6 +13,9 @@ CLARIFY = {
 
 def route_message(body):
     text = body.message.strip()
+    if (re.search(r'\b(?:inventory|available units)\b', text, re.I) and re.search(r'\b(?:live|now|current|today)\b', text, re.I)) or re.search(r'الوحدات المتاحة.*(?:حالياً|حاليا|اللحظة)', text):
+        return (('I only have dated source snapshots, so I cannot confirm live inventory or the number of units available right now.' if body.language == 'en' else
+                 'لدي لقطات مؤرخة من المصادر فقط، لذلك لا أستطيع تأكيد المخزون المباشر أو عدد الوحدات المتاحة الآن.'), 'insufficient_evidence')
     # Narrow task patterns avoid rejecting legitimate property questions by keyword alone.
     off_topic = r'\b(?:write|generate|debug)\b.{0,35}\b(?:python|javascript|code|poem|essay)\b|\b(?:recipe|football score|weather forecast|capital of france)\b|اكتب.{0,25}(?:قصيدة|كود)|وصفة طبخ|نتيجة المباراة'
     if re.search(off_topic, text, re.I):

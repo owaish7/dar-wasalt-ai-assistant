@@ -54,8 +54,20 @@ def citation_numbers(answer):
     return {int(n) for group in groups for n in re.split(r"\s*[,،]\s*", group)}
 
 
+def process_narration(answer):
+    return bool(re.search(r'\bthe user asks\b|\bwe need to answer\b|\bwe can cite\b|المستخدم يسأل|علينا الإجابة|هذا السؤال يتعلق|يجب تضمين اقتباس|يجب أن تكون الإجابة', answer[:1200], re.I))
+
+
 def validate_answer(answer, passages, language):
     answer = answer.strip()
+    if process_narration(answer):
+        return ABSTAIN[language], [], True
+    # Some free providers repeat the entire completed response verbatim. Remove
+    # only an exact whole-answer duplicate; never rewrite or infer factual text.
+    if len(answer) >= 160 and len(answer) % 2 == 0:
+        half = len(answer) // 2
+        if answer[:half] == answer[half:]:
+            answer = answer[:half]
     if answer.strip() == 'INSUFFICIENT_EVIDENCE':
         return ABSTAIN[language], [], True
     if answer.strip() == 'OUT_OF_SCOPE':
@@ -81,6 +93,8 @@ def prompt_messages(body, passages):
         "You are a real estate information assistant for Dar Global and Wasalt. "
         "Answer in " + ("Arabic" if body.language == "ar" else "English") + ". "
         "Use a concise, courteous, professional property-service tone, normally 2–5 sentences. "
+        "Output only the final user-facing response. Never narrate analysis, translate the user's request, or explain how you will answer or cite it. "
+        "Preserve source numbers, names and unit categories exactly when translating. A one-bedroom apartment is NOT a studio; one/two/three bedrooms means غرفة نوم واحدة/غرفتا نوم/ثلاث غرف نوم. Include only facts needed to answer the question. "
         "You are an independent information assistant, not an official company representative. "
         "Stay within Dar Global and Wasalt properties, projects, company information and services, including their published property guides. "
         "For unrelated tasks, output exactly OUT_OF_SCOPE. "
@@ -237,6 +251,7 @@ def create_app(settings=None, retriever=None, provider=None):
                         yield event("done", {"answer": ABSTAIN[body.language], "sources": [], "abstained": True, "model": None, "total_ms": round((time.perf_counter() - start) * 1000)})
                         return
                     answer = ""
+                    emitted = 0
                     messages = prompt_messages(body, passages)
                     async for part in app.state.provider.stream(messages):
                         if part.get("model"):
@@ -247,14 +262,20 @@ def create_app(settings=None, retriever=None, provider=None):
                             answer += part["delta"]
                             if len(answer) > 10000:
                                 raise ProviderFailure("too_long", "The model response exceeded its safe limit.")
-                            yield event("delta", {"text": part["delta"]})
+                            # Briefly buffer the opening to avoid displaying common
+                            # provider analysis preambles as an answer draft.
+                            if len(answer) >= 80 and not process_narration(answer):
+                                yield event("delta", {"text": answer[emitted:]})
+                                emitted = len(answer)
+                    if len(answer) > emitted and not process_narration(answer):
+                        yield event("delta", {"text": answer[emitted:]})
                     repaired = False
                     control_response = answer.strip() in {'INSUFFICIENT_EVIDENCE', 'OUT_OF_SCOPE'} or answer.startswith('CLARIFY:')
-                    if answer.strip() and not citation_numbers(answer) and not control_response:
+                    if answer.strip() and (process_narration(answer) or (not citation_numbers(answer) and not control_response)):
                         # A model can give a supported answer but forget its references.
                         # Ask once for a cited rewrite; never invent references in code.
                         repair_messages = messages + [{"role": "assistant", "content": answer},
-                            {"role": "user", "content": "Your previous answer omitted source numbers. Rewrite it in the same language, citing the provided excerpts as [1], [2], etc. Include citations for fictional demonstration facts too. Do not add unsupported facts. If no excerpt supports an answer, say that information is unavailable."}]
+                            {"role": "user", "content": "Rewrite only the final answer in the requested language, without analysis or process commentary, citing the provided excerpts as [1], [2], etc. Include citations for fictional demonstration facts too. Do not add unsupported facts. If no excerpt supports an answer, output exactly INSUFFICIENT_EVIDENCE."}]
                         answer = ""
                         async for part in app.state.provider.stream(repair_messages):
                             if part.get("model"):

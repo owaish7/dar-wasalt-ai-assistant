@@ -1,6 +1,6 @@
 # Submission draft and walkthrough
 
-Do not send until approved source content, real inference, live deployment and evaluation have been verified. Replace placeholders with tested URLs and actual results.
+Prepared for the candidate to review and send. Consult `final-review.md` for actual verification results and remaining limitations; this draft has not been emailed.
 
 > Dear Nada,
 >
@@ -10,7 +10,7 @@ Do not send until approved source content, real inference, live deployment and e
 >
 > Source repository: https://github.com/owaish7/dar-wasalt-ai-assistant
 >
-> The application supports English and Arabic questions, retrieves relevant information from the approved Dar Global and Wasalt content snapshot, and provides source citations. It uses a free OpenRouter model, with a Dockerised FastAPI backend and React frontend.
+> The application supports English and Arabic questions, retrieves relevant information from the reviewed public Dar Global and Wasalt content snapshot, and provides source citations. It uses a free OpenRouter model, with a Dockerised FastAPI backend and React frontend.
 >
 > The repository includes setup/deployment instructions, architecture and collection notes, security measures, verification evidence and known free-tier limitations. The backend may take approximately one minute to wake after inactivity.
 >
